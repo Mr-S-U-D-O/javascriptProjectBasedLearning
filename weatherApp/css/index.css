@@ -6,3 +6,8 @@
     /*so this affects how margin, padding and basically the height and width of a container are calculated */
     box-sizing: border-box;
 }
+
+body{
+    background-color: #222;
+}
+
