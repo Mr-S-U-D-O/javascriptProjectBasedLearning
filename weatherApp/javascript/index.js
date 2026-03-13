@@ -24,6 +24,14 @@ async function checkWeather(city) {
     document.querySelector(".visibility").innerHTML = (data.visibility / 1000).toFixed(1) + " km";
     document.querySelector(".weatherDescription").innerHTML = data.weather[0].description;
 
+    const formatTime = (timestamp) => {
+      const date = new Date(timestamp * 1000);
+      return date.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
+    };
+
+    document.querySelector(".sunrise").innerHTML = formatTime(data.sys.sunrise);
+    document.querySelector(".sunset").innerHTML = formatTime(data.sys.sunset);
+
     // Update main icon
     const condition = data.weather[0].main.toLowerCase();
     if (condition.includes("cloud")) weatherIcon.src = "images/clouds.png";
