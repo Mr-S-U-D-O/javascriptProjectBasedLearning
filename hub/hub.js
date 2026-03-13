@@ -93,7 +93,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             isSoundscapeOn = !isSoundscapeOn;
             toggleSoundscapeBtn.textContent = `SOUND: ${isSoundscapeOn ? 'ON' : 'OFF'}`;
             toggleSoundscapeBtn.classList.toggle('active', isSoundscapeOn);
-            if (isSoundscapeOn) startSoundscape();
+            if (isSoundscapeOn) {
+                startSoundscape();
+                unlockAchievement('TECHNICIAN', 'Atmospheric Technician', '📻');
+            }
             else stopSoundscape();
         });
     }
@@ -161,6 +164,17 @@ document.addEventListener('DOMContentLoaded', async () => {
                 document.body.className = theme === 'modern' ? '' : `theme-${theme}`;
                 localStorage.setItem('hub-theme', theme);
                 playSound('switch', theme);
+
+                // --- HIDDEN ACHIEVEMENT: THEME_EXPLORER ---
+                const usedThemes = JSON.parse(localStorage.getItem('used-themes') || '[]');
+                if (!usedThemes.includes(theme)) {
+                    usedThemes.push(theme);
+                    localStorage.setItem('used-themes', JSON.stringify(usedThemes));
+                    if (usedThemes.length >= 3) {
+                        unlockAchievement('THEME_MASTER', 'Interface Specialist', '🎨');
+                    }
+                }
+                if (theme === 'matrix') unlockAchievement('ENTERING_MATRIX', 'Digital Nomad', '🕶️');
             }
         });
     });
@@ -192,6 +206,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     unlockAchievement('FIRST_BOOT', 'System Initialized', '⚡');
+
+    // --- HIDDEN ACHIEVEMENT: NIGHT_OWL ---
+    const hour = new Date().getHours();
+    if (hour >= 23 || hour <= 4) {
+        unlockAchievement('NIGHT_OWL', 'Midnight Coder', '🌙');
+    }
 
     // Typewriter Utility
     const typeWriter = async (element, text, speed = 40) => {
@@ -911,9 +931,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             const toggleFind = () => {
                 if (!el.findBar) return;
                 const showing = el.findBar.style.display !== 'none';
-                el.findBar.style.display = showing ? 'none' : 'flex';
                 if (!showing && el.findInput) { el.findInput.focus(); el.findInput.select(); }
-                if (showing) { refreshHighlight(); if(el.findCount) el.findCount.textContent = ''; }
+                if (showing) { 
+                    refreshHighlight(); 
+                    if(el.findCount) el.findCount.textContent = ''; 
+                    unlockAchievement('INSPECTOR', 'Code Inspector', '🔍');
+                }
             };
             const runFind = () => {
                 if (!el.findInput || !el.highlight) return;
@@ -1159,6 +1182,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             } catch (e) {
                 document.getElementById('guide-content').textContent = "ERROR: Failed to load manual.";
             }
+            unlockAchievement('SCHOLAR', 'Manual Reader', '📚');
         };
 
         let historyLoaded = false;
@@ -1184,6 +1208,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             } catch (e) {
                 listEl.innerHTML = '<div class="loading">ERROR: FAILED TO FETCH COMMITS</div>';
             }
+            unlockAchievement('HISTORIAN', 'Timeline Watcher', '🕰️');
         };
 
         let contributorsLoaded = false;
@@ -1192,6 +1217,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const loadContributors = async () => {
             if (contributorsLoaded && _contributorData) {
                 renderContributorsView(_contributorData, 'all-time');
+                unlockAchievement('SOCIALITE', 'Community Explorer', '🤝');
                 return;
             }
             const contentEl = document.getElementById('contributors-content');
@@ -1410,6 +1436,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                         const match = COMMANDS.find(c => c.startsWith(val));
                         if (match && match !== val) {
                             ghostText.textContent = match;
+                            // ACHIEVEMENT: GHOST_USER
+                            const tabCount = parseInt(localStorage.getItem('tab-autocomplete-count') || '0');
+                            if (tabCount >= 5) unlockAchievement('GHOST_USER', 'Speed Demon', '👻');
                         }
                     }
                 }
@@ -1429,10 +1458,19 @@ document.addEventListener('DOMContentLoaded', async () => {
                     if (term === 'clear') {
                         resetUI();
                         return;
+                    } else if (term === 'matrix') {
+                        // Secret command
+                        unlockAchievement('NEO', 'The Chosen One', '💊');
+                        if (searchInput) {
+                             searchInput.value = '';
+                             searchInput.placeholder = 'Follow the white rabbit...';
+                        }
+                        return;
                     } else if (term === 'stats') {
                         statsDashboard.style.display = 'flex';
                         statsDashboard.style.flexDirection = 'column';
                         renderStats(data);
+                        unlockAchievement('ANALYST', 'Data Scientist', '📊');
                     } else if (term === 'guide') {
                         guideDashboard.style.display = 'flex';
                         guideDashboard.style.flexDirection = 'column';
@@ -1489,6 +1527,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                     e.preventDefault();
                     searchInput.value = ghostText.textContent;
                     ghostText.textContent = '';
+                    // Increment count for achievement
+                    const newCount = parseInt(localStorage.getItem('tab-autocomplete-count') || '0') + 1;
+                    localStorage.setItem('tab-autocomplete-count', newCount);
                     searchInput.dispatchEvent(new Event('input'));
                 }
             });
