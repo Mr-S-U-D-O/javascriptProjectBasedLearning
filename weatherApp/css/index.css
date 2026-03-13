@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-  --glass-bg: rgba(255, 255, 255, 0.1);
-  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
   --text-color: #ffffff;
   --accent-color: #00d2ff;
 }
@@ -16,13 +16,13 @@
 
 body {
   min-height: 100vh;
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  background: radial-gradient(circle at top left, #1e3c72, #2a5298);
   background-attachment: fixed;
   color: var(--text-color);
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  padding: 40px 20px;
 }
 
 .dashboardContainer {
@@ -30,7 +30,7 @@ body {
   max-width: 1200px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 30px;
 }
 
 .header {
@@ -39,7 +39,7 @@ body {
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 15px;
+  gap: 20px;
 }
 
 .headerInfo {
@@ -47,24 +47,33 @@ body {
 }
 
 .currentDate {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: 600;
+  letter-spacing: -0.5px;
 }
 
 .lastUpdated {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   opacity: 0.6;
 }
 
 .searchBarContainer {
   display: flex;
-  background: var(--glass-bg);
-  backdrop-filter: blur(10px);
-  border: 1px solid var(--glass-border);
-  border-radius: 50px;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
   padding: 5px 15px;
   width: 100%;
-  max-width: 500px;
+  max-width: 450px;
+  transition: all 0.3s ease;
+}
+
+.searchBarContainer:focus-within {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .searchBarContainer input {
@@ -72,43 +81,54 @@ body {
   border: none;
   outline: none;
   color: #fff;
-  padding: 10px;
+  padding: 12px;
   flex: 1;
   font-size: 1rem;
 }
 
-.searchBarContainer button {
+.searchBarContainer button, .locationBtn {
   background: transparent;
   border: none;
   cursor: pointer;
-  padding: 5px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s;
+}
+
+.searchBarContainer button:hover, .locationBtn:hover {
+  opacity: 0.8;
 }
 
 .searchBarContainer button img {
-  width: 20px;
+  width: 18px;
   filter: invert(1);
 }
 
 .gridContainer {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-auto-rows: minmax(150px, auto);
-  gap: 20px;
+  grid-auto-rows: minmax(160px, auto);
+  gap: 24px;
 }
 
 .glass {
-  background: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--glass-border);
-  border-radius: 24px;
-  padding: 24px;
-  transition: transform 0.3s ease, background 0.3s ease;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 32px;
+  padding: 30px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 .glass:hover {
-  transform: translateY(-5px);
-  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-8px);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 12px 48px 0 rgba(0, 0, 0, 0.3);
 }
 
 .mainWeather {
@@ -116,93 +136,138 @@ body {
   grid-row: span 2;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   text-align: center;
+  padding: 40px;
 }
 
 .weatherImageIcon {
-  width: 150px;
+  width: 160px;
+  filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2));
 }
 
 .tempTemperatureDisplay {
-  font-size: 5rem;
-  font-weight: 700;
+  font-size: 5.5rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -2px;
+}
+
+.feelsLike {
+  font-size: 1.1rem;
+  opacity: 0.7;
+  margin-bottom: 10px;
 }
 
 .cityNameDisplay {
-  font-size: 2rem;
-  font-weight: 400;
-  opacity: 0.9;
+  font-size: 2.2rem;
+  font-weight: 500;
 }
 
 .weatherDescription {
   text-transform: capitalize;
-  font-size: 1.2rem;
-  margin-top: 10px;
+  font-size: 1.3rem;
+  font-weight: 400;
   color: var(--accent-color);
 }
 
 .card {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 20px;
 }
 
 .card img {
-  width: 40px;
+  width: 35px;
+  opacity: 0.9;
 }
 
 .detailInfo p {
-  font-size: 0.9rem;
-  opacity: 0.7;
+  font-size: 0.85rem;
+  font-weight: 500;
+  opacity: 0.6;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .detailInfo h3 {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
+  font-weight: 600;
 }
 
 .forecastCard {
   grid-column: span 2;
   grid-row: span 2;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: stretch;
 }
 
 .forecastCard h3 {
-  margin-bottom: 15px;
+  font-size: 1.4rem;
+  margin-bottom: 20px;
+  font-weight: 600;
 }
 
 .forecastList {
-  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 .forecastItem {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
+  padding: 14px 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 20px;
+  transition: background 0.2s;
 }
 
-@media (max-width: 992px) {
+.forecastItem:hover {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.forecastItem span:first-child {
+  font-weight: 500;
+  width: 50px;
+}
+
+.forecastItem span:last-child {
+  font-weight: 600;
+  width: 50px;
+  text-align: right;
+}
+
+@media (max-width: 1024px) {
   .gridContainer {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .headerInfo {
+    text-align: left;
+  }
+  .searchBarContainer {
+    max-width: 100%;
   }
 }
 
 @media (max-width: 600px) {
   .gridContainer {
     grid-template-columns: 1fr;
+    gap: 15px;
   }
   .mainWeather, .forecastCard {
     grid-column: span 1;
   }
   .tempTemperatureDisplay {
-    font-size: 3.5rem;
+    font-size: 4rem;
   }
 }
