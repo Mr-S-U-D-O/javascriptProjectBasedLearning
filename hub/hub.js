@@ -1125,6 +1125,92 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (e.target === templatePicker) { templatePicker.style.display = 'none'; loadTemplate('blank'); }
             });
 
+            // ---- Resizing & Collapsing ----
+            const initResizers = () => {
+                const leftResizer = document.getElementById('ide-resizer-left');
+                const rightResizer = document.getElementById('ide-resizer-right');
+                const sidebar = document.getElementById('ide-sidebar');
+                const previewPane = document.querySelector('.ide-preview-pane');
+                const container = document.querySelector('.ide-body');
+
+                const collapseSidebarBtn = document.getElementById('ide-btn-collapse-sidebar');
+                const expandPreviewBtn = document.getElementById('ide-btn-expand-preview');
+
+                // Load saved widths
+                const savedSidebarWidth = localStorage.getItem('ide-sidebar-width');
+                const savedPreviewWidth = localStorage.getItem('ide-preview-width');
+                if (savedSidebarWidth) sidebar.style.width = savedSidebarWidth + 'px';
+                if (savedPreviewWidth) previewPane.style.width = savedPreviewWidth + 'px';
+
+                const setupResizer = (resizer, target, side) => {
+                    let startX, startWidth;
+                    
+                    const onMouseDown = (e) => {
+                        startX = e.clientX;
+                        startWidth = target.offsetWidth;
+                        resizer.classList.add('dragging');
+                        document.addEventListener('mousemove', onMouseMove);
+                        document.addEventListener('mouseup', onMouseUp);
+                        document.body.style.userSelect = 'none';
+                        document.body.style.cursor = 'col-resize';
+                    };
+
+                    const onMouseMove = (e) => {
+                        let newWidth;
+                        if (side === 'left') {
+                            newWidth = startWidth + (e.clientX - startX);
+                        } else {
+                            newWidth = startWidth - (e.clientX - startX);
+                        }
+                        
+                        // Limits
+                        const min = side === 'left' ? 100 : 0;
+                        const max = container.offsetWidth * 0.7;
+                        
+                        if (newWidth >= min && newWidth <= max) {
+                            target.style.width = newWidth + 'px';
+                            if (side === 'left') localStorage.setItem('ide-sidebar-width', newWidth);
+                            else localStorage.setItem('ide-preview-width', newWidth);
+                        }
+                    };
+
+                    const onMouseUp = () => {
+                        resizer.classList.remove('dragging');
+                        document.removeEventListener('mousemove', onMouseMove);
+                        document.removeEventListener('mouseup', onMouseUp);
+                        document.body.style.userSelect = '';
+                        document.body.style.cursor = '';
+                        updateIframe(); // Refresh preview on resize stop
+                    };
+
+                    resizer.addEventListener('mousedown', onMouseDown);
+                };
+
+                if (leftResizer && sidebar) setupResizer(leftResizer, sidebar, 'left');
+                if (rightResizer && previewPane) setupResizer(rightResizer, previewPane, 'right');
+
+                // Collapse/Expand logic
+                if (collapseSidebarBtn) {
+                    collapseSidebarBtn.addEventListener('click', () => {
+                        sidebar.classList.toggle('collapsed');
+                        const isCollapsed = sidebar.classList.contains('collapsed');
+                        collapseSidebarBtn.innerHTML = isCollapsed ? '&#10095;' : '&#10094;';
+                        collapseSidebarBtn.title = isCollapsed ? 'Expand Sidebar' : 'Collapse Sidebar';
+                        if (leftResizer) leftResizer.style.display = isCollapsed ? 'none' : 'block';
+                    });
+                }
+
+                if (expandPreviewBtn) {
+                    expandPreviewBtn.addEventListener('click', () => {
+                        previewPane.classList.toggle('collapsed');
+                        const isCollapsed = previewPane.classList.contains('collapsed');
+                        expandPreviewBtn.innerHTML = isCollapsed ? '&#10094;' : '&#10095;';
+                        expandPreviewBtn.title = isCollapsed ? 'Expand Preview' : 'Collapse Preview';
+                        if (rightResizer) rightResizer.style.display = isCollapsed ? 'none' : 'block';
+                    });
+                }
+            };
+
             // ---- Bootstrap (init) ----
             let firstLaunch = true;
             const init = () => {
@@ -1164,6 +1250,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (firstLaunch && templatePicker && !persistedFiles) {
                     templatePicker.style.display = 'flex';
                 }
+                initResizers(); // Initialize resizing logic
                 firstLaunch = false;
             };
 
