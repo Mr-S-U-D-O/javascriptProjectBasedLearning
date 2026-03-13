@@ -40,7 +40,7 @@ function updateHub() {
                 number: number,
                 name: cleanName,
                 category: getCategory(cleanName),
-                path: `./${name}/index.html`
+                path: `../${name}/index.html`
             };
         })
         .sort((a, b) => a.number - b.number);
