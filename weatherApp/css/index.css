@@ -47,3 +47,17 @@ body {
   margin-right: 16px;
   font-size: 18px;
 }
+
+.searchBarContainer .searchBarBtn {
+  border: 0;
+  outline: 0;
+  background: #ebfffe;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+}
+
+.searchBarBtn img {
+  width: 16px;
+}
