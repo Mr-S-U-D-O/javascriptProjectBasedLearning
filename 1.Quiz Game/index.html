@@ -1,0 +1,60 @@
+<!-- Declare document type and set language -->
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Page setup: encoding, responsiveness, title, and linking CSS -->
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Quiz Game</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+
+    <body>
+        <!-- Main wrapper for all screens -->
+        <div class="container">
+            <!-- Start screen shown first with a title and start button -->
+            <div class="screen active" id="start-screen">
+                <h1>Quiz Time!</h1>
+                <p>Test your knowledge with these fun coding questions</p>
+                <button id="start-btn">Start Quiz</button>
+            </div>
+
+            <!-- Main quiz screen: question, options, score and progress -->
+            <div class="screen" id="quiz-screen">
+                <!-- Top section with question and quiz info -->
+                <div class="quiz-header">
+                    <h2 id="question-text">Question goes here</h2>
+
+                    <div class="quiz-info">
+                        <p>Question <span id="current-question">1</span> of <span id="total-questions">5</span></p>
+                        <p>Score: <span id="score">0</span></p>
+                    </div>
+                </div>
+
+                <!-- Answers will be added here using JavaScript -->
+                <div id="answers-container" class="answers-container"></div>
+
+                <!-- Visual progress bar that fills up as you answer questions -->
+                <div class="progress-bar">
+                    <div id="progress" class="progress"></div>
+                </div>
+            </div>
+
+            <!-- Result screen shown after last question -->
+            <div id="result-screen" class="screen">
+                <h1>Quiz Results</h1>
+
+                <div class="result-info">
+                    <p>You scored <span id="final-score">0</span> out of <span id="max-score">5</span></p>
+                    <div id="result-message">Good job!</div>
+                </div>
+
+                <!-- Restart button to take the quiz again -->
+                <button id="restart-btn">Restart Quiz</button>
+            </div>
+        </div>
+
+        <!-- External JS file for all the quiz logic -->
+        <script src="script.js"></script>
+    </body>
+</html>

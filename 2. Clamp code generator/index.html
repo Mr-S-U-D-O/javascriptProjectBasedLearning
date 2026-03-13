@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>CSS Clamp() Calculator</title>
+        <link rel="stylesheet" href="style.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+            rel="stylesheet" />
+            
+            
+    </head>
+    <body>
+        <!-- 
+        I'm adding a header here to give the page a clear title and a brief
+        explanation. I'll use a simple container and center the text inside.
+    -->
+        <header class="page-header">
+            <h1>CSS Clamp() Calculator</h1>
+            <p>A tool to create the perfect fluid typography with CSS's clamp function.</p>
+        </header>
+
+        <main class="clamp-calculator">
+            <section class="controls-panel">
+                <div class="card">
+                    <form class="control-form">
+                        <div class="input-group">
+                            <label for="base-font-size">BASE FONT-SIZE (PX)</label>
+                            <input type="number" id="base-font-size" value="16" />
+                        </div>
+
+                        <div class="input-group">
+                            <label for="min-size">MIN SIZE (PX)</label>
+                            <input type="number" id="min-size" value="18" />
+                        </div>
+
+                        <div class="input-group">
+                            <label for="max-size">MAX SIZE (PX)</label>
+                            <input type="number" id="max-size" value="48" />
+                        </div>
+
+                        <div class="input-group">
+                            <label for="min-viewport">MIN VIEWPORT (PX)</label>
+                            <input type="number" id="min-viewport" value="375" />
+                        </div>
+
+                        <div class="input-group">
+                            <label for="max-viewport">MAX VIEWPORT (PX)</label>
+                            <input type="number" id="max-viewport" value="1280" />
+                        </div>
+
+                        <div class="input-group">
+                            <label for="min-line-height">MIN LINE-HEIGHT</label>
+                            <input type="number" step="0.1" id="min-line-height" value="1.5" />
+                        </div>
+
+                        <div class="input-group">
+                            <label for="max-line-height">MAX LINE-HEIGHT</label>
+                            <input type="number" step="0.1" id="max-line-height" value="1.2" />
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <section class="visual-panel">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>GROWTH CURVE & SIZE MAPPING</h2>
+                    </div>
+                    <!-- 
+                    I'm replacing the static background image with an actual SVG element.
+                    This allows me to target parts of it (like the text and lines) with 
+                    JavaScript to make the graph dynamic.
+                -->
+                    <div class="graph-container">
+                        <svg id="graph-svg" viewBox="0 0 500 150" xmlns="http://www.w3.org/2000/svg">
+                            <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <!-- Axis labels -->
+                                <g font-family="Inter, sans-serif" font-size="10" fill="#94a3b8">
+                                    <text id="graph-min-size-label" x="35" y="115" text-anchor="end">18px</text>
+                                    <text id="graph-max-size-label" x="35" y="45" text-anchor="end">48px</text>
+                                    <text id="graph-min-vp-label" x="100" y="130" text-anchor="middle">375px</text>
+                                    <text id="graph-max-vp-label" x="400" y="130" text-anchor="middle">1280px</text>
+                                    <text x="250" y="145" text-anchor="middle">VIEWPORT WIDTH (PX)</text>
+                                    <text x="15" y="80" text-anchor="middle" transform="rotate(-90 15 80)">
+                                        SIZE (PX)
+                                    </text>
+                                </g>
+                                <!-- The main fluid line -->
+                                <path id="graph-line" d="M100 110 L400 40" stroke="#5e54d6" stroke-width="2.5" />
+                                <!-- Dashed line from point to axis -->
+                                <path
+                                    id="graph-indicator-line"
+                                    d="M250 75 V120"
+                                    stroke="#e2e8f0"
+                                    stroke-width="1"
+                                    stroke-dasharray="3,3" />
+                                <!-- The circle on the line -->
+                                <circle id="graph-indicator-dot" cx="250" cy="75" r="5" fill="#5e54d6" />
+                                <!-- The data box above the point -->
+                                <g id="graph-indicator-box" transform="translate(232 50)">
+                                    <rect width="36" height="20" rx="4" fill="#5e54d6" />
+                                    <text
+                                        id="graph-indicator-text"
+                                        x="18"
+                                        y="14"
+                                        font-family="Inter, sans-serif"
+                                        font-size="10"
+                                        fill="white"
+                                        text-anchor="middle">
+                                        32px
+                                    </text>
+                                </g>
+                            </g>
+                        </svg>
+                    </div>
+
+                    <div class="simulators">
+                        <div class="slider-group">
+                            <label id="simulate-viewport-label" for="simulate-viewport">SIMULATE VIEWPORT: 800PX</label>
+                            <input type="range" id="simulate-viewport" min="375" max="1280" value="800" />
+                        </div>
+                        <div class="slider-group">
+                            <label id="user-font-zoom-label" for="user-font-zoom">USER FONT ZOOM: 16PX</label>
+                            <input type="range" id="user-font-zoom" min="12" max="24" value="16" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card text-preview-card">
+                    <p id="preview-main-text" class="preview-main-text">The Quick Brown Fox</p>
+                    <p class="preview-sub-text">Jumps over the lazy dog.</p>
+                </div>
+
+                <div class="card code-output-card">
+                    <div class="code-block">
+                        <code id="font-size-output">font-size: clamp(1.125rem, 0.348rem + 3.315vw, 3rem);</code>
+                    </div>
+                    <div class="code-block">
+                        <code id="line-height-output">line-height: clamp(1.2, 1.624 + -0.033vw, 1.5);</code>
+                    </div>
+                    <button id="copy-button" class="button-primary button-full-width">Copy CSS Block</button>
+                </div>
+            </section>
+        </main>
+
+        <!-- 
+        Here is the footer. I've used a standard footer tag for semantics.
+        I'm including a simple credit line and a container for social media icons.
+        I've embedded SVG icons directly into the HTML so there are no external dependencies.
+    -->
+        <footer class="page-footer">
+            <p>Created by S.U.D.O</p>
+            <div class="social-links">
+                <a href="https://github.io/mr-shoez" aria-label="GitHub">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        role="img">
+                        <path
+                            d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                    </svg>
+                </a>
+                <a href="#" aria-label="Twitter">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        role="img">
+                        <path
+                            d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616v.064c0 2.298 1.634 4.212 3.793 4.65- indulging.422.099-.884.153-1.357.153-.305 0-.603-.03-.895-.084.619 1.925 2.418 3.32 4.548 3.358-1.64 1.282-3.7 2.045-5.942 2.045-.386 0-.766-.023-1.141-.066 2.109 1.354 4.618 2.144 7.332 2.144 8.798 0 13.6-7.29 13.6-13.6 0-.207-.005-.414-.014-.62a9.69 9.69 0 0 0 2.383-2.464z" />
+                    </svg>
+                </a>
+            </div>
+        </footer>
+
+        <!-- 
+        Here comes the magic. I'm placing the JavaScript inside a <script> tag 
+        right before the closing </body> tag. This ensures all the HTML elements
+        are loaded and available before the script tries to manipulate them.
+    -->
+        <script>
+            // --- I. DOM ELEMENT SELECTION ---
+            // I'm grabbing all the elements I'll need to read from or write to.
+            const inputs = {
+                baseFontSize: document.getElementById("base-font-size"),
+                minSize: document.getElementById("min-size"),
+                maxSize: document.getElementById("max-size"),
+                minViewport: document.getElementById("min-viewport"),
+                maxViewport: document.getElementById("max-viewport"),
+                minLineHeight: document.getElementById("min-line-height"),
+                maxLineHeight: document.getElementById("max-line-height")
+            };
+
+            const outputs = {
+                fontSize: document.getElementById("font-size-output"),
+                lineHeight: document.getElementById("line-height-output")
+            };
+
+            const sliders = {
+                viewport: document.getElementById("simulate-viewport"),
+                fontZoom: document.getElementById("user-font-zoom")
+            };
+
+            const labels = {
+                viewport: document.getElementById("simulate-viewport-label"),
+                fontZoom: document.getElementById("user-font-zoom-label")
+            };
+
+            const previewText = document.getElementById("preview-main-text");
+            const copyButton = document.getElementById("copy-button");
+            const graph = {
+                line: document.getElementById("graph-line"),
+                indicatorDot: document.getElementById("graph-indicator-dot"),
+                indicatorLine: document.getElementById("graph-indicator-line"),
+                indicatorBox: document.getElementById("graph-indicator-box"),
+                indicatorText: document.getElementById("graph-indicator-text"),
+                minSizeLabel: document.getElementById("graph-min-size-label"),
+                maxSizeLabel: document.getElementById("graph-max-size-label"),
+                minVpLabel: document.getElementById("graph-min-vp-label"),
+                maxVpLabel: document.getElementById("graph-max-vp-label")
+            };
+
+            // --- II. CORE FUNCTIONS ---
+
+            // A helper function to round numbers neatly. I'll use this to keep the output code clean.
+            const round = (value, decimals) => Number(Math.round(value + "e" + decimals) + "e-" + decimals);
+
+            /**
+             * This is my main calculation engine. It takes all the input values
+             * and returns the full CSS clamp string.
+             */
+            function calculateClamp(minSizePx, maxSizePx, minVwPx, maxVwPx, baseSize) {
+                if (minSizePx === maxSizePx) {
+                    return `${minSizePx / baseSize}rem`;
+                }
+
+                const minSize = minSizePx / baseSize;
+                const maxSize = maxSizePx / baseSize;
+                const minVw = minVwPx / baseSize;
+                const maxVw = maxVwPx / baseSize;
+
+                const slope = (maxSize - minSize) / (maxVw - minVw);
+                const yIntercept = minSize - slope * minVw;
+
+                const preferred = `${round(yIntercept, 4)}rem + ${round(slope * 100, 4)}vw`;
+
+                return `clamp(${round(minSize, 4)}rem, ${preferred}, ${round(maxSize, 4)}rem)`;
+            }
+
+            /**
+             * This function orchestrates everything. It reads all inputs,
+             * calls the clamp calculation functions, and updates the UI.
+             */
+            function updateAll() {
+                // I'm parsing all input values as numbers.
+                const base = parseFloat(inputs.baseFontSize.value);
+                const minSize = parseFloat(inputs.minSize.value);
+                const maxSize = parseFloat(inputs.maxSize.value);
+                const minVp = parseFloat(inputs.minViewport.value);
+                const maxVp = parseFloat(inputs.maxViewport.value);
+                const minLh = parseFloat(inputs.minLineHeight.value);
+                const maxLh = parseFloat(inputs.maxLineHeight.value);
+
+                // It's important to prevent division by zero or other errors if inputs are empty or invalid.
+                if (!base || !minSize || !maxSize || !minVp || !maxVp || !minLh || !maxLh) {
+                    return;
+                }
+
+                const fontSizeClamp = calculateClamp(minSize, maxSize, minVp, maxVp, base);
+                outputs.fontSize.textContent = `font-size: ${fontSizeClamp};`;
+
+                // Line height clamp is simpler, it doesn't need a base font size conversion.
+                const lineHeightClamp = `clamp(${minLh}, ${calculatePreferredLineHeight(minLh, maxLh, minVp, maxVp)}, ${maxLh});`;
+                outputs.lineHeight.textContent = `line-height: ${lineHeightClamp};`;
+
+                // I'm also updating the slider ranges and the preview in real time.
+                sliders.viewport.min = minVp;
+                sliders.viewport.max = maxVp;
+                updatePreview();
+                updateGraph();
+            }
+
+            function calculatePreferredLineHeight(minLh, maxLh, minVp, maxVp) {
+                const slope = (maxLh - minLh) / (maxVp - minVp);
+                const yIntercept = minLh - slope * minVp;
+                return `${round(yIntercept, 4)} + ${round(slope * 100, 4)}vw`;
+            }
+
+            /**
+             * This function handles the live preview based on the slider.
+             */
+            function updatePreview() {
+                const base = parseFloat(inputs.baseFontSize.value);
+                const minSize = parseFloat(inputs.minSize.value);
+                const maxSize = parseFloat(inputs.maxSize.value);
+                const minVp = parseFloat(inputs.minViewport.value);
+                const maxVp = parseFloat(inputs.maxViewport.value);
+                const currentVp = parseFloat(sliders.viewport.value);
+
+                // This formula calculates the font size at a specific viewport width.
+                const size = minSize + ((maxSize - minSize) * (currentVp - minVp)) / (maxVp - minVp);
+                const finalSize = Math.max(minSize, Math.min(size, maxSize));
+
+                previewText.style.fontSize = `${finalSize / base}rem`;
+                labels.viewport.textContent = `SIMULATE VIEWPORT: ${Math.round(currentVp)}PX`;
+            }
+
+            /**
+             * This function updates the SVG graph visuals based on input values.
+             */
+            function updateGraph() {
+                const minSize = parseFloat(inputs.minSize.value);
+                const maxSize = parseFloat(inputs.maxSize.value);
+                const minVp = parseFloat(inputs.minViewport.value);
+                const maxVp = parseFloat(inputs.maxViewport.value);
+                const currentVp = parseFloat(sliders.viewport.value);
+
+                // Update labels
+                graph.minSizeLabel.textContent = `${minSize}px`;
+                graph.maxSizeLabel.textContent = `${maxSize}px`;
+                graph.minVpLabel.textContent = `${minVp}px`;
+                graph.maxVpLabel.textContent = `${maxVp}px`;
+
+                // Calculate the position of the indicator dot on the graph (0-1 range)
+                const percentVp = (currentVp - minVp) / (maxVp - minVp);
+
+                // Clamp the value between 0 and 1
+                const clampedPercent = Math.max(0, Math.min(1, percentVp));
+
+                // Map the percentage to the SVG coordinate system
+                const x = 100 + (400 - 100) * clampedPercent; // From x=100 to x=400
+                const y = 110 + (40 - 110) * clampedPercent; // From y=110 to y=40
+
+                graph.indicatorDot.setAttribute("cx", x);
+                graph.indicatorDot.setAttribute("cy", y);
+
+                graph.indicatorLine.setAttribute("d", `M${x} ${y} V120`);
+
+                // Update the text box
+                const currentSize = minSize + (maxSize - minSize) * clampedPercent;
+                graph.indicatorText.textContent = `${Math.round(currentSize)}px`;
+                graph.indicatorBox.setAttribute("transform", `translate(${x - 18} ${y - 25})`);
+            }
+
+            // --- III. EVENT LISTENERS ---
+
+            // I'm looping over all my input elements and adding a listener to each.
+            for (const key in inputs) {
+                inputs[key].addEventListener("input", updateAll);
+            }
+
+            sliders.viewport.addEventListener("input", () => {
+                updatePreview();
+                updateGraph();
+            });
+
+            sliders.fontZoom.addEventListener("input", () => {
+                const zoomValue = sliders.fontZoom.value;
+                document.documentElement.style.fontSize = `${zoomValue}px`;
+                labels.fontZoom.textContent = `USER FONT ZOOM: ${zoomValue}PX`;
+            });
+
+            copyButton.addEventListener("click", () => {
+                const cssToCopy = `${outputs.fontSize.textContent}\n${outputs.lineHeight.textContent}`;
+                navigator.clipboard
+                    .writeText(cssToCopy)
+                    .then(() => {
+                        // This provides feedback to the user.
+                        const originalText = copyButton.textContent;
+                        copyButton.textContent = "Copied!";
+                        setTimeout(() => {
+                            copyButton.textContent = originalText;
+                        }, 1500);
+                    })
+                    .catch((err) => {
+                        console.error("Failed to copy text: ", err);
+                    });
+            });
+
+            // --- IV. INITIALIZATION ---
+            // I'm calling the function once on page load to make sure everything is calculated correctly from the start.
+            document.addEventListener("DOMContentLoaded", updateAll);
+        </script>
+    </body>
+</html>

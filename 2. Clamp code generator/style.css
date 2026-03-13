@@ -1,0 +1,260 @@
+/* I'm adding the new header and footer styles, as well as minor tweaks for the new layout. */
+:root {
+    --color-background: #f8fafc;
+    --color-card-background: #ffffff;
+    --color-primary: #5e54d6;
+    --color-primary-dark: #4d44b8;
+    --color-text-primary: #1e293b;
+    --color-text-secondary: #64748b;
+    --color-text-labels: #94a3b8;
+    --color-border: #e2e8f0;
+    --color-input-bg: #fdfdff;
+    --color-code-background: #0f172a;
+    --color-code-text: #ffffff;
+    --font-family-sans: "Inter", sans-serif;
+    --border-radius: 12px;
+    --card-padding: 24px;
+    --input-padding: 12px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Base font-size on html, not body, for better rem unit behavior. */
+html {
+    font-size: 16px; /* This will be controlled by the "User Font Zoom" slider */
+}
+
+body {
+    font-family: var(--font-family-sans);
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
+    display: flex;
+    flex-direction: column; /* I changed this to stack header, main, and footer */
+    align-items: center; /* This centers everything horizontally */
+    min-height: 100vh;
+    padding: 48px 24px;
+}
+
+/* --- HEADER STYLES --- */
+.page-header {
+    text-align: center;
+    margin-bottom: 40px;
+    max-width: 600px;
+}
+.page-header h1 {
+    font-size: 2.25rem;
+    color: var(--color-text-primary);
+    margin-bottom: 8px;
+}
+.page-header p {
+    font-size: 1.125rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+}
+
+.clamp-calculator {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    width: 100%;
+    max-width: 1100px;
+}
+.controls-panel {
+    flex: 1 1 320px;
+}
+.visual-panel {
+    flex: 2 1 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+.card {
+    background-color: var(--color-card-background);
+    border-radius: var(--border-radius);
+    padding: var(--card-padding);
+    border: 1px solid var(--color-border);
+    width: 100%;
+}
+.card-header h2 {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-text-labels);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+}
+.control-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.input-group label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--color-text-labels);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.input-group input,
+.input-group select {
+    width: 100%;
+    padding: var(--input-padding);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    font-family: var(--font-family-sans);
+    font-size: 1rem;
+    font-weight: 500;
+    background-color: var(--color-input-bg);
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+}
+.input-group input:focus,
+.input-group select:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(94, 84, 214, 0.2);
+}
+
+.button-primary {
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: var(--input-padding) 16px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.button-primary:hover {
+    background-color: var(--color-primary-dark);
+}
+.button-full-width {
+    width: 100%;
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
+
+/* --- GRAPH & SIMULATORS --- */
+.graph-container {
+    height: auto;
+    width: 100%;
+    margin-bottom: 24px;
+}
+.graph-container svg {
+    width: 100%;
+    height: auto;
+}
+.simulators {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+}
+.slider-group {
+    flex: 1 1 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.slider-group label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--color-text-labels);
+}
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    background: #eaf0f6;
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+}
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    border: 4px solid var(--color-card-background);
+    box-shadow: 0 0 0 1px var(--color-border);
+    margin-top: -7px;
+}
+input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    border: 4px solid var(--color-card-background);
+    box-shadow: 0 0 0 1px var(--color-border);
+}
+
+/* --- PREVIEW & CODE OUTPUT --- */
+.text-preview-card {
+    text-align: center;
+    padding: 40px var(--card-padding);
+    border: 2px dashed var(--color-border);
+    background-color: var(--color-background);
+}
+.preview-main-text {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    transition: font-size 0.1s ease-out; /* I added a transition for a smoother preview */
+}
+.preview-sub-text {
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+}
+.code-output-card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.code-block {
+    background-color: var(--color-code-background);
+    color: var(--color-code-text);
+    padding: 16px;
+    border-radius: 8px;
+    font-family: "SF Mono", "Courier New", monospace;
+    font-size: 0.875rem;
+    white-space: nowrap;
+    overflow-x: auto;
+}
+
+/* --- FOOTER STYLES --- */
+.page-footer {
+    width: 100%;
+    max-width: 1100px;
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+}
+.social-links {
+    display: flex;
+    gap: 16px;
+}
+.social-links a {
+    color: var(--color-text-labels);
+    transition: color 0.2s;
+}
+.social-links a:hover {
+    color: var(--color-primary);
+}

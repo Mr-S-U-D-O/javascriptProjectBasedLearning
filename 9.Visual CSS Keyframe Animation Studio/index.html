@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Keyframe Animation Studio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="page-header">
+        <h1>CSS Keyframe Animation Studio</h1>
+        <div class="header-controls">
+            <div class="theme-switcher">
+                <input type="checkbox" id="theme-toggle" class="sr-only">
+                <label for="theme-toggle" class="toggle-label">
+                    <span class="toggle-track"></span>
+                    <span class="toggle-thumb"></span>
+                </label>
+            </div>
+        </div>
+    </header>
+
+    <main class="animator-app">
+        
+        <!-- VISUAL PREVIEW STAGE -->
+        <section class="stage-panel card">
+            <div class="stage-header">
+                <div class="playback-controls">
+                    <button id="play-pause-btn" class="button-icon" title="Play/Pause">
+                        <svg id="icon-play" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                        <svg id="icon-pause" class="hidden" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                    </button>
+                    <button id="restart-btn" class="button-icon" title="Restart">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+                    </button>
+                    <!-- NEW: Scrubber Slider -->
+        <div class="scrubber-container">
+            <label>Scrub</label>
+            <input type="range" id="scrubber" min="0" max="100" value="0" step="0.1">
+        </div>
+                    <div class="divider-vertical"></div>
+                    <div class="global-settings">
+                        <div class="input-mini">
+                            <label>Duration (s)</label>
+                            <input type="number" id="duration" value="2" step="0.1" min="0.1">
+                        </div>
+                        <div class="input-mini">
+                            <label>Iteration</label>
+                            <select id="iteration">
+                                <option value="infinite">Infinite</option>
+                                <option value="1">1</option>
+                                <option value="3">3</option>
+                            </select>
+                        </div>
+                        <div class="input-mini">
+                            <label>Timing</label>
+                            <select id="timing">
+                                <option value="linear">Linear</option>
+                                <option value="ease">Ease</option>
+                                <option value="ease-in-out">Ease In Out</option>
+                                <option value="cubic-bezier(0.68, -0.55, 0.27, 1.55)">Bounce</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- The Grid where the magic happens -->
+            <div class="stage-canvas">
+                <div class="grid-lines"></div>
+                <!-- The animated object -->
+                <div id="actor" class="actor">
+                    <div class="actor-face"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TIMELINE & EDITOR SPLIT -->
+        <section class="editor-panel">
+            
+            <!-- TIMELINE -->
+            <div class="card timeline-card">
+                <div class="card-header">
+                    <h2>Timeline (Keyframes)</h2>
+                    <button id="add-keyframe-btn" class="button-small">+ Add Keyframe</button>
+                </div>
+                <div class="timeline-track-container">
+                    <div class="timeline-track" id="timeline-track">
+                        <!-- Keyframe markers generated here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- KEYFRAME PROPERTIES -->
+            <div class="card properties-card">
+                <div class="card-header">
+                    <h2>Edit Keyframe: <span id="active-keyframe-label" class="highlight-text">0%</span></h2>
+                    <button id="delete-keyframe-btn" class="button-small danger hidden">Delete</button>
+                </div>
+
+                <div class="props-grid">
+                    <!-- Transform: Translate -->
+                    <div class="prop-group">
+                        <label>Translate X (px)</label>
+                        <input type="range" id="prop-x" min="-250" max="250" value="0">
+                        <span id="val-x">0</span>
+                    </div>
+                    <div class="prop-group">
+                        <label>Translate Y (px)</label>
+                        <input type="range" id="prop-y" min="-150" max="150" value="0">
+                        <span id="val-y">0</span>
+                    </div>
+
+                    <!-- Transform: Scale -->
+                    <div class="prop-group">
+                        <label>Scale</label>
+                        <input type="range" id="prop-scale" min="0" max="3" step="0.1" value="1">
+                        <span id="val-scale">1</span>
+                    </div>
+
+                    <!-- Transform: Rotate -->
+                    <div class="prop-group">
+                        <label>Rotate (deg)</label>
+                        <input type="range" id="prop-rotate" min="-360" max="360" value="0">
+                        <span id="val-rotate">0</span>
+                    </div>
+
+                    <!-- Opacity -->
+                    <div class="prop-group">
+                        <label>Opacity</label>
+                        <input type="range" id="prop-opacity" min="0" max="1" step="0.1" value="1">
+                        <span id="val-opacity">1</span>
+                    </div>
+                    
+                    <div class="prop-group">
+    <label>Border Radius (%)</label>
+    <input type="range" id="prop-radius" min="0" max="50" value="0">
+    <span id="val-radius">0</span>
+</div>
+
+
+                    <!-- Color -->
+                    <div class="prop-group">
+                        <label>Background Color</label>
+                        <div class="color-wrapper">
+                            <input type="color" id="prop-color" value="#5e54d6">
+                            <span id="val-color">#5e54d6</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CODE OUTPUT -->
+            <div class="card code-card">
+                <div class="card-header">
+                    <h2>Generated CSS</h2>
+                    <button id="copy-btn" class="button-primary">Copy Snippet</button>
+                </div>
+                <pre><code id="code-output"></code></pre>
+            </div>
+
+        </section>
+    </main>
+
+    <footer class="page-footer">
+        <p>Coded by S.U.D.O.</p>
+        <div class="social-links">
+            <!-- Reuse icons from previous projects -->
+            <a href="https://github.com" target="_blank" aria-label="GitHub"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+            <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+        </div>
+    </footer>
+    
+    <!-- This style tag will be dynamically updated by JS to animate the actor -->
+    <style id="dynamic-styles"></style>
+    <style>.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0;}</style>
+
+    <script src="script.js"></script>
+</body>
+</html>

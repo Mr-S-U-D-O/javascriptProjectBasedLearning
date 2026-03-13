@@ -1,0 +1,335 @@
+:root {
+    /* Add these styles to your global stylesheet, which is used across all site pages. You only need to do this once. All elements in the library derive their variables and base styles from this central sheet, simplifying site-wide edits. For instance, if you want to modify how your h2's appear across the site, you just update it once in the global styles, and the changes apply everywhere. */
+    --primary: #ff6a3e;
+    --primaryLight: #ffba43;
+    --secondary: #ffba43;
+    --secondaryLight: #ffba43;
+    --headerColor: #1a1a1a;
+    --bodyTextColor: #4e4b66;
+    --bodyTextColorWhite: #fafbfc;
+    /* 13px - 16px */
+    --topperFontSize: clamp(0.8125rem, 1.6vw, 1rem);
+    /* 31px - 49px */
+    --headerFontSize: clamp(1.9375rem, 3.9vw, 3.0625rem);
+    --bodyFontSize: 1rem;
+    /* 60px - 100px top and bottom */
+    --sectionPadding: clamp(3.75rem, 7.82vw, 6.25rem) 1rem;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+*, *:before, *:after {
+    /* prevents padding from affecting height and width */
+    box-sizing: border-box;
+}
+.cs-topper {
+    font-size: var(--topperFontSize);
+    line-height: 1.2em;
+    text-transform: uppercase;
+    text-align: inherit;
+    letter-spacing: .1em;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 0.25rem;
+    display: block;
+}
+
+.cs-title {
+    font-size: var(--headerFontSize);
+    font-weight: 900;
+    line-height: 1.2em;
+    text-align: inherit;
+    max-width: 43.75rem;
+    margin: 0 0 1rem 0;
+    color: var(--headerColor);
+    position: relative;
+}
+
+.cs-text {
+    font-size: var(--bodyFontSize);
+    line-height: 1.5em;
+    text-align: inherit;
+    width: 100%;
+    max-width: 40.625rem;
+    margin: 0;
+    color: var(--bodyTextColor);
+}
+                            
+/*-- -------------------------- -->
+<---          Pricing           -->
+<--- -------------------------- -*/
+
+/* Mobile - 360px */
+@media only screen and (min-width: 0rem) {
+  #pricing-1790 {
+    padding: var(--sectionPadding);
+    padding-bottom: 10vw;
+    background-color: #F7F7F7;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+  }
+  #pricing-1790 .cs-container {
+    width: 100%;
+    max-width: 80rem;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+  #pricing-1790 .cs-content {
+    /* set text align to center if content needs to be center aligned */
+    text-align: left;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    /* centers content horizontally, set to flex-start to left align */
+    align-items: flex-start;
+    position: relative;
+  }
+  #pricing-1790 .cs-flex {
+    display: flex;
+    flex-direction: column;
+  }
+  #pricing-1790 .cs-title {
+    margin: 0;
+  }
+  #pricing-1790 .cs-wrapper {
+    width: 100%;
+    max-width: 80rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  #pricing-1790 .cs-ul {
+    width: 100%;
+    margin: 1.5rem 0 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  #pricing-1790 .cs-li {
+    font-size: var(--bodyFontSize);
+    list-style: none;
+    line-height: 1.5em;
+    width: 100%;
+    max-width: 21.8125rem;
+    color: var(--bodyTextColor);
+    display: flex;
+    justify-content: flex-start;
+    /* push icon top the top so if the list item goes to two lines the icon stays at the top */
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  #pricing-1790 .cs-icon {
+    width: 1.125rem;
+    height: auto;
+    display: block;
+  }
+  #pricing-1790 .cs-card-group {
+    width: 100%;
+    max-width: 57rem;
+    margin: 3rem 0 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  #pricing-1790 .cs-item {
+    text-align: center;
+    list-style: none;
+    width: 100%;
+    margin: 0;
+    /* 32px - 40px top *
+            /* 16px - 32px left & right */
+    padding: clamp(2rem, 2vw, 2.5rem) clamp(1rem, 1.5vw, 2rem);
+    background-color: #FFFFFF;
+    /* prevents padding and border from affecting height and width */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+  }
+  #pricing-1790 .cs-item.cs-popular {
+    background-color: #1A1A1A;
+    /* 48px - 64px top & bottom */
+    /* 16px - 32px left & right */
+    padding: clamp(3rem, 6vw, 4rem) clamp(1rem, 1.5vw, 2rem);
+  }
+  #pricing-1790 .cs-item.cs-popular .cs-package,
+  #pricing-1790 .cs-item.cs-popular .cs-frequency,
+  #pricing-1790 .cs-item.cs-popular .cs-item-text {
+    color: var(--bodyTextColorWhite);
+    opacity: 0.9;
+  }
+  #pricing-1790 .cs-item.cs-popular .cs-price {
+    color: var(--bodyTextColorWhite);
+  }
+  #pricing-1790 .cs-item.cs-popular .cs-button-solid {
+    transition: color 0.3s;
+  }
+  #pricing-1790 .cs-item.cs-popular .cs-button-solid:hover {
+    color: var(--primary);
+  }
+  #pricing-1790 .cs-item.cs-popular .cs-button-solid:before {
+    background-color: #fff;
+  }
+  #pricing-1790 .cs-package {
+    /* 13px - 16px */
+    font-size: clamp(0.8125rem, 1.4vw, 1rem);
+    font-weight: 700;
+    line-height: 1.2em;
+    text-align: inherit;
+    text-transform: uppercase;
+    margin: 0 0 0.25rem 0;
+    color: var(--bodyTextColor);
+    display: block;
+  }
+  #pricing-1790 .cs-flex-wrapper {
+    width: 100%;
+    margin: 0 0 1.5rem 0;
+    padding: 0 0 1.5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 0.5rem;
+    position: relative;
+    z-index: 1;
+  }
+  #pricing-1790 .cs-flex-wrapper:after {
+    content: "";
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(232, 232, 232, 0.2) 0%, #e8e8e8 53.78%, rgba(232, 232, 232, 0.2) 100%);
+    opacity: 1;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: block;
+  }
+  #pricing-1790 .cs-price {
+    font-size: var(--headerFontSize);
+    font-weight: 900;
+    line-height: 1.2em;
+    text-align: inherit;
+    margin: 0;
+    color: var(--headerColor);
+  }
+  #pricing-1790 .cs-frequency {
+    font-size: 1rem;
+    line-height: 1.5em;
+    text-align: inherit;
+    margin: 0;
+    color: var(--bodyTextColor);
+    display: block;
+  }
+  #pricing-1790 .cs-item-text {
+    font-size: 1rem;
+    line-height: 1.5em;
+    text-align: inherit;
+    margin: 0 0 auto;
+    color: var(--bodyTextColor);
+  }
+  #pricing-1790 .cs-button-solid {
+    font-size: 1rem;
+    font-weight: 700;
+    /* 46px - 56px */
+    line-height: clamp(2.875em, 5.5vw, 3.5em);
+    text-align: center;
+    text-decoration: none;
+    min-width: 9.375rem;
+    margin: 2rem 0 0 0;
+    /* prevents padding from adding to the width */
+    box-sizing: border-box;
+    padding: 0 1.5rem;
+    color: #fff;
+    background-color: var(--primary);
+    border-radius: 0.25rem;
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+  }
+  #pricing-1790 .cs-button-solid:before {
+    content: "";
+    width: 0%;
+    height: 100%;
+    background: #000;
+    opacity: 1;
+    border-radius: 0.25rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    transition: width 0.3s;
+  }
+  #pricing-1790 .cs-button-solid:hover:before {
+    width: 100%;
+  }
+  #pricing-1790 .cs-graphic {
+    width: 100%;
+    min-width: 120rem;
+    height: auto;
+    position: absolute;
+    bottom: -1rem;
+    left: 0rem;
+    z-index: -1;
+  }
+  #pricing-1790 .cs-dark {
+    display: none;
+  }
+}
+/* Tablet - 768px */
+@media only screen and (min-width: 48rem) {
+  #pricing-1790 .cs-container {
+    /* 48px - 64px */
+    gap: clamp(3rem, 6vw, 4rem);
+  }
+  #pricing-1790 .cs-content {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  #pricing-1790 .cs-ul {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: stretch;
+  }
+  #pricing-1790 .cs-card-group {
+    flex-direction: row;
+    align-items: stretch;
+  }
+  #pricing-1790 .cs-item {
+    height: auto;
+    margin: 1.5rem 0;
+  }
+  #pricing-1790 .cs-item.cs-popular {
+    margin: 0;
+  }
+}
+/* Small Desktop - 1024px */
+@media only screen and (min-width: 64rem) {
+  #pricing-1790 .cs-ul {
+    width: 30%;
+    display: flex;
+  }
+  #pricing-1790 .cs-wrapper {
+    flex-direction: row;
+    gap: 1.25rem;
+  }
+  #pricing-1790 .cs-card-group {
+    margin: 0;
+  }
+  #pricing-1790 .cs-item {
+    min-height: 25rem;
+  }
+}
+                                

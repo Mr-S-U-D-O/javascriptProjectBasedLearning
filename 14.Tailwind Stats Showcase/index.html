@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body>
+    <!-- Main container -->
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+      <!-- Wrapper: stacks on mobile, split on lg+ -->
+      <div class="flex flex-col gap-8 lg:flex-row">
+        <!-- LEFT — Hero image + corner cut‑outs -->
+        <div
+          class="relative aspect-[3/4] w-full overflow-hidden rounded-3xl bg-gray-100 bg-[url('https://picsum.photos/seed/business/900/1050')] bg-cover lg:flex-1">
+          <!-- TOP‑RIGHT spacer -->
+          <div class="relative grid w-[220px] gap-12">
+            <!-- quarter‑circle -->
+            <div class="rounded-br-2xl bg-white h-[60px]"></div>
+
+            <!-- top‑right cut‑out -->
+            <div
+              class="absolute top-0 right-[-30px] h-[30px] w-[30px] scale-y-[-1] bg-white [clip-path:path('M0_0_Q0,30_30,30_L0,30_Z')]"></div>
+
+            <!-- bottom‑left cut‑out -->
+            <div
+              class="absolute bottom-[-30px] left-0 h-[30px] w-[30px] scale-y-[-1] bg-white [clip-path:path('M0_0_Q0,30_30,30_L0,30_Z')]"></div>
+          </div>
+        </div>
+
+        <!-- RIGHT — 2 × N card grid -->
+        <div class="grid w-full gap-8 sm:grid-cols-2 lg:flex-1">
+          <!-- Card template -->
+          <article class="flex flex-col rounded-3xl bg-gray-100 p-10">
+            <h6 class="relative mb-4 inline-block pb-4 text-xs font-semibold uppercase tracking-wide text-gray-800">
+              Global Reach
+              <span class="absolute inset-x-0 bottom-0 border-b border-gray-800/10"></span>
+            </h6>
+
+            <div class="mt-auto">
+              <div class="flex items-start">
+                <span class="text-5xl font-extrabold leading-tight text-gray-900">85</span>
+                <span class="py-2 align-super text-4xl font-bold text-red-400">+</span>
+              </div>
+              <p class="text-sm text-gray-600">offices worldwide</p>
+            </div>
+          </article>
+
+          <!-- Card 2 -->
+          <article class="flex flex-col rounded-3xl bg-gray-100 p-10">
+            <h6 class="relative mb-4 inline-block pb-4 text-xs font-semibold uppercase tracking-wide text-gray-800">
+              Local Expertise
+              <span class="absolute inset-x-0 bottom-0 border-b border-gray-800/10"></span>
+            </h6>
+
+            <div class="mt-auto">
+              <div class="flex items-start">
+                <span class="text-5xl font-extrabold leading-tight text-gray-900">1,500</span>
+                <span class="py-2 align-super text-4xl font-bold text-red-400">+</span>
+              </div>
+              <p class="text-sm text-gray-600">employees</p>
+            </div>
+          </article>
+
+          <!-- Card 3 -->
+          <article class="flex flex-col rounded-3xl bg-gray-100 p-10">
+            <h6 class="relative mb-4 inline-block pb-4 text-xs font-semibold uppercase tracking-wide text-gray-800">
+              Our Impact
+              <span class="absolute inset-x-0 bottom-0 border-b border-gray-800/10"></span>
+            </h6>
+
+            <div class="mt-auto">
+              <div class="flex items-start">
+                <span class="text-5xl font-extrabold leading-tight text-gray-900">248</span>
+                <span class="py-2 align-super text-4xl font-bold text-red-400">+</span>
+              </div>
+              <p class="text-sm text-gray-600">projects done</p>
+            </div>
+          </article>
+
+          <!-- Card 4 — image -->
+          <article
+            class="flex flex-col rounded-3xl bg-gray-100 p-10 bg-[url('https://picsum.photos/seed/people/600/600')] bg-cover min-h-[150px]"></article>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

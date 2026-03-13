@@ -1,0 +1,265 @@
+:root {
+    /* Add these styles to your global stylesheet, which is used across all site pages. You only need to do this once. All elements in the library derive their variables and base styles from this central sheet, simplifying site-wide edits. For instance, if you want to modify how your h2's appear across the site, you just update it once in the global styles, and the changes apply everywhere. */
+    --primary: #ff6a3e;
+    --primaryLight: #ffba43;
+    --secondary: #ffba43;
+    --secondaryLight: #ffba43;
+    --headerColor: #1a1a1a;
+    --bodyTextColor: #4e4b66;
+    --bodyTextColorWhite: #fafbfc;
+    /* 13px - 16px */
+    --topperFontSize: clamp(0.8125rem, 1.6vw, 1rem);
+    /* 31px - 49px */
+    --headerFontSize: clamp(1.9375rem, 3.9vw, 3.0625rem);
+    --bodyFontSize: 1rem;
+    /* 60px - 100px top and bottom */
+    --sectionPadding: clamp(3.75rem, 7.82vw, 6.25rem) 1rem;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+*,
+*:before,
+*:after {
+    /* prevents padding from affecting height and width */
+    box-sizing: border-box;
+}
+.cs-topper {
+    font-size: var(--topperFontSize);
+    line-height: 1.2em;
+    text-transform: uppercase;
+    text-align: inherit;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 0.25rem;
+    display: block;
+}
+
+.cs-title {
+    font-size: var(--headerFontSize);
+    font-weight: 900;
+    line-height: 1.2em;
+    text-align: inherit;
+    max-width: 43.75rem;
+    margin: 0 0 1rem 0;
+    color: var(--headerColor);
+    position: relative;
+}
+
+.cs-text {
+    font-size: var(--bodyFontSize);
+    line-height: 1.5em;
+    text-align: inherit;
+    width: 100%;
+    max-width: 40.625rem;
+    margin: 0;
+    color: var(--bodyTextColor);
+}
+
+/*-- -------------------------- -->
+<---        Side By Side        -->
+<--- -------------------------- -*/
+
+/* Mobile - 360px */
+@media only screen and (min-width: 0rem) {
+    #sbs-2295 {
+        padding: var(--sectionPadding);
+        background-color: #fefcf4;
+        overflow: hidden;
+        position: relative;
+        z-index: 1;
+    }
+    #sbs-2295 .cs-container {
+        width: 100%;
+        /* changes to 1280px at tablet */
+        max-width: 44rem;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        /* 48px - 64px */
+        gap: clamp(3rem, 4vw, 4rem);
+    }
+    #sbs-2295 .cs-image-group {
+        /* scales the whole section down and ties the font size to the vw and stops at 75% of the vale of 1em, changes at desktop */
+        font-size: min(1.98vw, 0.826rem);
+        /* everything inside this box is in ems so we can scale it all down proportionally with a font size */
+        width: 46.125em;
+        height: 36.125em;
+        order: -1;
+        position: relative;
+        z-index: 1;
+        /* prevents flexbox from squishing it */
+        flex: none;
+    }
+    #sbs-2295 .cs-picture {
+        width: 100%;
+        height: 100%;
+        border: 1em solid var(--bodyTextColorWhite);
+        display: block;
+    }
+    #sbs-2295 .cs-picture img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        top: 0;
+        left: 0;
+    }
+    #sbs-2295 .cs-picture-wrapper1 {
+        width: 25.75em;
+        height: 28.5625em;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    #sbs-2295 .cs-picture-wrapper2 {
+        width: 25.8125em;
+        height: 29.625em;
+        display: flex;
+        flex-direction: column-reverse;
+        gap: 1rem;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+    }
+    #sbs-2295 .cs-tag {
+        /* 14px - 24px */
+        font-size: clamp(0.875rem, 1.4vw, 1.5rem);
+        font-weight: 700;
+        line-height: 1.2em;
+        text-align: center;
+        color: var(--headerColor);
+    }
+    #sbs-2295 .cs-arrow {
+        width: 9.25em;
+        height: 3.375em;
+        position: absolute;
+        top: 15.125em;
+        left: 15.9375em;
+        transform: rotate(30deg);
+    }
+    #sbs-2295 .cs-content {
+        /* set text align to center if content needs to be centrally aligned */
+        text-align: left;
+        width: 100%;
+        max-width: 36.625rem;
+        display: flex;
+        flex-direction: column;
+        /* aligns content to the left, set to center to centrally align */
+        align-items: flex-start;
+    }
+    #sbs-2295 .cs-title {
+        max-width: 30ch;
+    }
+    #sbs-2295 .cs-text {
+        margin-bottom: 1rem;
+    }
+    #sbs-2295 .cs-text:last-of-type {
+        margin-bottom: 1.5rem;
+    }
+    #sbs-2295 .cs-button-solid {
+        font-size: 1rem;
+        font-weight: 700;
+        /* 46px - 56px */
+        line-height: clamp(2.875rem, 5.5vw, 3.5rem);
+        text-align: center;
+        text-decoration: none;
+        min-width: 9.375rem;
+        margin: 0;
+        padding: 0 1.5rem;
+        background-color: var(--primary);
+        color: var(--headerColor);
+        display: inline-block;
+        position: relative;
+        z-index: 1;
+    }
+    #sbs-2295 .cs-button-solid:before {
+        content: "";
+        width: 0%;
+        height: 100%;
+        background: #000;
+        opacity: 1;
+        border-radius: 0.25rem;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        transition: width 0.3s;
+    }
+    #sbs-2295 .cs-button-solid:hover:before {
+        width: 100%;
+    }
+    #sbs-2295 .cs-h3 {
+        font-size: 1rem;
+        font-weight: 700;
+        line-height: 1.5em;
+        margin: 0;
+        color: var(--headerColor);
+    }
+    #sbs-2295 .cs-ul {
+        margin: 0.75rem 0 2rem;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    #sbs-2295 .cs-li {
+        font-size: 1rem;
+        line-height: 1.5em;
+        list-style: none;
+        /* 20px - 24px */
+        padding-left: clamp(1.25rem, 3vw, 1.5rem);
+        color: var(--bodyTextColor);
+        position: relative;
+    }
+    #sbs-2295 .cs-li strong {
+        color: #1a1a1a;
+    }
+    #sbs-2295 .cs-li::before {
+        content: "";
+        width: 0.5rem;
+        height: 0.5rem;
+        margin-top: 0.5rem;
+        background-color: var(--secondary);
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform: rotate(45deg);
+    }
+}
+/* Tablet - 768px */
+@media only screen and (min-width: 48rem) {
+    #sbs-2295 .cs-container {
+        max-width: 80rem;
+    }
+    #sbs-2295 .cs-image-group {
+        order: initial;
+    }
+}
+/* Desktop - 1024px */
+@media only screen and (min-width: 64rem) {
+    #sbs-2295 .cs-container {
+        flex-direction: row;
+        align-items: stretch;
+    }
+    #sbs-2295 .cs-image-group {
+        font-size: min(1.03vw, 1rem);
+        height: auto;
+    }
+    #sbs-2295 .cs-picture-wrapper1 {
+        height: auto;
+        bottom: 7.5625em;
+    }
+    #sbs-2295 .cs-picture-wrapper2 {
+        height: auto;
+        top: 6.5em;
+    }
+}

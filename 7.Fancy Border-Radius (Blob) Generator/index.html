@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fancy Border-Radius (Blob) Generator</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="page-header">
+        <h1>Organic Blob Generator</h1>
+        <div class="theme-switcher">
+            <input type="checkbox" id="theme-toggle" class="sr-only">
+            <label for="theme-toggle" class="toggle-label">
+                <span class="toggle-track"></span>
+                <span class="toggle-thumb"></span>
+            </label>
+        </div>
+    </header>
+
+    <main class="blob-generator">
+        <!-- Controls Panel -->
+        <section class="controls-panel">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Shape Controls</h2>
+                    <button id="random-btn" class="button-small">Randomize</button>
+                </div>
+                
+                <div class="control-group">
+                    <label for="top-slider">Top Axis <span id="val-top">50%</span></label>
+                    <input type="range" id="top-slider" min="0" max="100" value="50">
+                </div>
+
+                <div class="control-group">
+                    <label for="right-slider">Right Axis <span id="val-right">50%</span></label>
+                    <input type="range" id="right-slider" min="0" max="100" value="50">
+                </div>
+
+                <div class="control-group">
+                    <label for="bottom-slider">Bottom Axis <span id="val-bottom">50%</span></label>
+                    <input type="range" id="bottom-slider" min="0" max="100" value="50">
+                </div>
+
+                <div class="control-group">
+                    <label for="left-slider">Left Axis <span id="val-left">50%</span></label>
+                    <input type="range" id="left-slider" min="0" max="100" value="50">
+                </div>
+
+                <div class="card-header separator">
+                    <h2>Dimensions</h2>
+                </div>
+
+                <div class="control-row">
+                    <div class="control-group">
+                        <label>Width</label>
+                        <input type="range" id="width-slider" min="100" max="400" value="300">
+                    </div>
+                    <div class="control-group">
+                        <label>Height</label>
+                        <input type="range" id="height-slider" min="100" max="400" value="300">
+                    </div>
+                </div>
+                
+                <div class="control-group" style="margin-top: 10px;">
+                     <label class="checkbox-label">
+                        <input type="checkbox" id="gradient-toggle">
+                        <span>Use Gradient Background</span>
+                    </label>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Visual Panel -->
+        <section class="visual-panel">
+            <div class="card preview-container">
+                <!-- The Blob -->
+                <div id="blob" class="blob"></div>
+                
+                <!-- Helper overlay to visualize the box -->
+                <div class="blob-frame"></div>
+            </div>
+
+            <div class="card code-output-card">
+                <pre><code id="code-output">border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;</code></pre>
+                <button id="copy-button" class="button-primary button-full-width">Copy CSS</button>
+            </div>
+        </section>
+    </main>
+
+    <footer class="page-footer">
+        <p>Coded by S.U.D.O.</p>
+        <div class="social-links">
+            <a href="https://github.com" target="_blank" aria-label="GitHub"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+            <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+        </div>
+    </footer>
+    
+    <style>.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0;}</style>
+
+    <script>
+    // --- I. STATE MANAGEMENT ---
+    // We only need to store the 4 axis percentages. 
+    // The inverse values (e.g., 100 - top) are calculated on the fly.
+    const state = {
+        top: 50,
+        right: 50,
+        bottom: 50,
+        left: 50,
+        width: 300,
+        height: 300,
+        useGradient: false
+    };
+
+    // --- II. DOM SELECTION ---
+    const dom = {
+        blob: document.getElementById('blob'),
+        code: document.getElementById('code-output'),
+        sliders: {
+            top: document.getElementById('top-slider'),
+            right: document.getElementById('right-slider'),
+            bottom: document.getElementById('bottom-slider'),
+            left: document.getElementById('left-slider'),
+            width: document.getElementById('width-slider'),
+            height: document.getElementById('height-slider'),
+        },
+        labels: {
+            top: document.getElementById('val-top'),
+            right: document.getElementById('val-right'),
+            bottom: document.getElementById('val-bottom'),
+            left: document.getElementById('val-left'),
+        },
+        gradientToggle: document.getElementById('gradient-toggle'),
+        randomBtn: document.getElementById('random-btn'),
+        copyBtn: document.getElementById('copy-button'),
+        themeToggle: document.getElementById('theme-toggle'),
+    };
+
+    // --- III. CORE FUNCTIONS ---
+
+    function render() {
+        // Calculate the 8 values
+        // Syntax: top-left-x top-right-x bottom-right-x bottom-left-x / top-left-y top-right-y bottom-right-y bottom-left-y
+        
+        // Horizontal Radii (X axis): Controlled by Top and Bottom sliders
+        const tl_x = state.top;
+        const tr_x = 100 - state.top;
+        const br_x = state.bottom;
+        const bl_x = 100 - state.bottom;
+
+        // Vertical Radii (Y axis): Controlled by Left and Right sliders
+        const tl_y = state.left;
+        const tr_y = state.right;
+        const br_y = 100 - state.right;
+        const bl_y = 100 - state.left;
+
+        const borderRadius = `${tl_x}% ${tr_x}% ${br_x}% ${bl_x}% / ${tl_y}% ${tr_y}% ${br_y}% ${bl_y}%`;
+
+        // Apply styles
+        dom.blob.style.borderRadius = borderRadius;
+        dom.blob.style.width = `${state.width}px`;
+        dom.blob.style.height = `${state.height}px`;
+
+        if (state.useGradient) {
+            dom.blob.style.background = 'linear-gradient(135deg, #5e54d6, #f43f5e)';
+        } else {
+            dom.blob.style.background = '#5e54d6';
+        }
+
+        // Update Text
+        dom.code.textContent = `border-radius: ${borderRadius};`;
+
+        // Update Labels
+        dom.labels.top.textContent = `${state.top}%`;
+        dom.labels.right.textContent = `${state.right}%`;
+        dom.labels.bottom.textContent = `${state.bottom}%`;
+        dom.labels.left.textContent = `${state.left}%`;
+    }
+
+    function randomize() {
+        // Random between 20 and 80 to avoid ugly flat sides
+        state.top = Math.floor(Math.random() * 60) + 20;
+        state.right = Math.floor(Math.random() * 60) + 20;
+        state.bottom = Math.floor(Math.random() * 60) + 20;
+        state.left = Math.floor(Math.random() * 60) + 20;
+        
+        // Sync sliders
+        dom.sliders.top.value = state.top;
+        dom.sliders.right.value = state.right;
+        dom.sliders.bottom.value = state.bottom;
+        dom.sliders.left.value = state.left;
+
+        render();
+    }
+
+    // --- IV. EVENT LISTENERS ---
+
+    // Generic slider listener
+    Object.keys(dom.sliders).forEach(key => {
+        dom.sliders[key].addEventListener('input', (e) => {
+            state[key] = parseInt(e.target.value);
+            render();
+        });
+    });
+
+    dom.gradientToggle.addEventListener('change', (e) => {
+        state.useGradient = e.target.checked;
+        render();
+    });
+
+    dom.randomBtn.addEventListener('click', randomize);
+
+    dom.copyBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText(dom.code.textContent).then(() => {
+            const originalText = dom.copyBtn.textContent;
+            dom.copyBtn.textContent = 'Copied!';
+            setTimeout(() => { dom.copyBtn.textContent = originalText; }, 1500);
+        });
+    });
+
+    // Theme Logic
+    function applyTheme(theme) {
+        document.body.classList.toggle('dark-mode', theme === 'dark');
+        dom.themeToggle.checked = theme === 'dark';
+    }
+    dom.themeToggle.addEventListener('change', () => {
+        const newTheme = dom.themeToggle.checked ? 'dark' : 'light';
+        localStorage.setItem('theme', newTheme);
+        applyTheme(newTheme);
+    });
+
+    // Init
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    applyTheme(savedTheme || (prefersDark ? 'dark' : 'light'));
+
+    // Start with a random blob instead of a boring square
+    randomize();
+
+    </script>
+</body>
+</html>

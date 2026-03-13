@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Box Shadow Generator</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="page-header">
+        <h1>Multi-Layer Box Shadow Generator</h1>
+        <div class="theme-switcher">
+            <!-- I'm creating a visually hidden checkbox for the toggle -->
+            <input type="checkbox" id="theme-toggle" class="sr-only">
+            <label for="theme-toggle" class="toggle-label">
+                <span class="toggle-track"></span>
+                <span class="toggle-thumb"></span>
+            </label>
+        </div>
+    </header>
+
+    <main class="shadow-generator">
+        <!-- 
+            This is the left column for all the controls. It will manage the layers
+            and the settings for the currently active layer.
+        -->
+        <section class="controls-panel">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Layers</h2>
+                    <button id="add-layer-btn" class="button-icon">+</button>
+                </div>
+                <!-- The list of shadow layers will be dynamically generated here by JavaScript. -->
+                <ul id="layers-list" class="layers-list"></ul>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h2>Settings for Selected Layer</h2>
+                </div>
+                <!-- 
+                    I'm using a 'data-property' attribute on each control. This will make it
+                    super easy for my JavaScript to know which CSS property to update.
+                -->
+                <div class="settings-grid">
+                    <div class="control-group">
+                        <label for="offsetX">Offset X <span id="offsetX-value">0px</span></label>
+                        <input type="range" id="offsetX" data-property="offsetX" min="-100" max="100" value="0">
+                    </div>
+                    <div class="control-group">
+                        <label for="offsetY">Offset Y <span id="offsetY-value">10px</span></label>
+                        <input type="range" id="offsetY" data-property="offsetY" min="-100" max="100" value="10">
+                    </div>
+                    <div class="control-group">
+                        <label for="blur">Blur <span id="blur-value">15px</span></label>
+                        <input type="range" id="blur" data-property="blur" min="0" max="100" value="15">
+                    </div>
+                    <div class="control-group">
+                        <label for="spread">Spread <span id="spread-value">-3px</span></label>
+                        <input type="range" id="spread" data-property="spread" min="-100" max="100" value="-3">
+                    </div>
+                    <div class="control-group full-span">
+                        <label for="color">Color</label>
+                        <input type="color" id="color" data-property="color" value="#000000">
+                    </div>
+                    <div class="control-group full-span inset-control">
+                        <label for="inset">Inset Shadow</label>
+                        <input type="checkbox" id="inset" data-property="inset" class="inset-toggle">
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 
+            This is the right column for the live preview and the generated code.
+        -->
+        <section class="visual-panel">
+            <div class="preview-area card">
+                <!-- This is the element that will have the box-shadow applied to it. -->
+                <div id="preview-box"></div>
+            </div>
+            <div class="code-output-card card">
+                <pre><code id="code-output"></code></pre>
+                <button id="copy-button" class="button-primary button-full-width">Copy CSS</button>
+            </div>
+        </section>
+    </main>
+
+    <footer class="page-footer">
+        <p>Coded by S.U.D.O.</p>
+        <div class="social-links">
+            <a href="https://github.com" target="_blank" aria-label="GitHub">
+                <svg xmlns="http://www.w.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            </a>
+            <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+            </a>
+        </div>
+    </footer>
+    
+    <!-- A small helper style to hide the checkbox -->
+    <style>.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0;}</style>
+
+    <script>
+    // --- I. STATE MANAGEMENT & SETUP ---
+    // I'm setting up a "state" object. This is the single source of truth for the app.
+    // It holds the array of shadow layers and tracks which one is currently active.
+    const state = {
+        layers: [
+            { offsetX: 0, offsetY: 10, blur: 15, spread: -3, color: '#00000040', inset: false },
+            { offsetX: 0, offsetY: 4, blur: 6, spread: -1, color: '#00000020', inset: false }
+        ],
+        activeLayerIndex: 0,
+    };
+
+    // --- II. DOM ELEMENT SELECTION ---
+    // I'm getting all the elements I'll need to interact with.
+    const controls = {
+        offsetX: document.getElementById('offsetX'),
+        offsetY: document.getElementById('offsetY'),
+        blur: document.getElementById('blur'),
+        spread: document.getElementById('spread'),
+        color: document.getElementById('color'),
+        inset: document.getElementById('inset'),
+    };
+    const valueLabels = {
+        offsetX: document.getElementById('offsetX-value'),
+        offsetY: document.getElementById('offsetY-value'),
+        blur: document.getElementById('blur-value'),
+        spread: document.getElementById('spread-value'),
+    };
+
+    const previewBox = document.getElementById('preview-box');
+    const codeOutput = document.getElementById('code-output');
+    const layersList = document.getElementById('layers-list');
+    const addLayerBtn = document.getElementById('add-layer-btn');
+    const copyButton = document.getElementById('copy-button');
+    const themeToggle = document.getElementById('theme-toggle');
+
+    // --- III. CORE FUNCTIONS ---
+
+    /**
+     * My main rendering engine. This function takes the current state,
+     * generates the CSS, and updates all the necessary parts of the UI.
+     * Calling this function makes the page reflect the state.
+     */
+    function render() {
+        // 1. Generate the CSS box-shadow string from the layers array.
+        const shadowString = state.layers.map(layer => {
+            const inset = layer.inset ? 'inset' : '';
+            return `${inset} ${layer.offsetX}px ${layer.offsetY}px ${layer.blur}px ${layer.spread}px ${layer.color}`.trim();
+        }).join(', ');
+        
+        // 2. Apply the style to the preview box.
+        previewBox.style.boxShadow = shadowString;
+        
+        // 3. Update the code output text.
+        codeOutput.textContent = `box-shadow: ${shadowString || 'none'};`;
+
+        // 4. Re-draw the list of layers.
+        layersList.innerHTML = '';
+        state.layers.forEach((layer, index) => {
+            const listItem = document.createElement('li');
+            listItem.classList.add('layer-item');
+            if (index === state.activeLayerIndex) {
+                listItem.classList.add('active');
+            }
+            // I'm using a data attribute to easily identify which layer was clicked.
+            listItem.dataset.index = index;
+            
+            // This is a small preview of the shadow color.
+            const colorPreview = document.createElement('span');
+            colorPreview.classList.add('layer-color-preview');
+            colorPreview.style.backgroundColor = layer.color;
+
+            const layerText = document.createElement('span');
+            layerText.textContent = `Shadow ${index + 1}`;
+            
+            const deleteBtn = document.createElement('button');
+            deleteBtn.innerHTML = '&times;';
+            deleteBtn.classList.add('button-icon', 'delete-layer-btn');
+            
+            listItem.appendChild(colorPreview);
+            listItem.appendChild(layerText);
+            listItem.appendChild(deleteBtn);
+            layersList.appendChild(listItem);
+        });
+        
+        // 5. Update the control knobs to reflect the active layer.
+        updateControls();
+    }
+
+    /**
+     * This function syncs the sliders and inputs with the data
+     * of the currently active layer from our state.
+     */
+    function updateControls() {
+        const activeLayer = state.layers[state.activeLayerIndex];
+        if (!activeLayer) return; // Exit if no layer is active (e.g., all are deleted)
+
+        // I'm using the `data-property` attribute I set in the HTML to loop through controls.
+        for (const key in controls) {
+            const input = controls[key];
+            const property = input.dataset.property;
+            
+            if (input.type === 'checkbox') {
+                input.checked = activeLayer[property];
+            } else {
+                input.value = activeLayer[property];
+            }
+            
+            // Also update the little "0px" value labels next to the sliders.
+            if(valueLabels[property]) {
+                valueLabels[property].textContent = `${activeLayer[property]}px`;
+            }
+        }
+    }
+
+    // --- IV. EVENT LISTENERS ---
+
+    // Listening for changes on any of the setting controls.
+    document.querySelector('.settings-grid').addEventListener('input', (e) => {
+        const target = e.target;
+        const property = target.dataset.property;
+        if (!property || !state.layers[state.activeLayerIndex]) return;
+
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        
+        // Update the state with the new value.
+        state.layers[state.activeLayerIndex][property] = value;
+        
+        // Re-render everything.
+        render();
+    });
+
+    // Listening for clicks on the layers list (for selecting and deleting).
+    layersList.addEventListener('click', (e) => {
+        const target = e.target;
+        const layerItem = target.closest('.layer-item');
+        if (!layerItem) return;
+        
+        const index = parseInt(layerItem.dataset.index, 10);
+        
+        if (target.classList.contains('delete-layer-btn')) {
+            // If the delete button was clicked, remove the layer from the state array.
+            state.layers.splice(index, 1);
+            // Adjust the active index if needed.
+            if (state.activeLayerIndex >= state.layers.length && state.layers.length > 0) {
+                state.activeLayerIndex = state.layers.length - 1;
+            } else if (state.layers.length === 0) {
+                state.activeLayerIndex = null;
+            }
+        } else {
+            // Otherwise, a layer was selected. Update the active index.
+            state.activeLayerIndex = index;
+        }
+        
+        render();
+    });
+
+    // Add a new layer when the button is clicked.
+    addLayerBtn.addEventListener('click', () => {
+        state.layers.push({ offsetX: 0, offsetY: 0, blur: 10, spread: 0, color: '#00000080', inset: false });
+        state.activeLayerIndex = state.layers.length - 1;
+        render();
+    });
+    
+    // Copy to clipboard functionality.
+    copyButton.addEventListener('click', () => {
+        navigator.clipboard.writeText(codeOutput.textContent).then(() => {
+            const originalText = copyButton.textContent;
+            copyButton.textContent = 'Copied!';
+            setTimeout(() => { copyButton.textContent = originalText; }, 1500);
+        });
+    });
+
+    // --- V. THEME MANAGEMENT ---
+    
+    function applyTheme(theme) {
+        if (theme === 'dark') {
+            document.body.classList.add('dark-mode');
+            themeToggle.checked = true;
+        } else {
+            document.body.classList.remove('dark-mode');
+            themeToggle.checked = false;
+        }
+    }
+    
+    themeToggle.addEventListener('change', () => {
+        const newTheme = themeToggle.checked ? 'dark' : 'light';
+        localStorage.setItem('theme', newTheme);
+        applyTheme(newTheme);
+    });
+
+    // --- VI. INITIALIZATION ---
+
+    // On page load, I check for saved theme preferences or OS settings.
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    if (savedTheme) {
+        applyTheme(savedTheme);
+    } else if (prefersDark) {
+        applyTheme('dark');
+    }
+
+    // This is the first call to get everything on the screen.
+    render();
+
+    </script>
+</body>
+</html>

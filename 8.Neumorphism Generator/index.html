@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neumorphism CSS Generator</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="page-header">
+        <h1>Neumorphism / Soft UI Generator</h1>
+        <div class="theme-switcher">
+            <input type="checkbox" id="theme-toggle" class="sr-only">
+            <label for="theme-toggle" class="toggle-label">
+                <span class="toggle-track"></span>
+                <span class="toggle-thumb"></span>
+            </label>
+        </div>
+    </header>
+
+    <main class="neumorphism-generator">
+        <!-- Controls Panel -->
+        <section class="controls-panel">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Configuration</h2>
+                </div>
+                
+                <div class="control-group">
+                    <label>Pick Base Color</label>
+                    <div class="color-picker-wrapper">
+                        <input type="color" id="base-color" value="#e0e0e0">
+                        <span id="color-val">#e0e0e0</span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label>Size <span id="val-size">200px</span></label>
+                    <input type="range" id="size" min="50" max="400" value="200">
+                </div>
+
+                <div class="control-group">
+                    <label>Radius <span id="val-radius">30px</span></label>
+                    <input type="range" id="radius" min="0" max="200" value="30">
+                </div>
+
+                <div class="control-group">
+                    <label>Distance <span id="val-distance">20px</span></label>
+                    <input type="range" id="distance" min="5" max="50" value="20">
+                </div>
+
+                <div class="control-group">
+                    <label>Intensity <span id="val-intensity">0.15</span></label>
+                    <input type="range" id="intensity" min="0.01" max="0.6" step="0.01" value="0.15">
+                </div>
+
+                <div class="control-group">
+                    <label>Blur <span id="val-blur">40px</span></label>
+                    <input type="range" id="blur" min="0" max="100" value="40">
+                </div>
+
+                <div class="control-group">
+                    <label>Light Source Angle <span id="val-angle">145°</span></label>
+                    <input type="range" id="angle" min="0" max="360" value="145">
+                </div>
+
+                <div class="card-header separator">
+                    <h2>Shape</h2>
+                </div>
+                <div class="shape-buttons">
+                    <button class="shape-btn active" data-shape="flat">Flat</button>
+                    <button class="shape-btn" data-shape="concave">Concave</button>
+                    <button class="shape-btn" data-shape="convex">Convex</button>
+                    <button class="shape-btn" data-shape="pressed">Pressed</button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Visual Panel -->
+        <section class="visual-panel">
+            <div class="card preview-container" id="preview-container">
+                <div id="neu-element" class="neu-element">
+                    <span class="icon-placeholder">S.U.D.O.</span>
+                </div>
+            </div>
+
+            <div class="card code-output-card">
+                <pre><code id="code-output"></code></pre>
+                <button id="copy-button" class="button-primary button-full-width">Copy CSS</button>
+            </div>
+        </section>
+    </main>
+
+    <footer class="page-footer">
+        <p>Coded by S.U.D.O.</p>
+        <div class="social-links">
+            <a href="https://github.com" target="_blank" aria-label="GitHub"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+            <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+        </div>
+    </footer>
+    
+    <style>.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0;}</style>
+
+    <script>
+    // --- I. STATE MANAGEMENT ---
+    const state = {
+        color: '#e0e0e0',
+        size: 200,
+        radius: 30,
+        distance: 20,
+        intensity: 0.15,
+        blur: 40,
+        angle: 145,
+        shape: 'flat' // flat, concave, convex, pressed
+    };
+
+    // --- II. DOM SELECTION ---
+    const dom = {
+        element: document.getElementById('neu-element'),
+        container: document.getElementById('preview-container'),
+        code: document.getElementById('code-output'),
+        color: document.getElementById('base-color'),
+        colorVal: document.getElementById('color-val'),
+        inputs: {
+            size: document.getElementById('size'),
+            radius: document.getElementById('radius'),
+            distance: document.getElementById('distance'),
+            intensity: document.getElementById('intensity'),
+            blur: document.getElementById('blur'),
+            angle: document.getElementById('angle'),
+        },
+        labels: {
+            size: document.getElementById('val-size'),
+            radius: document.getElementById('val-radius'),
+            distance: document.getElementById('val-distance'),
+            intensity: document.getElementById('val-intensity'),
+            blur: document.getElementById('val-blur'),
+            angle: document.getElementById('val-angle'),
+        },
+        shapeBtns: document.querySelectorAll('.shape-btn'),
+        copyBtn: document.getElementById('copy-button'),
+        themeToggle: document.getElementById('theme-toggle'),
+    };
+
+    // --- III. HELPER FUNCTIONS ---
+
+    // Convert Hex to RGB to manipulate Lightness
+    function hexToRgb(hex) {
+        let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : null;
+    }
+
+    // Adjust color luminance
+    function lum(rgb, percent) {
+        // Percent can be positive (lighter) or negative (darker)
+        let r = Math.round(Math.min(255, Math.max(0, rgb.r * (1 + percent))));
+        let g = Math.round(Math.min(255, Math.max(0, rgb.g * (1 + percent))));
+        let b = Math.round(Math.min(255, Math.max(0, rgb.b * (1 + percent))));
+        return `rgb(${r}, ${g}, ${b})`;
+    }
+
+    // --- IV. CORE LOGIC ---
+
+    function render() {
+        // 1. Calculate Colors
+        const rgb = hexToRgb(state.color);
+        const darkColor = lum(rgb, state.intensity * -1);
+        const lightColor = lum(rgb, state.intensity);
+        
+        // 2. Calculate Shadow Offsets based on Angle
+        // Convert degrees to radians
+        const rad = state.angle * (Math.PI / 180);
+        const x = Math.round(state.distance * Math.cos(rad));
+        const y = Math.round(state.distance * Math.sin(rad));
+
+        let cssBoxShadow = '';
+        let cssBackground = state.color;
+
+        // 3. Generate CSS based on Shape
+        if (state.shape === 'flat') {
+            cssBoxShadow = `${x}px ${y}px ${state.blur}px ${darkColor}, 
+            -${x}px -${y}px ${state.blur}px ${lightColor}`;
+        } 
+        else if (state.shape === 'pressed') {
+            cssBoxShadow = `inset ${x}px ${y}px ${state.blur}px ${darkColor}, 
+            inset -${x}px -${y}px ${state.blur}px ${lightColor}`;
+        }
+        else if (state.shape === 'concave') {
+            cssBackground = `linear-gradient(${state.angle + 180}deg, ${darkColor}, ${lightColor})`;
+            cssBoxShadow = `${x}px ${y}px ${state.blur}px ${darkColor}, 
+            -${x}px -${y}px ${state.blur}px ${lightColor}`;
+        }
+        else if (state.shape === 'convex') {
+            cssBackground = `linear-gradient(${state.angle}deg, ${darkColor}, ${lightColor})`;
+            cssBoxShadow = `${x}px ${y}px ${state.blur}px ${darkColor}, 
+            -${x}px -${y}px ${state.blur}px ${lightColor}`;
+        }
+
+        // 4. Apply Styles
+        dom.element.style.width = `${state.size}px`;
+        dom.element.style.height = `${state.size}px`;
+        dom.element.style.borderRadius = `${state.radius}px`;
+        dom.element.style.backgroundColor = state.shape === 'flat' || state.shape === 'pressed' ? state.color : 'transparent';
+        if(state.shape !== 'flat' && state.shape !== 'pressed') dom.element.style.background = cssBackground;
+        
+        dom.element.style.boxShadow = cssBoxShadow;
+        
+        // IMPORTANT: The container background must match the base color
+        dom.container.style.backgroundColor = state.color;
+
+        // 5. Update Code Block
+        let code = `border-radius: ${state.radius}px;
+background: ${cssBackground};
+box-shadow: ${cssBoxShadow};`;
+        dom.code.textContent = code;
+
+        // 6. Update UI Labels
+        dom.colorVal.textContent = state.color;
+        dom.labels.size.textContent = `${state.size}px`;
+        dom.labels.radius.textContent = `${state.radius}px`;
+        dom.labels.distance.textContent = `${state.distance}px`;
+        dom.labels.intensity.textContent = state.intensity;
+        dom.labels.blur.textContent = `${state.blur}px`;
+        dom.labels.angle.textContent = `${state.angle}°`;
+    }
+
+    // --- V. EVENT LISTENERS ---
+
+    // Color Picker
+    dom.color.addEventListener('input', (e) => {
+        state.color = e.target.value;
+        render();
+    });
+
+    // Range Inputs
+    Object.keys(dom.inputs).forEach(key => {
+        dom.inputs[key].addEventListener('input', (e) => {
+            state[key] = parseFloat(e.target.value);
+            render();
+        });
+    });
+
+    // Shape Buttons
+    dom.shapeBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            dom.shapeBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            state.shape = btn.dataset.shape;
+            render();
+        });
+    });
+
+    // Copy Button
+    dom.copyBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText(dom.code.textContent).then(() => {
+            const originalText = dom.copyBtn.textContent;
+            dom.copyBtn.textContent = 'Copied!';
+            setTimeout(() => { dom.copyBtn.textContent = originalText; }, 1500);
+        });
+    });
+
+    // Theme Management
+    function applyTheme(theme) {
+        document.body.classList.toggle('dark-mode', theme === 'dark');
+        dom.themeToggle.checked = theme === 'dark';
+        
+        // Intelligent default color swap for Neumorphism
+        if (theme === 'dark' && state.color === '#e0e0e0') {
+            state.color = '#2d2d2d';
+            dom.color.value = '#2d2d2d';
+        } else if (theme === 'light' && state.color === '#2d2d2d') {
+            state.color = '#e0e0e0';
+            dom.color.value = '#e0e0e0';
+        }
+        render();
+    }
+    dom.themeToggle.addEventListener('change', () => {
+        const newTheme = dom.themeToggle.checked ? 'dark' : 'light';
+        localStorage.setItem('theme', newTheme);
+        applyTheme(newTheme);
+    });
+
+    // Init
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    // Set initial theme but allow the render logic to handle the color swap
+    applyTheme(savedTheme || (prefersDark ? 'dark' : 'light'));
+    
+    </script>
+</body>
+</html>

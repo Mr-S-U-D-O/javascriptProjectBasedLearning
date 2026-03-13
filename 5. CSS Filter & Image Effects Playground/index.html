@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Filter & Effects Playground</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="page-header">
+        <h1>CSS Filter & Effects Playground</h1>
+        <div class="header-controls">
+            <div class="theme-switcher">
+                <input type="checkbox" id="theme-toggle" class="sr-only">
+                <label for="theme-toggle" class="toggle-label">
+                    <span class="toggle-track"></span>
+                    <span class="toggle-thumb"></span>
+                </label>
+            </div>
+        </div>
+    </header>
+
+    <main class="filter-generator">
+        <!-- Controls Panel -->
+        <section class="controls-panel">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Color Adjustments</h2>
+                    <button id="reset-btn" class="button-small">Reset All</button>
+                </div>
+                
+                <div class="control-group">
+                    <label for="brightness">Brightness <span id="brightness-val">100%</span></label>
+                    <input type="range" id="brightness" min="0" max="200" value="100">
+                </div>
+
+                <div class="control-group">
+                    <label for="contrast">Contrast <span id="contrast-val">100%</span></label>
+                    <input type="range" id="contrast" min="0" max="200" value="100">
+                </div>
+
+                <div class="control-group">
+                    <label for="saturate">Saturation <span id="saturate-val">100%</span></label>
+                    <input type="range" id="saturate" min="0" max="200" value="100">
+                </div>
+                
+                <div class="card-header separator">
+                    <h2>Effects & Filters</h2>
+                </div>
+
+                <div class="control-group">
+                    <label for="blur">Blur <span id="blur-val">0px</span></label>
+                    <input type="range" id="blur" min="0" max="20" value="0" step="1">
+                </div>
+
+                <div class="control-group">
+                    <label for="grayscale">Grayscale <span id="grayscale-val">0%</span></label>
+                    <input type="range" id="grayscale" min="0" max="100" value="0">
+                </div>
+
+                <div class="control-group">
+                    <label for="sepia">Sepia <span id="sepia-val">0%</span></label>
+                    <input type="range" id="sepia" min="0" max="100" value="0">
+                </div>
+
+                <div class="control-group">
+                    <label for="hue-rotate">Hue Rotate <span id="hue-rotate-val">0deg</span></label>
+                    <input type="range" id="hue-rotate" min="0" max="360" value="0">
+                </div>
+                
+                <div class="control-group">
+                    <label for="invert">Invert <span id="invert-val">0%</span></label>
+                    <input type="range" id="invert" min="0" max="100" value="0">
+                </div>
+            </div>
+        </section>
+        
+        <!-- Visual Panel -->
+        <section class="visual-panel">
+            <div class="card preview-container">
+                <!-- Image Wrapper -->
+                <div class="image-wrapper">
+                    <img id="preview-image" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Landscape">
+                </div>
+                
+                <!-- Upload Button Overlay -->
+                <div class="upload-controls">
+                    <input type="file" id="image-upload" accept="image/*" class="sr-only">
+                    <label for="image-upload" class="button-secondary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                        Upload Your Image
+                    </label>
+                </div>
+            </div>
+
+            <div class="card code-output-card">
+                <pre><code id="code-output">filter: none;</code></pre>
+                <button id="copy-button" class="button-primary button-full-width">Copy CSS</button>
+            </div>
+        </section>
+    </main>
+
+    <footer class="page-footer">
+        <p>Coded by S.U.D.O.</p>
+        <div class="social-links">
+            <a href="https://github.com" target="_blank" aria-label="GitHub"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+            <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+        </div>
+    </footer>
+    
+    <style>.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0;}</style>
+
+    <script>
+    // --- I. STATE & DEFAULTS ---
+    // The default values are crucial here so we can reset properly.
+    const defaults = {
+        brightness: 100,
+        contrast: 100,
+        saturate: 100,
+        blur: 0,
+        grayscale: 0,
+        sepia: 0,
+        'hue-rotate': 0,
+        invert: 0
+    };
+
+    // State object to hold current values
+    let state = { ...defaults };
+
+    // --- II. DOM SELECTION ---
+    const controls = document.querySelector('.controls-panel');
+    const previewImage = document.getElementById('preview-image');
+    const codeOutput = document.getElementById('code-output');
+    const copyButton = document.getElementById('copy-button');
+    const resetButton = document.getElementById('reset-btn');
+    const imageUpload = document.getElementById('image-upload');
+    const themeToggle = document.getElementById('theme-toggle');
+
+    // --- III. CORE FUNCTIONS ---
+
+    function render() {
+        // Construct the filter string only for values that differ from defaults to keep CSS clean.
+        // However, typically in these tools, explicit is better than implicit.
+        const filters = [
+            `brightness(${state.brightness}%)`,
+            `contrast(${state.contrast}%)`,
+            `saturate(${state.saturate}%)`,
+            `blur(${state.blur}px)`,
+            `grayscale(${state.grayscale}%)`,
+            `sepia(${state.sepia}%)`,
+            `hue-rotate(${state['hue-rotate']}deg)`,
+            `invert(${state.invert}%)`
+        ];
+
+        // Filter out default values to keep the CSS cleaner (Optional, but good for UX)
+        // For this specific logic, I'll join them all so the user sees exactly what's happening.
+        const filterString = filters.join(' ');
+        
+        previewImage.style.filter = filterString;
+        codeOutput.textContent = `filter: ${filterString};`;
+        
+        // Update Labels
+        for (const [key, value] of Object.entries(state)) {
+            const label = document.getElementById(`${key}-val`);
+            const unit = key === 'blur' ? 'px' : key === 'hue-rotate' ? 'deg' : '%';
+            if (label) label.textContent = `${value}${unit}`;
+        }
+    }
+
+    function reset() {
+        state = { ...defaults };
+        // Reset Inputs
+        for (const [key, value] of Object.entries(state)) {
+            const input = document.getElementById(key);
+            if (input) input.value = value;
+        }
+        render();
+    }
+
+    // --- IV. EVENT LISTENERS ---
+
+    // Input Changes
+    controls.addEventListener('input', (e) => {
+        if (e.target.tagName === 'INPUT' && e.target.type === 'range') {
+            state[e.target.id] = parseInt(e.target.value, 10);
+            render();
+        }
+    });
+
+    // Reset Button
+    resetButton.addEventListener('click', reset);
+
+    // Image Upload
+    imageUpload.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                previewImage.src = event.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Copy Code
+    copyButton.addEventListener('click', () => {
+        navigator.clipboard.writeText(codeOutput.textContent).then(() => {
+            const originalText = copyButton.textContent;
+            copyButton.textContent = 'Copied!';
+            setTimeout(() => { copyButton.textContent = originalText; }, 1500);
+        });
+    });
+
+    // --- V. THEME MANAGEMENT ---
+    function applyTheme(theme) {
+        document.body.classList.toggle('dark-mode', theme === 'dark');
+        themeToggle.checked = theme === 'dark';
+    }
+    
+    themeToggle.addEventListener('change', () => {
+        const newTheme = themeToggle.checked ? 'dark' : 'light';
+        localStorage.setItem('theme', newTheme);
+        applyTheme(newTheme);
+    });
+
+    // Initial Load
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    applyTheme(savedTheme || (prefersDark ? 'dark' : 'light'));
+    
+    // Initial Render
+    render();
+
+    </script>
+</body>
+</html>
