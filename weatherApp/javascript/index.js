@@ -3,7 +3,7 @@ const weatherApiUrl =
   "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
 
   const searchBox = document.querySelector(".searchBarContainer input");
-  const searchBtn = document.querySelector(".searchBarContainer btn");
+  const searchBtn = document.querySelector(".searchBarContainer button");
 
  
 
