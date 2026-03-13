@@ -4,15 +4,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     const guideDashboard = document.getElementById('guide-dashboard');
     const historyDashboard = document.getElementById('history-dashboard');
     const contributeDashboard = document.getElementById('contribute-dashboard');
+    const contributorsDashboard = document.getElementById('contributors-dashboard');
+    const helpDropdown = document.getElementById('help-dropdown');
     
     const closeStatsBtn = document.getElementById('close-stats');
     const closeGuideBtn = document.getElementById('close-guide');
     const closeHistoryBtn = document.getElementById('close-history');
     const closeContributeBtn = document.getElementById('close-contribute');
+    const closeContributorsBtn = document.getElementById('close-contributors');
     const submitProjectBtn = document.getElementById('submit-project');
     
     const ideFileList = document.getElementById('ide-file-list');
     const ideEditor = document.getElementById('ide-editor');
+    const ideHighlight = document.getElementById('ide-highlight');
     const currentFileLabel = document.getElementById('current-file-label');
     const ideIframe = document.getElementById('ide-iframe');
     const refreshPreviewBtn = document.getElementById('refresh-preview');
@@ -21,6 +25,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const totalCategoriesEl = document.getElementById('total-categories');
     const searchInput = document.getElementById('search-input');
     const themeBtns = document.querySelectorAll('.theme-btn');
+
 
     // --- Audio System ---
     const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -212,6 +217,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             guideDashboard.style.display = 'none';
             historyDashboard.style.display = 'none';
             contributeDashboard.style.display = 'none';
+            if (contributorsDashboard) contributorsDashboard.style.display = 'none';
+            if (helpDropdown) helpDropdown.style.display = 'none';
             mainContainer.style.display = 'block';
         };
 
@@ -232,6 +239,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         closeGuideBtn.addEventListener('click', resetUI);
         closeHistoryBtn.addEventListener('click', resetUI);
         closeContributeBtn.addEventListener('click', resetUI);
+        if (closeContributorsBtn) closeContributorsBtn.addEventListener('click', resetUI);
+
+        // --- Help dropdown interactivity ---
+        if (helpDropdown) {
+            helpDropdown.querySelectorAll('.help-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const cmd = item.getAttribute('data-cmd');
+                    searchInput.value = cmd;
+                    searchInput.dispatchEvent(new Event('input'));
+                });
+            });
+        }
 
         // --- IDE Logic ---
         const ideFiles = {
@@ -266,7 +285,59 @@ document.addEventListener('DOMContentLoaded', async () => {
         };
 
         if (ideFileList && ideEditor) {
+            // --- Syntax Highlighter ---
+            const esc = (s) => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+            
+            const highlightJS = (code) => {
+                const keywords = /\b(const|let|var|function|return|if|else|for|while|do|switch|case|break|continue|new|class|import|export|default|this|typeof|instanceof|null|undefined|true|false|async|await|of|in|try|catch|finally|throw|delete|void)\b/g;
+                return esc(code)
+                    .replace(/(&lt;\/?[\w-]+)(\s|\/|&gt;)/g, '<span class="tok-tag">$1</span>$2')
+                    .replace(/(\s|^)([\w-]+)(=)/g, '$1<span class="tok-attr">$2</span>$3')
+                    .replace(/(".*?"|'.*?'|`[\s\S]*?`)/g, '<span class="tok-string">$1</span>')
+                    .replace(keywords, '<span class="tok-keyword">$&</span>')
+                    .replace(/\b(\d+\.?\d*)\b/g, '<span class="tok-number">$1</span>')
+                    .replace(/(^\/\/.*$)/gm, '<span class="tok-comment">$1</span>')
+                    .replace(/\/\*[\s\S]*?\*\//g, '<span class="tok-comment">$&</span>');
+            };
+
+            const highlightCSS = (code) => {
+                return esc(code)
+                    .replace(/(@[\w-]+)/g, '<span class="tok-at-rule">$1</span>')
+                    .replace(/([\w-]+)\s*:/g, '<span class="tok-prop">$1</span>:')
+                    .replace(/(".*?"|'.*?')/g, '<span class="tok-string">$1</span>')
+                    .replace(/\b(\d+\.?\d*)(px|em|rem|vh|vw|%|s|ms)?\b/g, '<span class="tok-number">$1$2</span>')
+                    .replace(/([.#][\w-]+)\s*\{/g, '<span class="tok-selector">$1</span> {')
+                    .replace(/(^\/\*.*?\*\/)/gm, '<span class="tok-comment">$1</span>');
+            };
+
+            const highlightHTML = (code) => {
+                return esc(code)
+                    .replace(/(&lt;\/?)([\w-]+)/g, '$1<span class="tok-tag">$2</span>')
+                    .replace(/([\w-]+)=/g, '<span class="tok-attr">$1</span>=')
+                    .replace(/("[^"]*")/g, '<span class="tok-value">$1</span>')
+                    .replace(/(&lt;!--[\s\S]*?--&gt;)/g, '<span class="tok-comment">$1</span>');
+            };
+
+            const syntaxHighlight = (code, lang) => {
+                if (lang === 'js') return highlightJS(code);
+                if (lang === 'css') return highlightCSS(code);
+                return highlightHTML(code);
+            };
+
+            const refreshHighlight = () => {
+                if (!ideHighlight) return;
+                ideHighlight.innerHTML = syntaxHighlight(ideEditor.value, currentIdeFile) + '\n';
+            };
+
             ideEditor.value = ideFiles[currentIdeFile];
+            refreshHighlight();
+            
+            // Sync scroll between textarea and highlight layer
+            const wrapper = ideEditor.parentElement;
+            ideEditor.addEventListener('scroll', () => {
+                ideHighlight.scrollTop = ideEditor.scrollTop;
+                ideHighlight.scrollLeft = ideEditor.scrollLeft;
+            });
             
             ideFileList.addEventListener('click', (e) => {
                 const li = e.target.closest('li');
@@ -279,10 +350,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                 
                 ideEditor.value = ideFiles[currentIdeFile];
                 currentFileLabel.textContent = li.textContent;
+                refreshHighlight();
             });
 
             ideEditor.addEventListener('input', () => {
                 ideFiles[currentIdeFile] = ideEditor.value;
+                refreshHighlight();
                 clearTimeout(ideEditor.reloadTimer);
                 ideEditor.reloadTimer = setTimeout(updateIframe, 500);
             });
@@ -398,6 +471,35 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         };
 
+        let contributorsLoaded = false;
+        const loadContributors = async () => {
+            if (contributorsLoaded) return;
+            const listEl = document.getElementById('contributors-list');
+            if (!listEl) return;
+            try {
+                const res = await fetch('https://api.github.com/repos/Mr-S-U-D-O/javascriptProjectBasedLearning/contributors');
+                const contributors = await res.json();
+                listEl.innerHTML = '';
+                contributors.forEach(c => {
+                    const li = document.createElement('li');
+                    li.className = 'contributor-card';
+                    li.innerHTML = `
+                        <a href="${c.html_url}" target="_blank" style="display:flex;align-items:center;gap:0.75rem;text-decoration:none;">
+                            <img class="contributor-avatar" src="${c.avatar_url}" alt="${c.login}">
+                            <div class="contributor-info">
+                                <span class="contributor-name">${c.login}</span>
+                                <span class="contributor-commits">${c.contributions} commits</span>
+                            </div>
+                        </a>
+                    `;
+                    listEl.appendChild(li);
+                });
+                contributorsLoaded = true;
+            } catch (e) {
+                listEl.innerHTML = '<div class="loading">ERROR: FAILED TO FETCH CONTRIBUTORS</div>';
+            }
+        };
+
         // Live Search Filtering
         if (searchInput) {
             searchInput.focus(); // Auto focus terminal
@@ -405,11 +507,22 @@ document.addEventListener('DOMContentLoaded', async () => {
                 playSound('type');
                 const term = e.target.value.toLowerCase().trim();
                 
-                // Dashboards logic
-                if (['stats', 'guide', 'history', 'contribute'].includes(term)) {
+                // Dashboard commands
+                const COMMANDS = ['stats', 'guide', 'history', 'contribute', 'contributors', 'help', 'clear'];
+
+                // Help dropdown toggle
+                if (helpDropdown) {
+                    helpDropdown.style.display = (term === 'help') ? 'block' : 'none';
+                }
+
+                if (COMMANDS.includes(term)) {
                     hideAllDashboards();
+                    if (term === 'help') return; // help just shows the dropdown above, not a full-page dashboard
                     mainContainer.style.display = 'none';
-                    if (term === 'stats') {
+                    if (term === 'clear') {
+                        resetUI();
+                        return;
+                    } else if (term === 'stats') {
                         statsDashboard.style.display = 'flex';
                         statsDashboard.style.flexDirection = 'column';
                         renderStats(data);
@@ -425,6 +538,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                         contributeDashboard.style.display = 'flex';
                         contributeDashboard.style.flexDirection = 'column';
                         updateIframe();
+                    } else if (term === 'contributors') {
+                        if (contributorsDashboard) {
+                            contributorsDashboard.style.display = 'flex';
+                            contributorsDashboard.style.flexDirection = 'column';
+                            loadContributors();
+                        }
                     }
                     return;
                 } else {

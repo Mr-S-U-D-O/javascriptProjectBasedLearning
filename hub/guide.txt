@@ -9,9 +9,13 @@ DESCRIPTION
        with the interface.
 
 COMMANDS
-       stats    - View system analytics and language metrics.
-       history  - Pull live Git Commit logs from the origin API.
-       guide    - Display this manual page.
+       help         - Show all available terminal commands.
+       stats        - View system analytics and language metrics.
+       history      - Pull live Git Commit logs from the origin API.
+       guide        - Display this manual page.
+       contribute   - Launch the in-app IDE. Write a project and submit a PR.
+       contributors - View the GitHub contributor wall for this repo.
+       clear        - Reset the terminal and return to the project listing.
 
 CSS TRICKS LEARNED
        - Glassmorphism: Use backdrop-filter: blur(10px) combined with

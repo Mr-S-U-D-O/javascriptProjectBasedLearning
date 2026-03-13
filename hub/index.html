@@ -19,9 +19,18 @@
         </header>
 
         <div class="search-container">
-            <span class="prompt">S.U.D.O></span>
-            <input type="text" id="search-input" placeholder="[ Search projects... ]" autocomplete="off" spellcheck="false">
+            <span class="prompt">S.U.D.O&gt;</span>
+            <input type="text" id="search-input" placeholder="[ Search projects or type 'help' for commands... ]" autocomplete="off" spellcheck="false">
             <span class="cursor"></span>
+        </div>
+
+        <div id="help-dropdown" class="help-dropdown" style="display:none;">
+            <div class="help-item" data-cmd="stats"><span class="help-cmd">stats</span><span class="help-desc">View language analytics &amp; project metrics</span></div>
+            <div class="help-item" data-cmd="history"><span class="help-cmd">history</span><span class="help-desc">Live commit log from GitHub API</span></div>
+            <div class="help-item" data-cmd="guide"><span class="help-cmd">guide</span><span class="help-desc">Open the S.U.D.O manual page</span></div>
+            <div class="help-item" data-cmd="contribute"><span class="help-cmd">contribute</span><span class="help-desc">Launch in-app IDE to submit a project</span></div>
+            <div class="help-item" data-cmd="contributors"><span class="help-cmd">contributors</span><span class="help-desc">See everyone who has contributed to this repo</span></div>
+            <div class="help-item" data-cmd="clear"><span class="help-cmd">clear</span><span class="help-desc">Reset the terminal and show all projects</span></div>
         </div>
 
         <main id="hub-main">
@@ -84,6 +93,16 @@ LOADING...
             </ul>
         </div>
 
+        <div id="contributors-dashboard" style="display: none;" class="terminal-dashboard">
+            <div class="stats-header">
+                <h2>[ CONTRIBUTORS ]</h2>
+                <button id="close-contributors" class="theme-btn">EXIT_CONTRIBUTORS</button>
+            </div>
+            <ul id="contributors-list" class="contributors-list">
+                <div class="loading">FETCHING CONTRIBUTOR DATA...</div>
+            </ul>
+        </div>
+
         <!-- THE CONTRIBUTE IDE -->
         <div id="contribute-dashboard" style="display: none;" class="terminal-dashboard">
             <div class="stats-header">
@@ -108,7 +127,10 @@ LOADING...
                     <div class="ide-tabs">
                         <span class="ide-tab-active" id="current-file-label">index.html</span>
                     </div>
-                    <textarea id="ide-editor" class="ide-textarea" spellcheck="false" autocomplete="off"></textarea>
+                    <div class="code-mirror-wrapper">
+                        <pre id="ide-highlight" class="ide-highlight" aria-hidden="true"></pre>
+                        <textarea id="ide-editor" class="ide-textarea" spellcheck="false" autocomplete="off"></textarea>
+                    </div>
                 </div>
 
                 <div class="ide-preview-pane">
