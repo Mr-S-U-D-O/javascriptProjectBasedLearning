@@ -1,6 +1,7 @@
 const weatherApiKey = "c9074cdc56348f646c36b7e1fa6e361b";
 const weatherApiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
 const forecastApiUrl = "https://api.openweathermap.org/data/2.5/forecast?units=metric&q=";
+const airPollutionUrl = "https://api.openweathermap.org/data/2.5/air_pollution?";
 
 const searchBox = document.querySelector(".searchBarContainer input");
 const searchBtn = document.querySelector(".searchBarContainer button");
