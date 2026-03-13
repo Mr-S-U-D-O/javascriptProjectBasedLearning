@@ -14,6 +14,7 @@ body {
 .cardContainer {
   width: 90%;
   max-width: 470px;
+  /*change this to change the background color */
   background: linear-gradient(
     135deg,
     rgba(9, 162, 222, 0.95) 19%,
@@ -27,11 +28,22 @@ body {
   text-align: center;
 }
 
-.searchBarContainer{
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.searchBarContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-
+.searchBarContainer input {
+  border: 0;
+  outline: 0;
+  background: #ebfffe;
+  color: #555;
+  padding: 10px 25px;
+  height: 60px;
+  border-radius: 30px;
+  flex: 1;
+  margin-right: 16px;
+  font-size: 18px;
+}
