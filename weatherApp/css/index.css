@@ -30,7 +30,6 @@ body {
   border-radius: 20px;
   padding: 40px 35px;
   text-align: center;
-
 }
 
 /**
@@ -85,7 +84,55 @@ body {
  */
 
 /**
- * ===============================
- * Start: 
- * ===============================
+ * ==========================================
+ * Start: image icon, name and extra details
+ * ==========================================
+ */
+
+.weatherImageIcon {
+  width: 170ox;
+  margin-top: 30px;
+}
+
+.weatherDetailsContainer .tempTemperatureDisplay {
+  font-size: 80px;
+  font-weight: 500;
+}
+
+.weatherDetailsContainer .cityNameDisplay {
+  font-size: 45px;
+  font-weight: 400;
+  margin-top: -10px;
+}
+
+.temperatureExtraDetails {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  margin-top: 50px;
+}
+
+
+.extraDetailsCol{
+    display: flex;
+    align-items: center;
+    text-align: left;
+}
+
+.extraDetailsCol img {
+    width: 40px;
+    margin-right: 10px;
+
+}
+
+.humidity .wind {
+    font-size: 28px;
+    margin-top: -6px;
+}
+
+/**
+ * ==========================================
+ * Start: image icon, name and extra details
+ * ==========================================
  */
