@@ -98,6 +98,34 @@ LOADING...
                 <h2>[ CONTRIBUTORS LEADERBOARD ]</h2>
                 <button id="close-contributors" class="theme-btn">EXIT_CONTRIBUTORS</button>
             </div>
+
+            <!-- Summary Stats -->
+            <div class="contrib-summary" id="contrib-summary">
+                <div class="contrib-stat-card">
+                    <span class="contrib-stat-label">CONTRIBUTORS</span>
+                    <span class="contrib-stat-value" id="cs-total">--</span>
+                </div>
+                <div class="contrib-stat-card">
+                    <span class="contrib-stat-label">TOTAL COMMITS</span>
+                    <span class="contrib-stat-value" id="cs-commits">--</span>
+                </div>
+                <div class="contrib-stat-card">
+                    <span class="contrib-stat-label">TODAY&#39;S COMMITS</span>
+                    <span class="contrib-stat-value" id="cs-today">--</span>
+                </div>
+                <div class="contrib-stat-card">
+                    <span class="contrib-stat-label">MVP</span>
+                    <span class="contrib-stat-value" id="cs-mvp">--</span>
+                </div>
+            </div>
+
+            <!-- Tab Switcher -->
+            <div class="contrib-tabs" id="contrib-tabs">
+                <button class="contrib-tab active" data-view="all-time">🏆 ALL-TIME</button>
+                <button class="contrib-tab" data-view="this-week">📅 THIS WEEK</button>
+                <button class="contrib-tab" data-view="today">🔥 TODAY</button>
+            </div>
+
             <div id="contributors-content" class="contributors-content">
                 <div class="loading">FETCHING GITHUB API DATA...</div>
             </div>
@@ -191,7 +219,7 @@ LOADING...
 
         <footer class="hub-footer">
             <div class="readme-link">
-                <a href="../README.md">VIEW_README.md</a>
+                <a href="readme.html">VIEW_README.md</a>
             </div>
             <div class="theme-controls">
                 <button class="theme-btn active" data-theme="modern">MODERN</button>
@@ -216,6 +244,86 @@ LOADING...
             <div class="modal-footer">
                 <button id="modal-cancel" class="theme-btn">CANCEL</button>
                 <button id="modal-confirm" class="theme-btn modal-confirm-btn">[ PACKAGE &amp; SUBMIT_PR ]</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- IDE Prompt Modal (replaces browser prompt for New File / Rename / New Folder) -->
+    <div id="ide-prompt-modal" class="modal-overlay" style="display:none;">
+        <div class="modal-box">
+            <div class="modal-header" id="ide-prompt-title">[ NEW FILE ]</div>
+            <div class="modal-body">
+                <label class="modal-label" id="ide-prompt-label" for="ide-prompt-input">FILE NAME</label>
+                <div class="modal-input-row">
+                    <span class="modal-prompt">&gt;</span>
+                    <input type="text" id="ide-prompt-input" class="modal-input" placeholder="e.g. about.html" spellcheck="false" autocomplete="off">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="ide-prompt-cancel" class="theme-btn">CANCEL</button>
+                <button id="ide-prompt-ok" class="theme-btn modal-confirm-btn">[ OK ]</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- IDE Template Picker Overlay -->
+    <div id="template-picker" class="modal-overlay" style="display:none;">
+        <div class="template-picker-box">
+            <div class="modal-header">[ CHOOSE A STARTER TEMPLATE ]</div>
+            <div class="template-grid" id="template-grid">
+                <div class="template-card" data-template="blank">
+                    <div class="template-icon">📝</div>
+                    <div class="template-name">Blank Project</div>
+                    <div class="template-desc">Start from scratch</div>
+                </div>
+                <div class="template-card" data-template="calculator">
+                    <div class="template-icon">🧮</div>
+                    <div class="template-name">Calculator</div>
+                    <div class="template-desc">Interactive calculator UI</div>
+                </div>
+                <div class="template-card" data-template="todo">
+                    <div class="template-icon">✅</div>
+                    <div class="template-name">Todo App</div>
+                    <div class="template-desc">Task manager with localStorage</div>
+                </div>
+                <div class="template-card" data-template="portfolio">
+                    <div class="template-icon">💼</div>
+                    <div class="template-name">Portfolio</div>
+                    <div class="template-desc">Personal portfolio page</div>
+                </div>
+                <div class="template-card" data-template="game">
+                    <div class="template-icon">🎮</div>
+                    <div class="template-name">Mini Game</div>
+                    <div class="template-desc">Canvas-based click game</div>
+                </div>
+                <div class="template-card" data-template="dashboard">
+                    <div class="template-icon">📊</div>
+                    <div class="template-name">Dashboard</div>
+                    <div class="template-desc">Stats dashboard layout</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="template-skip" class="theme-btn">SKIP (USE DEFAULT)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PR Checklist Modal -->
+    <div id="checklist-modal" class="modal-overlay" style="display:none;">
+        <div class="modal-box checklist-box">
+            <div class="modal-header">[ PR QUALITY CHECKLIST ]</div>
+            <div class="modal-body checklist-body">
+                <p class="checklist-intro">Before submitting, make sure your project meets these standards:</p>
+                <label class="checklist-item"><input type="checkbox" class="checklist-check" data-check="html"> index.html has proper structure (&lt;html&gt;, &lt;head&gt;, &lt;body&gt;)</label>
+                <label class="checklist-item"><input type="checkbox" class="checklist-check" data-check="title"> Page has a descriptive &lt;title&gt;</label>
+                <label class="checklist-item"><input type="checkbox" class="checklist-check" data-check="css"> Styles are in a separate CSS file</label>
+                <label class="checklist-item"><input type="checkbox" class="checklist-check" data-check="js"> JavaScript has no console errors</label>
+                <label class="checklist-item"><input type="checkbox" class="checklist-check" data-check="preview"> Live preview looks correct</label>
+                <label class="checklist-item"><input type="checkbox" class="checklist-check" data-check="readme"> README.md is included</label>
+            </div>
+            <div class="modal-footer">
+                <button id="checklist-back" class="theme-btn">← BACK</button>
+                <button id="checklist-proceed" class="theme-btn modal-confirm-btn" disabled>[ ALL GOOD — SUBMIT ]</button>
             </div>
         </div>
     </div>

@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S.U.D.O | README</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            /* MODERN (Default) */
+            --bg: #1e1e1e;
+            --fg: #cccccc;
+            --accent: #4fc1ff;
+            --border-color: #333333;
+            --surface: #252526;
+            --text-dim: #888888;
+            --text-bright: #ffffff;
+            --tag-bg: rgba(79, 193, 255, 0.1);
+            --tag-border: rgba(79, 193, 255, 0.3);
+            --glow: 0 0 20px rgba(79, 193, 255, 0.15);
+            --font-mono: 'Space Mono', monospace;
+            --font-sans: 'Inter', -apple-system, sans-serif;
+        }
+
+        body.theme-matrix {
+            --bg: #0a0a0a;
+            --fg: #e0e0e0;
+            --accent: #00ff41;
+            --border-color: #333;
+            --surface: #0d1117;
+            --text-dim: #8b949e;
+            --tag-bg: rgba(0, 255, 65, 0.1);
+            --tag-border: rgba(0, 255, 65, 0.3);
+            --glow: 0 0 20px rgba(0, 255, 65, 0.15);
+        }
+
+        body.theme-paper {
+            --bg: #fdf6e3;
+            --fg: #657b83;
+            --accent: #2aa198;
+            --border-color: #e1e4e8;
+            --surface: #eee8d5;
+            --text-dim: #93a1a1;
+            --text-bright: #073642;
+            --tag-bg: rgba(42, 161, 152, 0.1);
+            --tag-border: rgba(42, 161, 152, 0.3);
+            --glow: none;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--bg);
+            color: var(--fg);
+            font-family: var(--font-sans);
+            line-height: 1.7;
+            min-height: 100vh;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* Animated grid background for Matrix/Modern */
+        body:not(.theme-paper)::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            opacity: 0.5;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Top nav bar */
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            backdrop-filter: blur(12px);
+        }
+        .topbar-brand {
+            font-family: var(--font-mono);
+            color: var(--accent);
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+        .topbar-links { display: flex; gap: 8px; }
+        .topbar-links a {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--fg);
+            opacity: 0.7;
+            text-decoration: none;
+            padding: 6px 14px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s;
+        }
+        .topbar-links a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+            background: var(--tag-bg);
+            opacity: 1;
+        }
+
+        /* Main wrapper */
+        .readme-wrapper {
+            position: relative;
+            z-index: 1;
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 40px 0 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 48px;
+        }
+        .hero-emoji { font-size: 48px; margin-bottom: 16px; display: block; }
+        .hero h1 {
+            font-family: var(--font-mono);
+            font-size: clamp(24px, 4vw, 38px);
+            color: var(--text-bright);
+            letter-spacing: -0.5px;
+            margin-bottom: 24px;
+        }
+        .hero h1 .accent { color: var(--accent); }
+        
+        /* Warning Box */
+        .warning-box {
+            background: rgba(255, 0, 0, 0.05);
+            border: 2px solid #ff4444;
+            padding: 24px;
+            margin: 20px 0 40px;
+            border-radius: 4px;
+            text-align: left;
+        }
+        .warning-box h2 {
+            color: #ff4444;
+            font-family: var(--font-mono);
+            font-size: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .warning-box p {
+            font-size: 14px;
+            color: var(--fg);
+            line-height: 1.6;
+        }
+        .warning-box strong { color: #ff4444; }
+
+        /* Badge row */
+        .badges {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 32px;
+        }
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            padding: 5px 12px;
+            border: 1px solid var(--border-color);
+            background: var(--surface);
+            color: var(--fg);
+            letter-spacing: 0.5px;
+        }
+        .badge .val {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        /* Description block */
+        .intro-block {
+            background: var(--surface);
+            border-left: 3px solid var(--accent);
+            padding: 20px 24px;
+            margin-bottom: 48px;
+            font-size: 15px;
+            color: var(--fg);
+            opacity: 0.9;
+        }
+        .intro-block strong { color: var(--accent); }
+
+        /* Section titles */
+        .section-title {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            letter-spacing: 3px;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-title::before {
+            content: '//';
+            opacity: 0.5;
+        }
+
+        /* Feature grid */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-bottom: 48px;
+        }
+        .feature-card {
+            background: var(--surface);
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            transition: all 0.3s;
+        }
+        .feature-card:hover {
+            border-color: var(--accent);
+            box-shadow: var(--glow);
+            transform: translateY(-2px);
+        }
+        .feature-card .icon {
+            font-size: 22px;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .feature-card h3 {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--accent);
+            margin-bottom: 6px;
+            letter-spacing: 1px;
+        }
+        .feature-card p {
+            font-size: 13px;
+            color: var(--fg);
+            opacity: 0.7;
+            line-height: 1.6;
+        }
+
+        /* How it works flow */
+        .flow-section { margin-bottom: 48px; }
+        .flow-steps {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 24px 0;
+        }
+        .flow-step {
+            background: var(--surface);
+            border: 1px solid var(--border-color);
+            padding: 16px 20px;
+            text-align: center;
+            min-width: 180px;
+            transition: all 0.3s;
+        }
+        .flow-step .step-num {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--accent);
+            display: block;
+            margin-bottom: 4px;
+        }
+        .flow-step .step-text {
+            font-size: 13px;
+            color: var(--fg);
+        }
+        .flow-arrow {
+            font-size: 20px;
+            color: var(--accent);
+            opacity: 0.5;
+            padding: 0 8px;
+            font-family: var(--font-mono);
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 48px;
+        }
+        th {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--accent);
+            letter-spacing: 2px;
+            text-align: left;
+            padding: 10px 14px;
+            border-bottom: 2px solid var(--accent);
+            text-transform: uppercase;
+        }
+        td {
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+        }
+        tr:hover td {
+            background: var(--tag-bg);
+        }
+
+        .project-num { font-family: var(--font-mono); color: var(--accent); font-weight: 700; }
+        .project-name { color: var(--fg); font-weight: 500; }
+        
+        /* Stats grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 48px;
+        }
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border-color);
+            padding: 20px 16px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .stat-card:hover { border-color: var(--accent); box-shadow: var(--glow); }
+        .stat-card .stat-val {
+            font-family: var(--font-mono);
+            font-size: 22px;
+            color: var(--accent);
+            font-weight: 700;
+            display: block;
+        }
+        .stat-card .stat-label {
+            font-size: 11px;
+            color: var(--fg);
+            opacity: 0.6;
+            text-transform: uppercase;
+            margin-top: 4px;
+            display: block;
+        }
+
+        /* Directory tree */
+        .tree-block {
+            background: var(--bg);
+            border: 1px solid var(--border-color);
+            padding: 24px;
+            margin-bottom: 48px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            line-height: 1.9;
+            color: var(--fg);
+            opacity: 0.8;
+            overflow-x: auto;
+            white-space: pre;
+        }
+
+        /* Footer */
+        .readme-footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid var(--border-color);
+            margin-top: 48px;
+        }
+        .readme-footer a { color: var(--accent); text-decoration: none; }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--fg);
+            text-decoration: none;
+            padding: 8px 20px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s;
+        }
+        .back-link:hover { color: var(--accent); border-color: var(--accent); background: var(--tag-bg); }
+
+        .animate { animation: fadeUp 0.5s ease forwards; opacity: 0; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <!-- Top Bar -->
+    <div class="topbar">
+        <span class="topbar-brand">S.U.D.O / README</span>
+        <div class="topbar-links">
+            <a href="index.html">← BACK_TO_HUB</a>
+            <a href="https://github.com/Mr-S-U-D-O/javascriptProjectBasedLearning" target="_blank">GITHUB ↗</a>
+        </div>
+    </div>
+
+    <div class="readme-wrapper">
+
+        <!-- Hero -->
+        <div class="hero animate">
+            <span class="hero-emoji">🧪</span>
+            <h1>Javascript <span class="accent">Project-Based</span> Learning Journey</h1>
+            <div class="badges">
+                <span class="badge">📁 PROJECTS <span class="val">29</span></span>
+                <span class="badge">🛡️ STATUS <span class="val" style="color:#ff4444;">PRIVATE</span></span>
+                <span class="badge">📝 LOC <span class="val">12,912+</span></span>
+                <span class="badge">🚀 <span class="val">IN-APP CONTRIBUTION ONLY</span></span>
+            </div>
+        </div>
+
+        <!-- CRITICAL WARNING -->
+        <div class="warning-box animate">
+            <h2>⚠️ CRITICAL WARNING: DO NOT CLONE</h2>
+            <p>This repository is strictly for <strong>in-app contribution only</strong>. Do NOT clone this repository to your local machine. All development, project creation, and editing must be performed directly through the <strong>[S.U.D.O Project Hub IDE]</strong>.</p>
+            <p style="margin-top:10px;"><em>Local clones will not sync with the automated build system and may cause deployment conflicts.</em></p>
+        </div>
+
+        <!-- Intro -->
+        <div class="intro-block animate">
+            <strong>Welcome to the Frontend Lab.</strong> This is a living collection of experiments in HTML, CSS, and JS. All projects are managed through a custom-built **Project Hub** that handles automation, stats, and provides a built-in IDE for seamless growth.
+        </div>
+
+        <!-- How It Works (Updated) -->
+        <h2 class="section-title animate">The In-App Workflow</h2>
+        <div class="flow-section animate">
+            <div class="flow-steps">
+                <div class="flow-step">
+                    <span class="step-num">STEP 01</span>
+                    <span class="step-text">Open Project Hub<br>Dashboard</span>
+                </div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step">
+                    <span class="step-num">STEP 02</span>
+                    <span class="step-text">Use In-App IDE<br>to code</span>
+                </div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step">
+                    <span class="step-num">STEP 03</span>
+                    <span class="step-text">Submit PR<br>via Browser</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hub Features -->
+        <h2 class="section-title animate">The Hub — Your Command Center</h2>
+        <div class="feature-grid">
+            <div class="feature-card animate">
+                <span class="icon">💻</span>
+                <h3>IN-APP IDE</h3>
+                <p>A full VS Code-like experience with syntax highlighting, file tree, and live preview — all in your browser.</p>
+            </div>
+            <div class="feature-card animate">
+                <span class="icon">📂</span>
+                <h3>AUTO-DETECTION</h3>
+                <p>New projects are detected by the server automatically and assigned categories and code metrics.</p>
+            </div>
+            <div class="feature-card animate">
+                <span class="icon">🎨</span>
+                <h3>DYNAMIC THEMING</h3>
+                <p>Choose between Modern, Matrix, and Paper themes. Your preference is persisted across sessions.</p>
+            </div>
+            <div class="feature-card animate">
+                <span class="icon">📊</span>
+                <h3>REAL-TIME STATS</h3>
+                <p>Live line counts, category breakdowns, and repo-wide metrics updated instantly as you code.</p>
+            </div>
+        </div>
+
+        <!-- Repository Stats -->
+        <h2 class="section-title animate">Repository Stats</h2>
+        <div class="stats-grid animate">
+            <div class="stat-card"><span class="stat-val">29</span><span class="stat-label">Projects</span></div>
+            <div class="stat-card"><span class="stat-val">8</span><span class="stat-label">Categories</span></div>
+            <div class="stat-card"><span class="stat-val">12,912+</span><span class="stat-label">Lines of Code</span></div>
+            <div class="stat-card"><span class="stat-val">100%</span><span class="stat-label">Vanilla JS</span></div>
+        </div>
+
+        <!-- Structure -->
+        <h2 class="section-title animate">System Architecture</h2>
+        <div class="tree-block animate">javascriptProjectBasedLearning/
+│
+├── <span style="color:var(--accent);">hub/</span>                         <span style="opacity:0.5;">// Project Hub (The Main Entry)</span>
+│   ├── index.html                   <span style="opacity:0.5;">// UI Entry</span>
+│   ├── readme.html                  <span style="opacity:0.5;">// 📍 You are here</span>
+│   └── hub.js                       <span style="opacity:0.5;">// Core Engine</span>
+│
+├── <span style="color:var(--accent);">scripts/</span>                     <span style="opacity:0.5;">// Server & Build Automation</span>
+├── <span style="color:var(--accent);">1.Quiz Game/</span>                 <span style="opacity:0.5;">// Projects...</span>
+└── README.md                        <span style="opacity:0.5;">// Global Readme</span></div>
+
+        <!-- Roadmap -->
+        <h2 class="section-title animate">Roadmap</h2>
+        <table class="animate">
+            <thead><tr><th>Phase</th><th>Feature</th><th>Status</th></tr></thead>
+            <tbody>
+                <tr><td>Core</td><td>Automated Project Scanning</td><td>✅ DONE</td></tr>
+                <tr><td>IDE</td><td>VS Code Aesthetic & File Tree</td><td>✅ DONE</td></tr>
+                <tr><td>Persistence</td><td>Cross-Session Theme Sync</td><td>✅ DONE</td></tr>
+                <tr><td>Vision</td><td>Project Preview Screenshots</td><td>⏳ PLANNED</td></tr>
+            </tbody>
+        </table>
+
+        <!-- Footer -->
+        <div class="readme-footer">
+            <p>Made with ❤️ by <a href="https://github.com/Mr-S-U-D-O" target="_blank">@Mr-S-U-D-O</a></p>
+            <a href="index.html" class="back-link">← RETURN_TO_HUB</a>
+        </div>
+
+    </div>
+
+    <script>
+        // --- Theme Engine ---
+        function applyTheme() {
+            const savedTheme = localStorage.getItem('hub-theme') || 'modern';
+            document.body.className = savedTheme === 'modern' ? '' : `theme-${savedTheme}`;
+        }
+        
+        applyTheme();
+        
+        // Listen for internal storage changes (if theme changes in another tab)
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'hub-theme') applyTheme();
+        });
+
+        // Simple Intersection Observer for scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.animate').forEach(el => observer.observe(el));
+    </script>
+
+</body>
+</html>
