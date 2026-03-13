@@ -10,7 +10,11 @@
 body {
   background-color: #222;
 }
-
+/**
+ * ==========================================
+ * Start: full card container related styling
+ * ==========================================
+ */
 .cardContainer {
   width: 90%;
   max-width: 470px;
@@ -26,8 +30,20 @@ body {
   border-radius: 20px;
   padding: 40px 35px;
   text-align: center;
+
 }
 
+/**
+ * ====================================
+ * End: card container specific styling
+ * ====================================
+ */
+
+/**
+ * ====================================
+ * Start: search bar container styling
+ * ====================================
+ */
 .searchBarContainer {
   width: 100%;
   display: flex;
@@ -61,3 +77,15 @@ body {
 .searchBarBtn img {
   width: 16px;
 }
+
+/**
+ * ==================================
+ * End: search bar container styling
+ * ==================================
+ */
+
+/**
+ * ===============================
+ * Start: 
+ * ===============================
+ */
