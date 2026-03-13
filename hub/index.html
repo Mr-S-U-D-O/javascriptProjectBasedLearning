@@ -173,10 +173,12 @@ LOADING...
                         <div class="ide-sidebar-actions">
                             <button class="ide-icon-btn" id="ide-btn-new-file" title="New File">&#xff0b;&#x1f4c4;</button>
                             <button class="ide-icon-btn" id="ide-btn-new-folder" title="New Folder">&#xff0b;&#x1f4c1;</button>
+                            <button class="ide-icon-btn" id="ide-btn-collapse-sidebar" title="Collapse Sidebar">&#10094;</button>
                         </div>
                     </div>
                     <div id="ide-file-tree" class="ide-file-tree"></div>
                 </div>
+                <div class="ide-resizer" id="ide-resizer-left"></div>
 
                 <!-- Editor column -->
                 <div class="ide-center">
@@ -202,10 +204,12 @@ LOADING...
                         <span id="ide-status-pos">Ln 1, Col 1</span>
                     </div>
                 </div>
+                <div class="ide-resizer" id="ide-resizer-right"></div>
 
                 <!-- Live Preview -->
                 <div class="ide-preview-pane">
                     <div class="ide-preview-bar">
+                        <button id="ide-btn-expand-preview" class="ide-icon-btn" title="Expand Preview">&#10095;</button>
                         <span>&#128065; Live Preview</span>
                         <button id="refresh-preview" class="ide-icon-btn" title="Reload">&#8635;</button>
                     </div>

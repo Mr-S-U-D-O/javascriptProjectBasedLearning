@@ -353,10 +353,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         };
 
-        closeStatsBtn.addEventListener('click', resetUI);
-        closeGuideBtn.addEventListener('click', resetUI);
-        closeHistoryBtn.addEventListener('click', resetUI);
-        closeContributeBtn.addEventListener('click', resetUI);
+        if (closeStatsBtn) closeStatsBtn.addEventListener('click', resetUI);
+        if (closeGuideBtn) closeGuideBtn.addEventListener('click', resetUI);
+        if (closeHistoryBtn) closeHistoryBtn.addEventListener('click', resetUI);
+        if (closeContributeBtn) closeContributeBtn.addEventListener('click', resetUI);
         if (closeContributorsBtn) closeContributorsBtn.addEventListener('click', resetUI);
 
         // --- Help dropdown interactivity ---
