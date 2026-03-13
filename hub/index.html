@@ -28,12 +28,23 @@
         </div>
 
         <div id="help-dropdown" class="help-dropdown" style="display:none;">
-            <div class="help-item" data-cmd="stats"><span class="help-cmd">stats</span><span class="help-desc">View language analytics &amp; project metrics</span></div>
+            <div class="help-item" data-cmd="stats"><span class="help-cmd">stats</span><span class="help-desc">View language analytics & project metrics</span></div>
             <div class="help-item" data-cmd="history"><span class="help-cmd">history</span><span class="help-desc">Live commit log from GitHub API</span></div>
             <div class="help-item" data-cmd="guide"><span class="help-cmd">guide</span><span class="help-desc">Open the S.U.D.O manual page</span></div>
             <div class="help-item" data-cmd="contribute"><span class="help-cmd">contribute</span><span class="help-desc">Launch in-app IDE to submit a project</span></div>
             <div class="help-item" data-cmd="contributors"><span class="help-cmd">contributors</span><span class="help-desc">See everyone who has contributed to this repo</span></div>
             <div class="help-item" data-cmd="clear"><span class="help-cmd">clear</span><span class="help-desc">Reset the terminal and show all projects</span></div>
+
+            <div class="help-item" data-cmd="socials"><span class="help-cmd">socials</span><span class="help-desc">Connect with our community [v1.2]</span></div>
+            <div class="help-item" data-cmd="blog"><span class="help-cmd">blog</span><span class="help-desc">Read latest articles [v1.2]</span></div>
+            <div class="help-item" data-cmd="feedback"><span class="help-cmd">feedback</span><span class="help-desc">Submit suggestions [v1.2]</span></div>
+            <div class="help-item" data-cmd="settings"><span class="help-cmd">settings</span><span class="help-desc">Customize experience [v1.2]</span></div>
+            <div class="help-item" data-cmd="arcade"><span class="help-cmd">arcade</span><span class="help-desc">Play mini-games [v1.2]</span></div>
+            <div class="help-item" data-cmd="themes"><span class="help-cmd">themes</span><span class="help-desc">Browse custom themes [v1.2]</span></div>
+            <div class="help-item" data-cmd="resources"><span class="help-cmd">resources</span><span class="help-desc">Learning materials [v1.2]</span></div>
+            <div class="help-item" data-cmd="license"><span class="help-cmd">license</span><span class="help-desc">Legal information [v1.2]</span></div>
+            <div class="help-item" data-cmd="support"><span class="help-cmd">support</span><span class="help-desc">Project donations [v1.2]</span></div>
+            <div class="help-item" data-cmd="changelog"><span class="help-cmd">changelog</span><span class="help-desc">Version updates [v1.2]</span></div>
         </div>
 
         <main id="hub-main">
@@ -100,6 +111,12 @@ LOADING...
             <div class="stats-header">
                 <h2>[ CONTRIBUTORS LEADERBOARD ]</h2>
                 <button id="close-contributors" class="theme-btn">EXIT_CONTRIBUTORS</button>
+            </div>
+
+            <div class="contrib-status-bar">
+                <div id="contrib-sync-status" class="contrib-sync-status">
+                    <span class="status-dot"></span> LIVE SYNC: --:--
+                </div>
             </div>
 
             <!-- Summary Stats -->

@@ -17,6 +17,25 @@ COMMANDS
        contributors - View the GitHub contributor wall for this repo.
        clear        - Reset the terminal and return to the project listing.
 
+       [ FUTURE ENHANCEMENTS ]
+       socials, blog, feedback, settings, arcade, themes, resources, 
+       license, support, changelog.
+
+HOW TO CONTRIBUTE (STEP-BY-STEP)
+       1. IN-APP IDE: Type 'contribute' in the terminal to launch the 
+          built-in code editor.
+       2. TEMPLATE: Choose a starter template (Calculator, Todo, etc.) 
+          or start from a blank project.
+       3. DEVELOP: Write your HTML, CSS, and JS. Use the 'Live Preview' 
+          pane to see your changes in real-time.
+       4. CHECKLIST: Click 'Submit PR' and complete the quality 
+          checklist (ensure README.md is included!).
+       5. ZIP & UPLOAD: Enter your project title and click 'Package'. 
+          A .zip file will download, and you'll be redirected to 
+          GitHub's upload page.
+       6. PR: Drag your .zip file (or extracted folder) into the 
+          GitHub upload area and create a Pull Request.
+
 CSS TRICKS LEARNED
        - Glassmorphism: Use backdrop-filter: blur(10px) combined with
          a semi-transparent rgba() background.

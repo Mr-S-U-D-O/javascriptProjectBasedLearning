@@ -189,6 +189,11 @@ main#hub-main {
     opacity: 0.7;
     color: #fff;
 }
+.help-sep {
+    height: 1px;
+    background: rgba(255,255,255,0.1);
+    margin: 0.5rem 0.5rem;
+}
 
 .project-item {
     margin-bottom: 0.5rem;
@@ -298,6 +303,42 @@ footer.hub-footer {
     0% { opacity: 0.5; }
     50% { opacity: 1; }
     100% { opacity: 0.5; }
+}
+
+/* --- Contributor Status Bar --- */
+.contrib-status-bar {
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.contrib-sync-status {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(0,0,0,0.2);
+    padding: 0.3rem 0.8rem;
+    border: 1px solid var(--border-color);
+    letter-spacing: 1px;
+}
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 10px var(--accent);
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.5); opacity: 0.5; }
+    100% { transform: scale(1); opacity: 1; }
 }
 
 /* --- Search Filter --- */
@@ -1571,4 +1612,101 @@ footer.hub-footer {
     background: var(--accent);
     color: var(--bg);
     box-shadow: 0 0 15px color-mix(in srgb, var(--accent) 50%, transparent);
+}
+
+/* --- Terminal Error Feedback --- */
+.terminal-error-message {
+    position: absolute;
+    bottom: -1.75rem;
+    left: 1.5rem;
+    font-size: 0.75rem;
+    color: #ff5555;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 2px 8px;
+    border-radius: 2px;
+    z-index: 1002;
+    animation: fadeIn 0.2s ease;
+    display: none;
+    font-weight: 700;
+}
+.err-icon { margin-right: 5px; }
+
+/* --- Future Enhancement Popup --- */
+.future-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease;
+}
+
+.future-popup-box {
+    background: var(--bg);
+    border: 1px solid var(--accent);
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 30px color-mix(in srgb, var(--accent) 20%, transparent);
+    animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.future-popup-header {
+    background: var(--accent);
+    color: var(--bg);
+    padding: 0.75rem 1.5rem;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+.future-popup-body {
+    padding: 2rem;
+}
+
+.future-cmd-title {
+    color: var(--accent);
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid rgba(255,255,255,0.05);
+    padding-bottom: 0.5rem;
+}
+
+.future-desc {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+}
+
+.future-status-tag {
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    opacity: 0.6;
+    font-weight: 700;
+}
+
+.future-popup-footer {
+    padding: 1.5rem 2rem 2rem;
+    text-align: right;
+}
+
+.popup-close-btn {
+    padding: 0.6rem 2rem;
+}
+
+.future-popup-overlay.hide {
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+@keyframes slideIn {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }
