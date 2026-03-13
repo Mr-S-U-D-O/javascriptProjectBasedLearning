@@ -113,5 +113,11 @@ locationBtn.addEventListener("click", () => {
   }
 });
 
+// Live clock
+setInterval(() => {
+  const now = new Date();
+  document.querySelector(".liveClock").innerHTML = now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+}, 1000);
+
 // Default city
 checkWeather("London");
