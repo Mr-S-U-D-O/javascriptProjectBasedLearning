@@ -1,7 +1,13 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const mainContainer = document.getElementById('hub-main');
     const statsDashboard = document.getElementById('stats-dashboard');
+    const guideDashboard = document.getElementById('guide-dashboard');
+    const historyDashboard = document.getElementById('history-dashboard');
+    
     const closeStatsBtn = document.getElementById('close-stats');
+    const closeGuideBtn = document.getElementById('close-guide');
+    const closeHistoryBtn = document.getElementById('close-history');
+    
     const totalProjectsEl = document.getElementById('total-projects');
     const totalCategoriesEl = document.getElementById('total-categories');
     const searchInput = document.getElementById('search-input');
@@ -191,10 +197,16 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         }, 100);
 
-        // Close stats
-        closeStatsBtn.addEventListener('click', () => {
+        // Dashboard Navigation
+        const hideAllDashboards = () => {
             statsDashboard.style.display = 'none';
+            guideDashboard.style.display = 'none';
+            historyDashboard.style.display = 'none';
             mainContainer.style.display = 'block';
+        };
+
+        const resetUI = () => {
+            hideAllDashboards();
             searchInput.value = '';
             searchInput.focus();
             playSound('type');
@@ -204,7 +216,50 @@ document.addEventListener('DOMContentLoaded', async () => {
                 group.style.display = 'flex';
                 group.querySelectorAll('.project-item').forEach(item => item.style.display = 'block');
             });
-        });
+        };
+
+        closeStatsBtn.addEventListener('click', resetUI);
+        closeGuideBtn.addEventListener('click', resetUI);
+        closeHistoryBtn.addEventListener('click', resetUI);
+
+        // Fetchers for Dashboards
+        let guideLoaded = false;
+        const loadGuide = async () => {
+            if (guideLoaded) return;
+            try {
+                const res = await fetch('guide.txt');
+                const text = await res.text();
+                document.getElementById('guide-content').textContent = text;
+                guideLoaded = true;
+            } catch (e) {
+                document.getElementById('guide-content').textContent = "ERROR: Failed to load manual.";
+            }
+        };
+
+        let historyLoaded = false;
+        const loadHistory = async () => {
+            if (historyLoaded) return;
+            const listEl = document.getElementById('history-list');
+            try {
+                const res = await fetch('https://api.github.com/repos/Mr-S-U-D-O/javascriptProjectBasedLearning/commits?per_page=15');
+                const commits = await res.json();
+                listEl.innerHTML = '';
+                commits.forEach(c => {
+                    const li = document.createElement('li');
+                    li.className = 'history-item';
+                    const date = new Date(c.commit.author.date).toLocaleString();
+                    li.innerHTML = `
+                        <a href="${c.html_url}" target="_blank" class="history-sha">${c.sha.substring(0, 7)}</a>
+                        <span class="history-msg">${c.commit.message}</span>
+                        <span class="history-date">${c.commit.author.name} - ${date}</span>
+                    `;
+                    listEl.appendChild(li);
+                });
+                historyLoaded = true;
+            } catch (e) {
+                listEl.innerHTML = '<div class="loading">ERROR: FAILED TO FETCH COMMITS</div>';
+            }
+        };
 
         // Live Search Filtering
         if (searchInput) {
@@ -213,18 +268,26 @@ document.addEventListener('DOMContentLoaded', async () => {
                 playSound('type');
                 const term = e.target.value.toLowerCase().trim();
                 
-                // STATS Command
-                if (term === 'stats') {
+                // Dashboards logic
+                if (term === 'stats' || term === 'guide' || term === 'history') {
+                    hideAllDashboards();
                     mainContainer.style.display = 'none';
-                    statsDashboard.style.display = 'flex';
-                    statsDashboard.style.flexDirection = 'column';
-                    renderStats(data);
+                    if (term === 'stats') {
+                        statsDashboard.style.display = 'flex';
+                        statsDashboard.style.flexDirection = 'column';
+                        renderStats(data);
+                    } else if (term === 'guide') {
+                        guideDashboard.style.display = 'flex';
+                        guideDashboard.style.flexDirection = 'column';
+                        loadGuide();
+                    } else if (term === 'history') {
+                        historyDashboard.style.display = 'flex';
+                        historyDashboard.style.flexDirection = 'column';
+                        loadHistory();
+                    }
                     return;
                 } else {
-                    if (statsDashboard.style.display === 'flex' || statsDashboard.style.display === 'block') {
-                        statsDashboard.style.display = 'none';
-                        mainContainer.style.display = 'block'; // Switch back to masonry/columns
-                    }
+                    hideAllDashboards();
                 }
 
                 const allGroups = document.querySelectorAll('.category-group');
