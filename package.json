@@ -1,0 +1,12 @@
+{
+  "name": "javascript-project-based-learning-hub",
+  "version": "1.0.0",
+  "description": "A sleek, thinline-inspired UI for navigating learning projects.",
+  "scripts": {
+    "start": "node scripts/start-hub.js",
+    "update": "node scripts/update-hub.js",
+    "watch": "node scripts/watch-hub.js"
+  },
+  "author": "",
+  "license": "ISC"
+}

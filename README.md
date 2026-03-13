@@ -26,17 +26,17 @@ I've created a central **[Project Hub](./hub/index.html)** where you can navigat
 ## 🏗️ Technical Details
 
 ### Automation Script
-The hub's data is maintained by `scripts/update-hub.js`.
+The hub's data is maintained by our build scripts.
 
-**To update the hub manually:**
+**THE MASTER COMMAND (Start Here)**
+This runs the local development server, builds the initial Hub data, and starts an automatic folder watcher to immediately detect new projects.
 ```bash
-node scripts/update-hub.js
+npm start
 ```
 
-**To auto-update the hub while working:**
-```bash
-node scripts/watch-hub.js
-```
+**Individual Scripts (Optional):**
+- Update manually: `npm run update`
+- Only watch folders: `npm run watch`
 
 ### Aesthetic Blueprint
 - **Colors**: Neo-Matrix Green on Black.
