@@ -42,8 +42,17 @@ body {
   gap: 15px;
 }
 
+.headerInfo {
+  text-align: right;
+}
+
+.currentDate {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
 .lastUpdated {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   opacity: 0.6;
 }
 
