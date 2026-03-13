@@ -4,23 +4,28 @@ const forecastApiUrl = "https://api.openweathermap.org/data/2.5/forecast?units=m
 const airPollutionUrl = "https://api.openweathermap.org/data/2.5/air_pollution?";
 
 const searchBox = document.querySelector(".searchBarContainer input");
-const searchBtn = document.querySelector(".searchBarContainer button");
+const searchBtn = document.querySelector(".searchBarContainer .searchBarBtn");
+const locationBtn = document.querySelector(".locationBtn");
 const weatherIcon = document.querySelector(".weatherImageIcon");
 
-async function checkWeather(city) {
+async function checkWeather(city, lat = null, lon = null) {
   try {
-    // Current Weather
-    const response = await fetch(`${weatherApiUrl}${city}&appid=${weatherApiKey}`);
-    if (!response.ok) throw new Error("City not found");
+    let url = `${weatherApiUrl}${city}&appid=${weatherApiKey}`;
+    if (lat && lon) {
+      url = `https://api.openweathermap.org/data/2.5/weather?units=metric&lat=${lat}&lon=${lon}&appid=${weatherApiKey}`;
+    }
+    
+    const response = await fetch(url);
+    if (!response.ok) throw new Error("Location not found");
     const data = await response.json();
 
-    console.log("Current Weather:", data);
+    console.log("Weather Data:", data);
 
     document.querySelector(".cityNameDisplay").innerHTML = data.name;
     document.querySelector(".tempTemperatureDisplay").innerHTML = Math.round(data.main.temp) + "°C";
     document.querySelector(".feelsLike").innerHTML = `Feels like ${Math.round(data.main.feels_like)}°C`;
     document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
-    document.querySelector(".wind").innerHTML = Math.round(data.wind.speed * 3.6) + " km/h"; // Convert m/s to km/h
+    document.querySelector(".wind").innerHTML = Math.round(data.wind.speed * 3.6) + " km/h";
     document.querySelector(".pressure").innerHTML = data.main.pressure + " hPa";
     document.querySelector(".visibility").innerHTML = (data.visibility / 1000).toFixed(1) + " km";
     document.querySelector(".weatherDescription").innerHTML = data.weather[0].description;
@@ -45,7 +50,7 @@ async function checkWeather(city) {
     else if (condition.includes("snow")) weatherIcon.src = "images/snow.png";
 
     // Forecast
-    await getForecast(city);
+    await getForecast(city, lat, lon);
 
     // Air Quality
     await getAirQuality(data.coord.lat, data.coord.lon);
@@ -56,15 +61,17 @@ async function checkWeather(city) {
   }
 }
 
-async function getForecast(city) {
-  const response = await fetch(`${forecastApiUrl}${city}&appid=${weatherApiKey}`);
+async function getForecast(city, lat = null, lon = null) {
+  let url = `${forecastApiUrl}${city}&appid=${weatherApiKey}`;
+  if (lat && lon) {
+    url = `https://api.openweathermap.org/data/2.5/forecast?units=metric&lat=${lat}&lon=${lon}&appid=${weatherApiKey}`;
+  }
+  const response = await fetch(url);
   const data = await response.json();
   
-  console.log("Forecast:", data);
   const forecastList = document.querySelector(".forecastList");
   forecastList.innerHTML = "";
 
-  // Get one forecast per day (every 8th item since it's 3-hour intervals)
   for (let i = 0; i < data.list.length; i += 8) {
     const dayData = data.list[i];
     const date = new Date(dayData.dt * 1000);
@@ -95,6 +102,14 @@ searchBtn.addEventListener("click", () => {
 
 searchBox.addEventListener("keypress", (e) => {
   if (e.key === "Enter" && searchBox.value) checkWeather(searchBox.value);
+});
+
+locationBtn.addEventListener("click", () => {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition((position) => {
+      checkWeather(null, position.coords.latitude, position.coords.longitude);
+    });
+  }
 });
 
 // Default city
