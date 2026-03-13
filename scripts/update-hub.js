@@ -25,6 +25,32 @@ function getCategory(projectName) {
     return 'Miscellaneous';
 }
 
+function getTechTags(dirPath) {
+    const tags = [];
+    const htmlPath = path.join(dirPath, 'index.html');
+    
+    if (fs.existsSync(htmlPath)) {
+        const htmlContent = fs.readFileSync(htmlPath, 'utf-8').toLowerCase();
+        if (htmlContent.includes('tailwind')) tags.push('Tailwind');
+        if (htmlContent.includes('canvas')) tags.push('Canvas');
+        if (htmlContent.includes('fetch(') || htmlContent.includes('api')) tags.push('API');
+        if (htmlContent.includes('glassmorphism')) tags.push('Glass');
+        if (htmlContent.includes('localstorage')) tags.push('Storage');
+    }
+
+    if (fs.existsSync(path.join(dirPath, 'style.css')) || fs.existsSync(path.join(dirPath, 'css'))) {
+        tags.push('CSS');
+    }
+    
+    if (fs.existsSync(path.join(dirPath, 'script.js')) || fs.existsSync(path.join(dirPath, 'javascript')) || fs.existsSync(path.join(dirPath, 'js'))) {
+        tags.push('JS');
+    }
+    
+    if (tags.length === 0) tags.push('HTML');
+
+    return tags;
+}
+
 function updateHub() {
     const items = fs.readdirSync(ROOT_DIR, { withFileTypes: true });
     
@@ -34,13 +60,15 @@ function updateHub() {
             const name = item.name;
             const cleanName = name.replace(/^\d+\./, '').trim();
             const number = parseInt(name.split('.')[0]);
+            const dirPath = path.join(ROOT_DIR, name);
             
             return {
                 id: name,
                 number: number,
                 name: cleanName,
                 category: getCategory(cleanName),
-                path: `../${name}/index.html`
+                path: `../${name}/index.html`,
+                tags: getTechTags(dirPath)
             };
         })
         .sort((a, b) => a.number - b.number);

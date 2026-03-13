@@ -46,10 +46,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </div>
                 <ul class="project-list">
                     ${projects.map(project => `
-                        <li class="project-item" data-name="${project.name.toLowerCase()}">
+                        <li class="project-item" data-name="${project.name.toLowerCase()}" data-tags="${(project.tags || []).join(' ').toLowerCase()}">
                             <a href="${project.path}" class="project-link">
                                 <span class="project-name">${project.name}</span>
-                                <span class="project-number">#${project.number.toString().padStart(2, '0')}</span>
+                                <div class="project-meta">
+                                    ${(project.tags || []).map(t => `<span class="tech-tag">${t}</span>`).join('')}
+                                    <span class="project-number">#${project.number.toString().padStart(2, '0')}</span>
+                                </div>
                             </a>
                         </li>
                     `).join('')}
@@ -81,8 +84,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                     items.forEach(item => {
                         const name = item.getAttribute('data-name');
                         const category = group.getAttribute('data-category');
+                        const tags = item.getAttribute('data-tags') || '';
                         
-                        if (name.includes(term) || category.includes(term)) {
+                        if (name.includes(term) || category.includes(term) || tags.includes(term)) {
                             item.style.display = 'block';
                             visibleCount++;
                         } else {

@@ -1,201 +1,318 @@
 {
-  "lastUpdated": "2026-03-13T16:52:38.579Z",
+  "lastUpdated": "2026-03-13T17:08:16.554Z",
   "projects": [
     {
       "id": "1.Quiz Game",
       "number": 1,
       "name": "Quiz Game",
       "category": "Interactives",
-      "path": "../1.Quiz Game/index.html"
+      "path": "../1.Quiz Game/index.html",
+      "tags": [
+        "CSS",
+        "JS"
+      ]
     },
     {
       "id": "2. Clamp code generator",
       "number": 2,
       "name": "Clamp code generator",
       "category": "Generators",
-      "path": "../2. Clamp code generator/index.html"
+      "path": "../2. Clamp code generator/index.html",
+      "tags": [
+        "API",
+        "CSS"
+      ]
     },
     {
       "id": "3.Github profile finder",
       "number": 3,
       "name": "Github profile finder",
       "category": "Dashboards",
-      "path": "../3.Github profile finder/index.html"
+      "path": "../3.Github profile finder/index.html",
+      "tags": [
+        "CSS",
+        "JS"
+      ]
     },
     {
       "id": "4.Css Clip Path Generator",
       "number": 4,
       "name": "Css Clip Path Generator",
       "category": "Generators",
-      "path": "../4.Css Clip Path Generator/index.html"
+      "path": "../4.Css Clip Path Generator/index.html",
+      "tags": [
+        "API",
+        "Storage",
+        "CSS"
+      ]
     },
     {
       "id": "5. CSS Filter & Image Effects Playground",
       "number": 5,
       "name": "CSS Filter & Image Effects Playground",
       "category": "Visual Effects",
-      "path": "../5. CSS Filter & Image Effects Playground/index.html"
+      "path": "../5. CSS Filter & Image Effects Playground/index.html",
+      "tags": [
+        "API",
+        "Storage",
+        "CSS"
+      ]
     },
     {
       "id": "6.pricing one",
       "number": 6,
       "name": "pricing one",
       "category": "UI Components",
-      "path": "../6.pricing one/index.html"
+      "path": "../6.pricing one/index.html",
+      "tags": [
+        "CSS"
+      ]
     },
     {
       "id": "7.Fancy Border-Radius (Blob) Generator",
       "number": 7,
       "name": "Fancy Border-Radius (Blob) Generator",
       "category": "Generators",
-      "path": "../7.Fancy Border-Radius (Blob) Generator/index.html"
+      "path": "../7.Fancy Border-Radius (Blob) Generator/index.html",
+      "tags": [
+        "API",
+        "Storage",
+        "CSS"
+      ]
     },
     {
       "id": "8.Neumorphism Generator",
       "number": 8,
       "name": "Neumorphism Generator",
       "category": "Generators",
-      "path": "../8.Neumorphism Generator/index.html"
+      "path": "../8.Neumorphism Generator/index.html",
+      "tags": [
+        "API",
+        "Storage",
+        "CSS"
+      ]
     },
     {
       "id": "9.Visual CSS Keyframe Animation Studio",
       "number": 9,
       "name": "Visual CSS Keyframe Animation Studio",
       "category": "Generators",
-      "path": "../9.Visual CSS Keyframe Animation Studio/index.html"
+      "path": "../9.Visual CSS Keyframe Animation Studio/index.html",
+      "tags": [
+        "Canvas",
+        "API",
+        "CSS",
+        "JS"
+      ]
     },
     {
       "id": "10.Semantic Custom Progress Bar Kit",
       "number": 10,
       "name": "Semantic Custom Progress Bar Kit",
       "category": "UI Components",
-      "path": "../10.Semantic Custom Progress Bar Kit/index.html"
+      "path": "../10.Semantic Custom Progress Bar Kit/index.html",
+      "tags": [
+        "CSS",
+        "JS"
+      ]
     },
     {
       "id": "11.Cursor-Tracking Spotlight Reveal Effect",
       "number": 11,
       "name": "Cursor-Tracking Spotlight Reveal Effect",
       "category": "Visual Effects",
-      "path": "../11.Cursor-Tracking Spotlight Reveal Effect/index.html"
+      "path": "../11.Cursor-Tracking Spotlight Reveal Effect/index.html",
+      "tags": [
+        "CSS",
+        "JS"
+      ]
     },
     {
       "id": "12.CSS Messi",
       "number": 12,
       "name": "CSS Messi",
       "category": "Miscellaneous",
-      "path": "../12.CSS Messi/index.html"
+      "path": "../12.CSS Messi/index.html",
+      "tags": [
+        "CSS"
+      ]
     },
     {
       "id": "13.Tailwind Step with Directions",
       "number": 13,
       "name": "Tailwind Step with Directions",
       "category": "Miscellaneous",
-      "path": "../13.Tailwind Step with Directions/index.html"
+      "path": "../13.Tailwind Step with Directions/index.html",
+      "tags": [
+        "Tailwind"
+      ]
     },
     {
       "id": "14.Tailwind Stats Showcase",
       "number": 14,
       "name": "Tailwind Stats Showcase",
       "category": "Miscellaneous",
-      "path": "../14.Tailwind Stats Showcase/index.html"
+      "path": "../14.Tailwind Stats Showcase/index.html",
+      "tags": [
+        "Tailwind"
+      ]
     },
     {
       "id": "15.Interactive CSS Light Bulb Toggle",
       "number": 15,
       "name": "Interactive CSS Light Bulb Toggle",
       "category": "Interactives",
-      "path": "../15.Interactive CSS Light Bulb Toggle/index.html"
+      "path": "../15.Interactive CSS Light Bulb Toggle/index.html",
+      "tags": [
+        "CSS",
+        "JS"
+      ]
     },
     {
       "id": "16.Card Transition Shift Layout",
       "number": 16,
       "name": "Card Transition Shift Layout",
       "category": "Cards",
-      "path": "../16.Card Transition Shift Layout/index.html"
+      "path": "../16.Card Transition Shift Layout/index.html",
+      "tags": [
+        "Tailwind",
+        "CSS"
+      ]
     },
     {
       "id": "17.3D Stacking Card List Effect",
       "number": 17,
       "name": "3D Stacking Card List Effect",
       "category": "Visual Effects",
-      "path": "../17.3D Stacking Card List Effect/index.html"
+      "path": "../17.3D Stacking Card List Effect/index.html",
+      "tags": [
+        "Tailwind",
+        "CSS"
+      ]
     },
     {
       "id": "18.Animated Underlines with SVGexternal link",
       "number": 18,
       "name": "Animated Underlines with SVGexternal link",
       "category": "Miscellaneous",
-      "path": "../18.Animated Underlines with SVGexternal link/index.html"
+      "path": "../18.Animated Underlines with SVGexternal link/index.html",
+      "tags": [
+        "Tailwind",
+        "CSS",
+        "JS"
+      ]
     },
     {
       "id": "19.Responsive Dashboard with Sliders and Music Player",
       "number": 19,
       "name": "Responsive Dashboard with Sliders and Music Player",
       "category": "Dashboards",
-      "path": "../19.Responsive Dashboard with Sliders and Music Player/index.html"
+      "path": "../19.Responsive Dashboard with Sliders and Music Player/index.html",
+      "tags": [
+        "CSS",
+        "JS"
+      ]
     },
     {
       "id": "20.Glassmorphism CSS Generator",
       "number": 20,
       "name": "Glassmorphism CSS Generator",
       "category": "Generators",
-      "path": "../20.Glassmorphism CSS Generator/index.html"
+      "path": "../20.Glassmorphism CSS Generator/index.html",
+      "tags": [
+        "API",
+        "Glass",
+        "Storage",
+        "CSS"
+      ]
     },
     {
       "id": "21. Multi layer box shadow generator",
       "number": 21,
       "name": "Multi layer box shadow generator",
       "category": "Generators",
-      "path": "../21. Multi layer box shadow generator/index.html"
+      "path": "../21. Multi layer box shadow generator/index.html",
+      "tags": [
+        "API",
+        "Storage",
+        "CSS"
+      ]
     },
     {
       "id": "22.Before and after",
       "number": 22,
       "name": "Before and after",
       "category": "Miscellaneous",
-      "path": "../22.Before and after/index.html"
+      "path": "../22.Before and after/index.html",
+      "tags": [
+        "CSS"
+      ]
     },
     {
       "id": "23.faq and gallary",
       "number": 23,
       "name": "faq and gallary",
       "category": "UI Components",
-      "path": "../23.faq and gallary/index.html"
+      "path": "../23.faq and gallary/index.html",
+      "tags": [
+        "CSS",
+        "JS"
+      ]
     },
     {
       "id": "25.CSS Gradient Generator",
       "number": 25,
       "name": "CSS Gradient Generator",
       "category": "Generators",
-      "path": "../25.CSS Gradient Generator/index.html"
+      "path": "../25.CSS Gradient Generator/index.html",
+      "tags": [
+        "API",
+        "Storage",
+        "CSS"
+      ]
     },
     {
       "id": "26.Glassmorphism Profile Info Card",
       "number": 26,
       "name": "Glassmorphism Profile Info Card",
       "category": "Visual Effects",
-      "path": "../26.Glassmorphism Profile Info Card/index.html"
+      "path": "../26.Glassmorphism Profile Info Card/index.html",
+      "tags": [
+        "CSS"
+      ]
     },
     {
       "id": "27.Morphing Profile Card Interaction",
       "number": 27,
       "name": "Morphing Profile Card Interaction",
       "category": "Cards",
-      "path": "../27.Morphing Profile Card Interaction/index.html"
+      "path": "../27.Morphing Profile Card Interaction/index.html",
+      "tags": [
+        "CSS",
+        "JS"
+      ]
     },
     {
       "id": "28.AdminHub Admin Dashboard v2.1",
       "number": 28,
       "name": "AdminHub Admin Dashboard v2.1",
       "category": "Dashboards",
-      "path": "../28.AdminHub Admin Dashboard v2.1/index.html"
+      "path": "../28.AdminHub Admin Dashboard v2.1/index.html",
+      "tags": [
+        "CSS",
+        "JS"
+      ]
     },
     {
       "id": "29.weatherApp",
       "number": 29,
       "name": "weatherApp",
       "category": "Utilities",
-      "path": "../29.weatherApp/index.html"
+      "path": "../29.weatherApp/index.html",
+      "tags": [
+        "CSS",
+        "JS"
+      ]
     }
   ],
   "stats": {

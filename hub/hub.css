@@ -159,6 +159,29 @@ main#hub-main {
     transition: opacity 0.2s ease, left 0.2s ease;
 }
 
+.project-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tech-tag {
+    font-size: 0.65rem;
+    padding: 0.1rem 0.4rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    color: var(--fg);
+    opacity: 0.7;
+    transition: border-color 0.2s ease, color 0.2s ease;
+    text-transform: uppercase;
+}
+
+.project-link:hover .tech-tag {
+    border-color: var(--accent);
+    color: var(--accent);
+    opacity: 1;
+}
+
 .project-link:hover {
     color: var(--accent);
     padding-left: 15px; /* Shift text to right */
