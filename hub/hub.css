@@ -132,6 +132,11 @@ main#hub-main {
     justify-content: space-between;
 }
 
+.project-list {
+    list-style: none;
+    padding: 1rem;
+}
+
 /* =============================================
    HELP DROPDOWN (TERMINAL COMMANDS)
    ============================================= */
