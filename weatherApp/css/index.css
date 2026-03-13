@@ -1,138 +1,191 @@
-/*page reset (*) targets the whole html */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --text-color: #ffffff;
+  --accent-color: #00d2ff;
+}
+
 * {
   margin: 0;
   padding: 0;
-  font-family: "Poppins", sans-serif;
-  /*so this affects how margin, padding and basically the height and width of a container are calculated */
   box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
 }
 
 body {
-  background-color: #222;
-}
-/**
- * ==========================================
- * Start: full card container related styling
- * ==========================================
- */
-.cardContainer {
-  width: 90%;
-  max-width: 470px;
-  /*change this to change the background color */
-  background: linear-gradient(
-    135deg,
-    rgba(9, 162, 222, 0.95) 19%,
-    rgba(22, 107, 199, 1) 35%,
-    rgba(16, 51, 204, 1) 83%
-  );
-  color: #fff;
-  margin: 100px auto 0;
-  border-radius: 20px;
-  padding: 40px 35px;
-  text-align: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  background-attachment: fixed;
+  color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
 }
 
-/**
- * ====================================
- * End: card container specific styling
- * ====================================
- */
+.dashboardContainer {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
 
-/**
- * ====================================
- * Start: search bar container styling
- * ====================================
- */
-.searchBarContainer {
+.header {
   width: 100%;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+}
+
+.searchBarContainer {
+  display: flex;
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: 50px;
+  padding: 5px 15px;
+  width: 100%;
+  max-width: 500px;
 }
 
 .searchBarContainer input {
-  border: 0;
-  outline: 0;
-  background: #ebfffe;
-  color: #555;
-  padding: 10px 25px;
-  height: 60px;
-  border-radius: 30px;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  padding: 10px;
   flex: 1;
-  margin-right: 16px;
-  font-size: 18px;
+  font-size: 1rem;
 }
 
-.searchBarContainer .searchBarBtn {
-  border: 0;
-  outline: 0;
-  background: #ebfffe;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
+.searchBarContainer button {
+  background: transparent;
+  border: none;
   cursor: pointer;
+  padding: 5px;
 }
 
-.searchBarBtn img {
-  width: 16px;
+.searchBarContainer button img {
+  width: 20px;
+  filter: invert(1);
 }
 
-/**
- * ==================================
- * End: search bar container styling
- * ==================================
- */
+.gridContainer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: minmax(150px, auto);
+  gap: 20px;
+}
 
-/**
- * ==========================================
- * Start: image icon, name and extra details
- * ==========================================
- */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 24px;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.glass:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.mainWeather {
+  grid-column: span 2;
+  grid-row: span 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
 
 .weatherImageIcon {
-  width: 170ox;
-  margin-top: 30px;
+  width: 150px;
 }
 
-.weatherDetailsContainer .tempTemperatureDisplay {
-  font-size: 80px;
-  font-weight: 500;
+.tempTemperatureDisplay {
+  font-size: 5rem;
+  font-weight: 700;
 }
 
-.weatherDetailsContainer .cityNameDisplay {
-  font-size: 45px;
+.cityNameDisplay {
+  font-size: 2rem;
   font-weight: 400;
-  margin-top: -10px;
+  opacity: 0.9;
 }
 
-.temperatureExtraDetails {
+.weatherDescription {
+  text-transform: capitalize;
+  font-size: 1.2rem;
+  margin-top: 10px;
+  color: var(--accent-color);
+}
+
+.card {
   display: flex;
   align-items: center;
+  gap: 15px;
+}
+
+.card img {
+  width: 40px;
+}
+
+.detailInfo p {
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+.detailInfo h3 {
+  font-size: 1.5rem;
+}
+
+.forecastCard {
+  grid-column: span 2;
+  grid-row: span 2;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.forecastCard h3 {
+  margin-bottom: 15px;
+}
+
+.forecastList {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.forecastItem {
+  display: flex;
   justify-content: space-between;
-  padding: 0 20px;
-  margin-top: 50px;
+  align-items: center;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
 }
 
-
-.extraDetailsCol{
-    display: flex;
-    align-items: center;
-    text-align: left;
+@media (max-width: 992px) {
+  .gridContainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
-.extraDetailsCol img {
-    width: 40px;
-    margin-right: 10px;
-
+@media (max-width: 600px) {
+  .gridContainer {
+    grid-template-columns: 1fr;
+  }
+  .mainWeather, .forecastCard {
+    grid-column: span 1;
+  }
+  .tempTemperatureDisplay {
+    font-size: 3.5rem;
+  }
 }
-
-.humidity .wind {
-    font-size: 28px;
-    margin-top: -6px;
-}
-
-/**
- * ==========================================
- * Start: image icon, name and extra details
- * ==========================================
- */
