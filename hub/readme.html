@@ -411,7 +411,7 @@
             <h1>Javascript <span class="accent">Project-Based</span> Learning Journey</h1>
             <div class="badges">
                 <span class="badge">📁 PROJECTS <span class="val">29</span></span>
-                <span class="badge">🛡️ STATUS <span class="val" style="color:#ff4444;">PRIVATE</span></span>
+                <span class="badge">🛡️ STATUS <span class="val" style="color:#ffb86c;">PRIVATE</span></span>
                 <span class="badge">📝 LOC <span class="val">12,912+</span></span>
                 <span class="badge">🚀 <span class="val">IN-APP CONTRIBUTION ONLY</span></span>
             </div>
@@ -520,13 +520,18 @@
     <script>
         // --- Theme Engine ---
         function applyTheme() {
-            const savedTheme = localStorage.getItem('hub-theme') || 'modern';
-            document.body.className = savedTheme === 'modern' ? '' : `theme-${savedTheme}`;
+            try {
+                const savedTheme = localStorage.getItem('hub-theme') || 'modern';
+                console.log('Applying theme:', savedTheme);
+                document.body.className = savedTheme === 'modern' ? '' : `theme-${savedTheme}`;
+            } catch (e) {
+                console.error('Theme switch failed:', e);
+            }
         }
         
         applyTheme();
         
-        // Listen for internal storage changes (if theme changes in another tab)
+        // Listen for internal storage changes
         window.addEventListener('storage', (e) => {
             if (e.key === 'hub-theme') applyTheme();
         });
@@ -535,7 +540,7 @@
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.style.opacity = 1;
+                    entry.target.style.opacity = '1';
                     entry.target.style.transform = 'translateY(0)';
                 }
             });

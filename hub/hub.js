@@ -896,7 +896,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                     cb.addEventListener('change', () => {
                         const all = checklistModal.querySelectorAll('.checklist-check');
                         const allChecked = [...all].every(c => c.checked);
-                        if (checklistProceed) checklistProceed.disabled = !allChecked;
+                        if (checklistProceed) {
+                            checklistProceed.disabled = !allChecked;
+                            if (allChecked) {
+                                checklistProceed.classList.add('active');
+                            } else {
+                                checklistProceed.classList.remove('active');
+                            }
+                        }
                     });
                 });
             }
@@ -948,7 +955,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 files = JSON.parse(JSON.stringify(tmpl));
                 folders.clear();
                 collapsedFolders.clear();
-                openTabs = Object.keys(files).filter(f => f !== 'README.md');
+                openTabs = Object.keys(files);
                 activeFile = openTabs[0] || Object.keys(files)[0];
                 if (el.editor) el.editor.value = files[activeFile];
                 renderFileTree();
