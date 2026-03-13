@@ -6,6 +6,7 @@
     <title>S.U.D.O | Project Hub</title>
     <link rel="stylesheet" href="hub.css">
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -81,6 +82,45 @@ LOADING...
             <ul id="history-list" class="history-list">
                 <div class="loading">FETCHING GITHUB API...</div>
             </ul>
+        </div>
+
+        <!-- THE CONTRIBUTE IDE -->
+        <div id="contribute-dashboard" style="display: none;" class="terminal-dashboard">
+            <div class="stats-header">
+                <h2>[ / NEW PROJECT IDE / ]</h2>
+                <div>
+                    <button id="submit-project" class="theme-btn" style="border-color: var(--accent); color: var(--accent);">[ SUBMIT_PR_✓ ]</button>
+                    <button id="close-contribute" class="theme-btn">EXIT_IDE</button>
+                </div>
+            </div>
+            
+            <div class="ide-layout">
+                <div class="ide-sidebar">
+                    <div class="ide-files-header">EXPLORER</div>
+                    <ul class="ide-file-list" id="ide-file-list">
+                        <li class="ide-file active" data-file="html">index.html</li>
+                        <li class="ide-file" data-file="css">style.css</li>
+                        <li class="ide-file" data-file="js">script.js</li>
+                    </ul>
+                </div>
+                
+                <div class="ide-editor-pane">
+                    <div class="ide-tabs">
+                        <span class="ide-tab-active" id="current-file-label">index.html</span>
+                    </div>
+                    <textarea id="ide-editor" class="ide-textarea" spellcheck="false" autocomplete="off"></textarea>
+                </div>
+
+                <div class="ide-preview-pane">
+                    <div class="ide-tabs">
+                        <span class="ide-tab-active">Live Preview</span>
+                        <button id="refresh-preview" class="theme-btn" style="font-size:0.6rem; padding: 0.1rem 0.3rem">RELOAD</button>
+                    </div>
+                    <div class="iframe-wrapper">
+                        <iframe id="ide-iframe" title="Live Preview"></iframe>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <footer class="hub-footer">

@@ -460,6 +460,103 @@ footer.hub-footer {
     overflow-x: auto;
 }
 
+/* --- Contribute IDE --- */
+.ide-layout {
+    display: flex;
+    height: 600px;
+    border: 1px solid var(--border-color);
+    background: rgba(0,0,0,0.2);
+    margin-bottom: 2rem;
+}
+
+.ide-sidebar {
+    width: 200px;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+}
+
+.ide-files-header {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-bottom: 1px solid var(--border-color);
+    background: rgba(0,0,0,0.3);
+}
+
+.ide-file-list {
+    list-style: none;
+    padding: 0.5rem 0;
+}
+
+.ide-file {
+    padding: 0.3rem 1rem;
+    font-size: 0.85rem;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s, background 0.2s;
+}
+
+.ide-file:hover { background: rgba(0,255,65,0.1); opacity: 1; }
+.ide-file.active { background: rgba(0,255,65,0.2); opacity: 1; color: var(--accent); }
+
+.ide-editor-pane {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--border-color);
+}
+
+.ide-tabs {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    background: rgba(0,0,0,0.3);
+    padding: 0 1rem;
+    height: 32px;
+}
+
+.ide-tab-active {
+    font-size: 0.85rem;
+    color: var(--accent);
+    border-bottom: 2px solid var(--accent);
+    line-height: 32px;
+}
+
+.ide-textarea {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--fg);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    padding: 1rem;
+    resize: none;
+    outline: none;
+}
+
+.ide-preview-pane {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: #fff; /* White bg for iframe standard */
+}
+
+.ide-preview-pane .ide-tabs { background: var(--border-color); color: var(--bg); }
+.ide-preview-pane .ide-tab-active { color: var(--bg); border-bottom-color: var(--bg); }
+
+.iframe-wrapper {
+    flex: 1;
+    width: 100%;
+}
+#ide-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: #fff;
+}
+
 @media (max-width: 768px) {
     header.hub-header {
         flex-direction: column;

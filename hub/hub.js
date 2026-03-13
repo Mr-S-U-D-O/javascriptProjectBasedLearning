@@ -3,10 +3,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     const statsDashboard = document.getElementById('stats-dashboard');
     const guideDashboard = document.getElementById('guide-dashboard');
     const historyDashboard = document.getElementById('history-dashboard');
+    const contributeDashboard = document.getElementById('contribute-dashboard');
     
     const closeStatsBtn = document.getElementById('close-stats');
     const closeGuideBtn = document.getElementById('close-guide');
     const closeHistoryBtn = document.getElementById('close-history');
+    const closeContributeBtn = document.getElementById('close-contribute');
+    const submitProjectBtn = document.getElementById('submit-project');
+    
+    const ideFileList = document.getElementById('ide-file-list');
+    const ideEditor = document.getElementById('ide-editor');
+    const currentFileLabel = document.getElementById('current-file-label');
+    const ideIframe = document.getElementById('ide-iframe');
+    const refreshPreviewBtn = document.getElementById('refresh-preview');
     
     const totalProjectsEl = document.getElementById('total-projects');
     const totalCategoriesEl = document.getElementById('total-categories');
@@ -202,6 +211,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             statsDashboard.style.display = 'none';
             guideDashboard.style.display = 'none';
             historyDashboard.style.display = 'none';
+            contributeDashboard.style.display = 'none';
             mainContainer.style.display = 'block';
         };
 
@@ -221,6 +231,107 @@ document.addEventListener('DOMContentLoaded', async () => {
         closeStatsBtn.addEventListener('click', resetUI);
         closeGuideBtn.addEventListener('click', resetUI);
         closeHistoryBtn.addEventListener('click', resetUI);
+        closeContributeBtn.addEventListener('click', resetUI);
+
+        // --- IDE Logic ---
+        const ideFiles = {
+            html: `<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <title>New Project</title>\n  <link rel="stylesheet" href="style.css">\n</head>\n<body>\n  <h1>Hello Open Source</h1>\n  <p>Start coding in the pane to your left!</p>\n  <script src="script.js"><\/script>\n</body>\n</html>`,
+            css: `body { \n  background: #1e1e1e;\n  color: #00ff41;\n  font-family: monospace;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  height: 100vh;\n  margin: 0;\n}`,
+            js: `console.log("Ready to code!");`
+        };
+        let currentIdeFile = 'html';
+
+        const updateIframe = () => {
+            if (!ideIframe) return;
+            const doc = ideIframe.contentWindow.document;
+            const html = ideFiles.html;
+            const css = `<style>${ideFiles.css}</style>`;
+            const js = `<script>${ideFiles.js}<\/script>`;
+            
+            let combined = html;
+            if (combined.includes('</head>')) {
+                combined = combined.replace('</head>', css + '</head>');
+            } else {
+                combined = css + combined;
+            }
+            if (combined.includes('</body>')) {
+                combined = combined.replace('</body>', js + '</body>');
+            } else {
+                combined += js;
+            }
+
+            doc.open();
+            doc.write(combined);
+            doc.close();
+        };
+
+        if (ideFileList && ideEditor) {
+            ideEditor.value = ideFiles[currentIdeFile];
+            
+            ideFileList.addEventListener('click', (e) => {
+                const li = e.target.closest('li');
+                if (!li) return;
+                
+                ideFiles[currentIdeFile] = ideEditor.value;
+                document.querySelectorAll('.ide-file').forEach(f => f.classList.remove('active'));
+                li.classList.add('active');
+                currentIdeFile = li.getAttribute('data-file');
+                
+                ideEditor.value = ideFiles[currentIdeFile];
+                currentFileLabel.textContent = li.textContent;
+            });
+
+            ideEditor.addEventListener('input', () => {
+                ideFiles[currentIdeFile] = ideEditor.value;
+                clearTimeout(ideEditor.reloadTimer);
+                ideEditor.reloadTimer = setTimeout(updateIframe, 500);
+            });
+
+            ideEditor.addEventListener('keydown', (e) => {
+                if (e.key === 'Tab') {
+                    e.preventDefault();
+                    const start = ideEditor.selectionStart;
+                    const end = ideEditor.selectionEnd;
+                    ideEditor.value = ideEditor.value.substring(0, start) + '  ' + ideEditor.value.substring(end);
+                    ideEditor.selectionStart = ideEditor.selectionEnd = start + 2;
+                }
+            });
+            
+            if (refreshPreviewBtn) refreshPreviewBtn.addEventListener('click', updateIframe);
+            
+            if (submitProjectBtn) {
+                submitProjectBtn.addEventListener('click', async () => {
+                    const title = prompt("Enter a title for your new project contribution:", "MyAwesomeApp");
+                    if (!title) return;
+                    
+                    ideFiles[currentIdeFile] = ideEditor.value;
+                    const zip = new JSZip();
+                    const folderName = title.replace(/[^a-zA-Z0-9_-]/g, '');
+                    const folder = zip.folder(folderName);
+                    folder.file("index.html", ideFiles.html);
+                    folder.file("style.css", ideFiles.css);
+                    folder.file("script.js", ideFiles.js);
+                    folder.file("preview.png", "");
+                    folder.file("README.md", `# ${title}\nBuilt and submitted via S.U.D.O Hub IDE.`);
+
+                    const content = await zip.generateAsync({type:"blob"});
+                    const url = URL.createObjectURL(content);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = `${folderName}.zip`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    
+                    playSound('type');
+                    setTimeout(() => {
+                        alert("Great! Your project files have been packaged into a .zip file!\n\nYou will now be redirected to the repository's 'Upload files' page.\n\nSTEPS to officially submit:\n1. Drag & Drop your new .zip file there.\n2. Wait for it to upload.\n3. Click 'Commit changes' to open your Pull Request!");
+                        window.open("https://github.com/Mr-S-U-D-O/javascriptProjectBasedLearning/upload/main", "_blank");
+                    }, 500);
+                });
+            }
+        }
 
         // Fetchers for Dashboards
         let guideLoaded = false;
@@ -269,7 +380,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const term = e.target.value.toLowerCase().trim();
                 
                 // Dashboards logic
-                if (term === 'stats' || term === 'guide' || term === 'history') {
+                if (['stats', 'guide', 'history', 'contribute'].includes(term)) {
                     hideAllDashboards();
                     mainContainer.style.display = 'none';
                     if (term === 'stats') {
@@ -284,6 +395,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                         historyDashboard.style.display = 'flex';
                         historyDashboard.style.flexDirection = 'column';
                         loadHistory();
+                    } else if (term === 'contribute') {
+                        contributeDashboard.style.display = 'flex';
+                        contributeDashboard.style.flexDirection = 'column';
+                        updateIframe();
                     }
                     return;
                 } else {
