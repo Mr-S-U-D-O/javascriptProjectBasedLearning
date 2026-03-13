@@ -28,11 +28,51 @@
             <div class="loading">SCANNING SYSTEM...</div>
         </main>
 
+        <div id="stats-dashboard" style="display: none;">
+            <div class="stats-header">
+                <h2>[ SYSTEM STATS ]</h2>
+                <button id="close-stats" class="theme-btn">EXIT_STATS</button>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-label">TOTAL PROJECTS</span>
+                    <span class="stat-value" id="stat-total-projects">--</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">LINES OF CODE</span>
+                    <span class="stat-value" id="stat-loc">--</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">GROUPS</span>
+                    <span class="stat-value" id="stat-categories">--</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">LONGEST PROJECT</span>
+                    <span class="stat-value" id="stat-longest-project">--</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">LATEST PROJECT</span>
+                    <span class="stat-value" id="stat-latest-project">--</span>
+                </div>
+            </div>
+            
+            <h3>LANGUAGE DISTRIBUTION</h3>
+            <div class="stats-graphs" id="stats-graphs">
+                <!-- Language bars built by JS -->
+            </div>
+        </div>
+
         <footer class="hub-footer">
             <div class="readme-link">
                 <a href="../README.md">VIEW_README.md</a>
             </div>
-            <div class="version">BUILD_V1.0</div>
+            <div class="theme-controls">
+                <button class="theme-btn active" data-theme="modern">MODERN</button>
+                <button class="theme-btn" data-theme="matrix">MATRIX</button>
+                <button class="theme-btn" data-theme="paper">PAPER</button>
+            </div>
+            <div class="version">BUILD_V1.1</div>
         </footer>
     </div>
     <script src="hub.js"></script>

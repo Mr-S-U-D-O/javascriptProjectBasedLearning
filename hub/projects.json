@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-13T17:08:16.554Z",
+  "lastUpdated": "2026-03-13T17:23:49.281Z",
   "projects": [
     {
       "id": "1.Quiz Game",
@@ -10,7 +10,14 @@
       "tags": [
         "CSS",
         "JS"
-      ]
+      ],
+      "stats": {
+        "linesJs": 157,
+        "linesCss": 174,
+        "linesHtml": 51,
+        "totalLines": 382,
+        "addedAt": "2026-02-07T22:04:16.085Z"
+      }
     },
     {
       "id": "2. Clamp code generator",
@@ -21,7 +28,14 @@
       "tags": [
         "API",
         "CSS"
-      ]
+      ],
+      "stats": {
+        "linesJs": 0,
+        "linesCss": 251,
+        "linesHtml": 345,
+        "totalLines": 596,
+        "addedAt": "2026-03-13T03:38:50.965Z"
+      }
     },
     {
       "id": "3.Github profile finder",
@@ -32,7 +46,14 @@
       "tags": [
         "CSS",
         "JS"
-      ]
+      ],
+      "stats": {
+        "linesJs": 205,
+        "linesCss": 376,
+        "linesHtml": 43,
+        "totalLines": 624,
+        "addedAt": "2026-02-07T22:04:16.087Z"
+      }
     },
     {
       "id": "4.Css Clip Path Generator",
@@ -44,7 +65,14 @@
         "API",
         "Storage",
         "CSS"
-      ]
+      ],
+      "stats": {
+        "linesJs": 0,
+        "linesCss": 244,
+        "linesHtml": 192,
+        "totalLines": 436,
+        "addedAt": "2026-03-13T03:38:51.200Z"
+      }
     },
     {
       "id": "5. CSS Filter & Image Effects Playground",
@@ -56,7 +84,14 @@
         "API",
         "Storage",
         "CSS"
-      ]
+      ],
+      "stats": {
+        "linesJs": 0,
+        "linesCss": 284,
+        "linesHtml": 205,
+        "totalLines": 489,
+        "addedAt": "2026-03-13T03:38:51.285Z"
+      }
     },
     {
       "id": "6.pricing one",
@@ -66,7 +101,14 @@
       "path": "../6.pricing one/index.html",
       "tags": [
         "CSS"
-      ]
+      ],
+      "stats": {
+        "linesJs": 0,
+        "linesCss": 328,
+        "linesHtml": 206,
+        "totalLines": 534,
+        "addedAt": "2026-02-07T22:05:40.977Z"
+      }
     },
     {
       "id": "7.Fancy Border-Radius (Blob) Generator",
@@ -78,7 +120,14 @@
         "API",
         "Storage",
         "CSS"
-      ]
+      ],
+      "stats": {
+        "linesJs": 0,
+        "linesCss": 281,
+        "linesHtml": 209,
+        "totalLines": 490,
+        "addedAt": "2026-03-13T03:38:51.441Z"
+      }
     },
     {
       "id": "8.Neumorphism Generator",
@@ -90,7 +139,14 @@
         "API",
         "Storage",
         "CSS"
-      ]
+      ],
+      "stats": {
+        "linesJs": 0,
+        "linesCss": 296,
+        "linesHtml": 261,
+        "totalLines": 557,
+        "addedAt": "2026-03-13T03:38:51.530Z"
+      }
     },
     {
       "id": "9.Visual CSS Keyframe Animation Studio",
@@ -103,7 +159,14 @@
         "API",
         "CSS",
         "JS"
-      ]
+      ],
+      "stats": {
+        "linesJs": 344,
+        "linesCss": 448,
+        "linesHtml": 165,
+        "totalLines": 957,
+        "addedAt": "2026-03-13T03:38:51.631Z"
+      }
     },
     {
       "id": "10.Semantic Custom Progress Bar Kit",
@@ -114,7 +177,14 @@
       "tags": [
         "CSS",
         "JS"
-      ]
+      ],
+      "stats": {
+        "linesJs": 90,
+        "linesCss": 229,
+        "linesHtml": 64,
+        "totalLines": 383,
+        "addedAt": "2026-02-07T22:46:41.608Z"
+      }
     },
     {
       "id": "11.Cursor-Tracking Spotlight Reveal Effect",
@@ -125,7 +195,14 @@
       "tags": [
         "CSS",
         "JS"
-      ]
+      ],
+      "stats": {
+        "linesJs": 10,
+        "linesCss": 94,
+        "linesHtml": 23,
+        "totalLines": 127,
+        "addedAt": "2026-02-07T22:54:18.653Z"
+      }
     },
     {
       "id": "12.CSS Messi",
@@ -135,7 +212,14 @@
       "path": "../12.CSS Messi/index.html",
       "tags": [
         "CSS"
-      ]
+      ],
+      "stats": {
+        "linesJs": 0,
+        "linesCss": 1225,
+        "linesHtml": 68,
+        "totalLines": 1293,
+        "addedAt": "2026-02-07T23:03:55.292Z"
+      }
     },
     {
       "id": "13.Tailwind Step with Directions",
@@ -145,7 +229,14 @@
       "path": "../13.Tailwind Step with Directions/index.html",
       "tags": [
         "Tailwind"
-      ]
+      ],
+      "stats": {
+        "linesJs": 0,
+        "linesCss": 0,
+        "linesHtml": 173,
+        "totalLines": 173,
+        "addedAt": "2026-02-07T23:22:23.828Z"
+      }
     },
     {
       "id": "14.Tailwind Stats Showcase",
@@ -155,7 +246,14 @@
       "path": "../14.Tailwind Stats Showcase/index.html",
       "tags": [
         "Tailwind"
-      ]
+      ],
+      "stats": {
+        "linesJs": 0,
+        "linesCss": 0,
+        "linesHtml": 80,
+        "totalLines": 80,
+        "addedAt": "2026-02-07T23:27:31.114Z"
+      }
     },
     {
       "id": "15.Interactive CSS Light Bulb Toggle",
@@ -166,7 +264,14 @@
       "tags": [
         "CSS",
         "JS"
-      ]
+      ],
+      "stats": {
+        "linesJs": 22,
+        "linesCss": 215,
+        "linesHtml": 57,
+        "totalLines": 294,
+        "addedAt": "2026-02-07T23:29:48.971Z"
+      }
     },
     {
       "id": "16.Card Transition Shift Layout",
@@ -177,7 +282,14 @@
       "tags": [
         "Tailwind",
         "CSS"
-      ]
+      ],
+      "stats": {
+        "linesJs": 0,
+        "linesCss": 86,
+        "linesHtml": 53,
+        "totalLines": 139,
+        "addedAt": "2026-02-07T23:48:16.093Z"
+      }
     },
     {
       "id": "17.3D Stacking Card List Effect",
@@ -188,7 +300,14 @@
       "tags": [
         "Tailwind",
         "CSS"
-      ]
+      ],
+      "stats": {
+        "linesJs": 0,
+        "linesCss": 79,
+        "linesHtml": 42,
+        "totalLines": 121,
+        "addedAt": "2026-02-07T23:56:31.329Z"
+      }
     },
     {
       "id": "18.Animated Underlines with SVGexternal link",
@@ -200,7 +319,14 @@
         "Tailwind",
         "CSS",
         "JS"
-      ]
+      ],
+      "stats": {
+        "linesJs": 48,
+        "linesCss": 116,
+        "linesHtml": 92,
+        "totalLines": 256,
+        "addedAt": "2026-02-08T00:09:18.713Z"
+      }
     },
     {
       "id": "19.Responsive Dashboard with Sliders and Music Player",
@@ -211,7 +337,14 @@
       "tags": [
         "CSS",
         "JS"
-      ]
+      ],
+      "stats": {
+        "linesJs": 160,
+        "linesCss": 706,
+        "linesHtml": 426,
+        "totalLines": 1292,
+        "addedAt": "2026-02-07T22:36:58.502Z"
+      }
     },
     {
       "id": "20.Glassmorphism CSS Generator",
@@ -224,7 +357,14 @@
         "Glass",
         "Storage",
         "CSS"
-      ]
+      ],
+      "stats": {
+        "linesJs": 0,
+        "linesCss": 273,
+        "linesHtml": 193,
+        "totalLines": 466,
+        "addedAt": "2026-03-13T03:38:51.121Z"
+      }
     },
     {
       "id": "21. Multi layer box shadow generator",
@@ -236,7 +376,14 @@
         "API",
         "Storage",
         "CSS"
-      ]
+      ],
+      "stats": {
+        "linesJs": 0,
+        "linesCss": 250,
+        "linesHtml": 274,
+        "totalLines": 524,
+        "addedAt": "2026-03-13T03:38:51.044Z"
+      }
     },
     {
       "id": "22.Before and after",
@@ -246,7 +393,14 @@
       "path": "../22.Before and after/index.html",
       "tags": [
         "CSS"
-      ]
+      ],
+      "stats": {
+        "linesJs": 0,
+        "linesCss": 259,
+        "linesHtml": 66,
+        "totalLines": 325,
+        "addedAt": "2026-02-07T22:05:40.954Z"
+      }
     },
     {
       "id": "23.faq and gallary",
@@ -257,7 +411,14 @@
       "tags": [
         "CSS",
         "JS"
-      ]
+      ],
+      "stats": {
+        "linesJs": 7,
+        "linesCss": 291,
+        "linesHtml": 122,
+        "totalLines": 420,
+        "addedAt": "2026-02-07T22:05:40.962Z"
+      }
     },
     {
       "id": "25.CSS Gradient Generator",
@@ -269,7 +430,14 @@
         "API",
         "Storage",
         "CSS"
-      ]
+      ],
+      "stats": {
+        "linesJs": 0,
+        "linesCss": 337,
+        "linesHtml": 232,
+        "totalLines": 569,
+        "addedAt": "2026-03-13T03:38:51.361Z"
+      }
     },
     {
       "id": "26.Glassmorphism Profile Info Card",
@@ -279,7 +447,14 @@
       "path": "../26.Glassmorphism Profile Info Card/index.html",
       "tags": [
         "CSS"
-      ]
+      ],
+      "stats": {
+        "linesJs": 0,
+        "linesCss": 93,
+        "linesHtml": 49,
+        "totalLines": 142,
+        "addedAt": "2026-02-07T22:09:28.262Z"
+      }
     },
     {
       "id": "27.Morphing Profile Card Interaction",
@@ -290,7 +465,14 @@
       "tags": [
         "CSS",
         "JS"
-      ]
+      ],
+      "stats": {
+        "linesJs": 11,
+        "linesCss": 167,
+        "linesHtml": 34,
+        "totalLines": 212,
+        "addedAt": "2026-02-07T22:05:40.970Z"
+      }
     },
     {
       "id": "28.AdminHub Admin Dashboard v2.1",
@@ -301,7 +483,14 @@
       "tags": [
         "CSS",
         "JS"
-      ]
+      ],
+      "stats": {
+        "linesJs": 0,
+        "linesCss": 328,
+        "linesHtml": 251,
+        "totalLines": 579,
+        "addedAt": "2026-02-07T22:23:06.115Z"
+      }
     },
     {
       "id": "29.weatherApp",
@@ -312,11 +501,21 @@
       "tags": [
         "CSS",
         "JS"
-      ]
+      ],
+      "stats": {
+        "linesJs": 102,
+        "linesCss": 242,
+        "linesHtml": 108,
+        "totalLines": 452,
+        "addedAt": "2026-03-13T02:36:46.389Z"
+      }
     }
   ],
   "stats": {
     "total": 28,
-    "categories": 8
+    "categories": 8,
+    "totalLinesOfCode": 12912,
+    "latestProject": "weatherApp",
+    "longestCodeProject": "CSS Messi"
   }
 }

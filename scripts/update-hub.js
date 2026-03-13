@@ -51,6 +51,54 @@ function getTechTags(dirPath) {
     return tags;
 }
 
+function getProjectStats(dirPath) {
+    let linesJs = 0;
+    let linesCss = 0;
+    let linesHtml = 0;
+    
+    // helper to count lines
+    const countLines = (filePath) => {
+        if (!fs.existsSync(filePath)) return 0;
+        try {
+            const content = fs.readFileSync(filePath, 'utf-8');
+            return content.split('\n').filter(line => line.trim().length > 0).length;
+        } catch(e) { return 0; }
+    };
+
+    const checkDir = (currentPath) => {
+        if (!fs.existsSync(currentPath)) return;
+        const entries = fs.readdirSync(currentPath, { withFileTypes: true });
+        for (const entry of entries) {
+            const entryPath = path.join(currentPath, entry.name);
+            if (entry.isDirectory()) {
+                if(!entry.name.includes('node_modules') && !entry.name.includes('.git')) {
+                    checkDir(entryPath);
+                }
+            } else {
+                if (entry.name.endsWith('.js')) linesJs += countLines(entryPath);
+                else if (entry.name.endsWith('.css')) linesCss += countLines(entryPath);
+                else if (entry.name.endsWith('.html')) linesHtml += countLines(entryPath);
+            }
+        }
+    };
+    
+    checkDir(dirPath);
+    
+    let addedAt = new Date().toISOString();
+    try {
+        const stat = fs.statSync(dirPath);
+        addedAt = stat.mtime.toISOString();
+    } catch(e) {}
+    
+    return {
+        linesJs,
+        linesCss,
+        linesHtml,
+        totalLines: linesJs + linesCss + linesHtml,
+        addedAt
+    };
+}
+
 function updateHub() {
     const items = fs.readdirSync(ROOT_DIR, { withFileTypes: true });
     
@@ -61,6 +109,7 @@ function updateHub() {
             const cleanName = name.replace(/^\d+\./, '').trim();
             const number = parseInt(name.split('.')[0]);
             const dirPath = path.join(ROOT_DIR, name);
+            const stats = getProjectStats(dirPath);
             
             return {
                 id: name,
@@ -68,7 +117,8 @@ function updateHub() {
                 name: cleanName,
                 category: getCategory(cleanName),
                 path: `../${name}/index.html`,
-                tags: getTechTags(dirPath)
+                tags: getTechTags(dirPath),
+                stats: stats
             };
         })
         .sort((a, b) => a.number - b.number);
@@ -78,7 +128,10 @@ function updateHub() {
         projects: projects,
         stats: {
             total: projects.length,
-            categories: [...new Set(projects.map(p => p.category))].length
+            categories: [...new Set(projects.map(p => p.category))].length,
+            totalLinesOfCode: projects.reduce((acc, p) => acc + p.stats.totalLines, 0),
+            latestProject: projects.length > 0 ? projects[projects.length - 1].name : 'Unknown',
+            longestCodeProject: projects.reduce((max, p) => p.stats.totalLines > max.stats.totalLines ? p : max, projects[0])?.name || 'Unknown'
         }
     };
 
