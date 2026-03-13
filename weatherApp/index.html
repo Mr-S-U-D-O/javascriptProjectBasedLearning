@@ -7,46 +7,74 @@
     <link rel="stylesheet" href="css/index.css" />
   </head>
   <body>
-    <div class="cardContainer">
-      <!--Start: search bar container-->
-      <div class="searchBarContainer">
-        <input
-          type="text"
-          placeholder="Enter your location..."
-          spellcheck="false"
-        />
-        <button title="btn" class="searchBarBtn" type="button">
-          <img title="img" src="images/search.png" />
-        </button>
-      </div>
-      <!--End: search bar container-->
-      <!--Start: weather details container-->
-      <div class="weatherDetailsContainer">
-        <img
-          src="images/rain.png"
-          alt="weatherImageIcon"
-          class="weatherImageIcon"
-        />
-        <h1 class="tempTemperatureDisplay">22°C</h1>
-        <h2 class="cityNameDisplay">Matatiele</h2>
-        <div class="temperatureExtraDetails">
-          <div class="extraDetailsCol">
-            <img src="images/humidity.png" alt="#" />
-            <div>
-              <p class="humidity">50%</p>
-              <p>Humidity</p>
-            </div>
+    <div class="dashboardContainer">
+      <!-- Header with Search -->
+      <header class="header">
+        <div class="searchBarContainer">
+          <input
+            type="text"
+            placeholder="Search city..."
+            spellcheck="false"
+          />
+          <button title="search" class="searchBarBtn" type="button">
+            <img src="images/search.png" alt="search" />
+          </button>
+        </div>
+      </header>
+
+      <!-- Bento Grid Layout -->
+      <main class="gridContainer">
+        <!-- Main Weather Highlight -->
+        <div class="card mainWeather glass">
+          <div class="weatherIcon">
+            <img src="images/rain.png" alt="weather icon" class="weatherImageIcon" />
           </div>
-          <div class="extraDetailsCol">
-            <img src="images/wind.png" alt="#" />
-            <div>
-              <p class="wind">15km/h</p>
-              <p>Wind Speed</p>
-            </div>
+          <div class="mainInfo">
+            <h1 class="tempTemperatureDisplay">--°C</h1>
+            <h2 class="cityNameDisplay">--</h2>
+            <p class="weatherDescription">--</p>
           </div>
         </div>
-      </div>
-      <!--End: weather details container-->
+
+        <!-- Extra Details Grid -->
+        <div class="card humidityCard glass">
+          <img src="images/humidity.png" alt="humidity" />
+          <div class="detailInfo">
+            <p>Humidity</p>
+            <h3 class="humidity">--%</h3>
+          </div>
+        </div>
+
+        <div class="card windCard glass">
+          <img src="images/wind.png" alt="wind" />
+          <div class="detailInfo">
+            <p>Wind Speed</p>
+            <h3 class="wind">-- km/h</h3>
+          </div>
+        </div>
+
+        <div class="card pressureCard glass">
+          <div class="detailInfo">
+            <p>Pressure</p>
+            <h3 class="pressure">-- hPa</h3>
+          </div>
+        </div>
+
+        <div class="card visibilityCard glass">
+          <div class="detailInfo">
+            <p>Visibility</p>
+            <h3 class="visibility">-- km</h3>
+          </div>
+        </div>
+
+        <!-- 5-Day Forecast -->
+        <div class="card forecastCard glass">
+          <h3>5-Day Forecast</h3>
+          <div class="forecastList">
+            <!-- Forecast items will be injected here -->
+          </div>
+        </div>
+      </main>
     </div>
     <script src="javascript/index.js"></script>
   </body>
