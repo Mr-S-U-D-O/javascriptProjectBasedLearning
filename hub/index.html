@@ -95,54 +95,98 @@ LOADING...
 
         <div id="contributors-dashboard" style="display: none;" class="terminal-dashboard">
             <div class="stats-header">
-                <h2>[ CONTRIBUTORS ]</h2>
+                <h2>[ CONTRIBUTORS LEADERBOARD ]</h2>
                 <button id="close-contributors" class="theme-btn">EXIT_CONTRIBUTORS</button>
             </div>
-            <ul id="contributors-list" class="contributors-list">
-                <div class="loading">FETCHING CONTRIBUTOR DATA...</div>
-            </ul>
+            <div id="contributors-content" class="contributors-content">
+                <div class="loading">FETCHING GITHUB API DATA...</div>
+            </div>
         </div>
 
         <!-- THE CONTRIBUTE IDE -->
-        <div id="contribute-dashboard" style="display: none;" class="terminal-dashboard">
-            <div class="stats-header">
-                <h2>[ / NEW PROJECT IDE / ]</h2>
-                <div>
-                    <button id="submit-project" class="theme-btn" style="border-color: var(--accent); color: var(--accent);">[ SUBMIT_PR_✓ ]</button>
-                    <button id="close-contribute" class="theme-btn">EXIT_IDE</button>
+        <div id="contribute-dashboard" style="display: none;" class="terminal-dashboard ide-container">
+
+            <!-- VS Code style menu bar -->
+            <div class="ide-menubar">
+                <span class="ide-brand">&gt;_ IDE</span>
+                <nav class="ide-menus">
+                    <div class="ide-menu-group" id="ide-menu-file">
+                        <span class="ide-menu-trigger">File</span>
+                        <div class="ide-dropdown">
+                            <div class="ide-dropdown-item" data-action="new-file">New File <kbd>Ctrl+N</kbd></div>
+                            <div class="ide-dropdown-item" data-action="new-folder">New Folder</div>
+                            <div class="ide-dropdown-sep"></div>
+                            <div class="ide-dropdown-item" data-action="save-zip">Download .zip <kbd>Ctrl+S</kbd></div>
+                        </div>
+                    </div>
+                    <div class="ide-menu-group" id="ide-menu-edit">
+                        <span class="ide-menu-trigger">Edit</span>
+                        <div class="ide-dropdown">
+                            <div class="ide-dropdown-item" data-action="find">Find <kbd>Ctrl+F</kbd></div>
+                        </div>
+                    </div>
+                </nav>
+                <div class="ide-menubar-right">
+                    <button id="submit-project" class="ide-submit-btn">Submit PR ↗</button>
+                    <button id="close-contribute" class="ide-close-btn">✕</button>
                 </div>
             </div>
-            
-            <div class="ide-layout">
-                <div class="ide-sidebar">
-                    <div class="ide-files-header">EXPLORER</div>
-                    <ul class="ide-file-list" id="ide-file-list">
-                        <li class="ide-file active" data-file="html">index.html</li>
-                        <li class="ide-file" data-file="css">style.css</li>
-                        <li class="ide-file" data-file="js">script.js</li>
-                    </ul>
-                </div>
-                
-                <div class="ide-editor-pane">
-                    <div class="ide-tabs">
-                        <span class="ide-tab-active" id="current-file-label">index.html</span>
+
+            <!-- Body: sidebar + editor + preview -->
+            <div class="ide-body">
+
+                <!-- Sidebar / Explorer -->
+                <div class="ide-sidebar" id="ide-sidebar">
+                    <div class="ide-sidebar-head">
+                        <span>EXPLORER</span>
+                        <div class="ide-sidebar-actions">
+                            <button class="ide-icon-btn" id="ide-btn-new-file" title="New File">&#xff0b;&#x1f4c4;</button>
+                            <button class="ide-icon-btn" id="ide-btn-new-folder" title="New Folder">&#xff0b;&#x1f4c1;</button>
+                        </div>
                     </div>
-                    <div class="code-mirror-wrapper">
-                        <pre id="ide-highlight" class="ide-highlight" aria-hidden="true"></pre>
-                        <textarea id="ide-editor" class="ide-textarea" spellcheck="false" autocomplete="off"></textarea>
+                    <div id="ide-file-tree" class="ide-file-tree"></div>
+                </div>
+
+                <!-- Editor column -->
+                <div class="ide-center">
+                    <div class="ide-tabbar" id="ide-tabbar"></div>
+                    <div class="ide-find-bar" id="ide-find-bar" style="display:none;">
+                        <span class="ide-find-icon">&#128269;</span>
+                        <input type="text" id="ide-find-input" class="ide-find-input" placeholder="Find..." spellcheck="false">
+                        <span id="ide-find-count" class="ide-find-count"></span>
+                        <button id="ide-find-prev" class="ide-icon-btn">&#8593;</button>
+                        <button id="ide-find-next" class="ide-icon-btn">&#8595;</button>
+                        <button id="ide-find-close" class="ide-icon-btn">&#10005;</button>
+                    </div>
+                    <div class="ide-editor-area">
+                        <div class="ide-line-numbers" id="ide-line-numbers"></div>
+                        <div class="code-mirror-wrapper">
+                            <pre id="ide-highlight" class="ide-highlight" aria-hidden="true"></pre>
+                            <textarea id="ide-editor" class="ide-textarea" spellcheck="false" autocomplete="off" autocorrect="off"></textarea>
+                        </div>
+                    </div>
+                    <div class="ide-statusbar">
+                        <span id="ide-status-file">index.html</span>
+                        <span id="ide-status-lang">HTML</span>
+                        <span id="ide-status-pos">Ln 1, Col 1</span>
                     </div>
                 </div>
 
+                <!-- Live Preview -->
                 <div class="ide-preview-pane">
-                    <div class="ide-tabs">
-                        <span class="ide-tab-active">Live Preview</span>
-                        <button id="refresh-preview" class="theme-btn" style="font-size:0.6rem; padding: 0.1rem 0.3rem">RELOAD</button>
+                    <div class="ide-preview-bar">
+                        <span>&#128065; Live Preview</span>
+                        <button id="refresh-preview" class="ide-icon-btn" title="Reload">&#8635;</button>
                     </div>
-                    <div class="iframe-wrapper">
-                        <iframe id="ide-iframe" title="Live Preview"></iframe>
-                    </div>
+                    <iframe id="ide-iframe" title="Live Preview"></iframe>
                 </div>
             </div>
+        </div>
+
+        <!-- Right-click context menu -->
+        <div id="ide-ctx-menu" class="ide-ctx-menu" style="display:none;">
+            <div class="ide-ctx-item" data-ctx="rename">Rename</div>
+            <div class="ide-ctx-item" data-ctx="delete">Delete</div>
         </div>
 
         <footer class="hub-footer">
