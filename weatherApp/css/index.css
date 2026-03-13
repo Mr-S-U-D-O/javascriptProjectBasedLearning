@@ -36,7 +36,15 @@ body {
 .header {
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.lastUpdated {
+  font-size: 0.9rem;
+  opacity: 0.6;
 }
 
 .searchBarContainer {
