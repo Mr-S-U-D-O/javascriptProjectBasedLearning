@@ -46,6 +46,9 @@ async function checkWeather(city) {
     // Forecast
     await getForecast(city);
 
+    // Air Quality
+    await getAirQuality(data.coord.lat, data.coord.lon);
+
   } catch (error) {
     console.error(error);
     alert(error.message);
@@ -75,6 +78,14 @@ async function getForecast(city) {
     `;
     forecastList.appendChild(item);
   }
+}
+
+async function getAirQuality(lat, lon) {
+  const response = await fetch(`${airPollutionUrl}lat=${lat}&lon=${lon}&appid=${weatherApiKey}`);
+  const data = await response.json();
+  const aqi = data.list[0].main.aqi;
+  const aqiText = ["Good", "Fair", "Moderate", "Poor", "Very Poor"];
+  document.querySelector(".airQuality").innerHTML = aqiText[aqi - 1];
 }
 
 searchBtn.addEventListener("click", () => {
