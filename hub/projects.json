@@ -1,0 +1,205 @@
+{
+  "lastUpdated": "2026-03-13T16:34:12.901Z",
+  "projects": [
+    {
+      "id": "1.Quiz Game",
+      "number": 1,
+      "name": "Quiz Game",
+      "category": "Interactives",
+      "path": "./1.Quiz Game/index.html"
+    },
+    {
+      "id": "2. Clamp code generator",
+      "number": 2,
+      "name": "Clamp code generator",
+      "category": "Generators",
+      "path": "./2. Clamp code generator/index.html"
+    },
+    {
+      "id": "3.Github profile finder",
+      "number": 3,
+      "name": "Github profile finder",
+      "category": "Dashboards",
+      "path": "./3.Github profile finder/index.html"
+    },
+    {
+      "id": "4.Css Clip Path Generator",
+      "number": 4,
+      "name": "Css Clip Path Generator",
+      "category": "Generators",
+      "path": "./4.Css Clip Path Generator/index.html"
+    },
+    {
+      "id": "5. CSS Filter & Image Effects Playground",
+      "number": 5,
+      "name": "CSS Filter & Image Effects Playground",
+      "category": "Visual Effects",
+      "path": "./5. CSS Filter & Image Effects Playground/index.html"
+    },
+    {
+      "id": "6.pricing one",
+      "number": 6,
+      "name": "pricing one",
+      "category": "UI Components",
+      "path": "./6.pricing one/index.html"
+    },
+    {
+      "id": "7.Fancy Border-Radius (Blob) Generator",
+      "number": 7,
+      "name": "Fancy Border-Radius (Blob) Generator",
+      "category": "Generators",
+      "path": "./7.Fancy Border-Radius (Blob) Generator/index.html"
+    },
+    {
+      "id": "8.Neumorphism Generator",
+      "number": 8,
+      "name": "Neumorphism Generator",
+      "category": "Generators",
+      "path": "./8.Neumorphism Generator/index.html"
+    },
+    {
+      "id": "9.Visual CSS Keyframe Animation Studio",
+      "number": 9,
+      "name": "Visual CSS Keyframe Animation Studio",
+      "category": "Generators",
+      "path": "./9.Visual CSS Keyframe Animation Studio/index.html"
+    },
+    {
+      "id": "10.Semantic Custom Progress Bar Kit",
+      "number": 10,
+      "name": "Semantic Custom Progress Bar Kit",
+      "category": "UI Components",
+      "path": "./10.Semantic Custom Progress Bar Kit/index.html"
+    },
+    {
+      "id": "11.Cursor-Tracking Spotlight Reveal Effect",
+      "number": 11,
+      "name": "Cursor-Tracking Spotlight Reveal Effect",
+      "category": "Visual Effects",
+      "path": "./11.Cursor-Tracking Spotlight Reveal Effect/index.html"
+    },
+    {
+      "id": "12.CSS Messi",
+      "number": 12,
+      "name": "CSS Messi",
+      "category": "Miscellaneous",
+      "path": "./12.CSS Messi/index.html"
+    },
+    {
+      "id": "13.Tailwind Step with Directions",
+      "number": 13,
+      "name": "Tailwind Step with Directions",
+      "category": "Miscellaneous",
+      "path": "./13.Tailwind Step with Directions/index.html"
+    },
+    {
+      "id": "14.Tailwind Stats Showcase",
+      "number": 14,
+      "name": "Tailwind Stats Showcase",
+      "category": "Miscellaneous",
+      "path": "./14.Tailwind Stats Showcase/index.html"
+    },
+    {
+      "id": "15.Interactive CSS Light Bulb Toggle",
+      "number": 15,
+      "name": "Interactive CSS Light Bulb Toggle",
+      "category": "Interactives",
+      "path": "./15.Interactive CSS Light Bulb Toggle/index.html"
+    },
+    {
+      "id": "16.Card Transition Shift Layout",
+      "number": 16,
+      "name": "Card Transition Shift Layout",
+      "category": "Cards",
+      "path": "./16.Card Transition Shift Layout/index.html"
+    },
+    {
+      "id": "17.3D Stacking Card List Effect",
+      "number": 17,
+      "name": "3D Stacking Card List Effect",
+      "category": "Visual Effects",
+      "path": "./17.3D Stacking Card List Effect/index.html"
+    },
+    {
+      "id": "18.Animated Underlines with SVGexternal link",
+      "number": 18,
+      "name": "Animated Underlines with SVGexternal link",
+      "category": "Miscellaneous",
+      "path": "./18.Animated Underlines with SVGexternal link/index.html"
+    },
+    {
+      "id": "19.Responsive Dashboard with Sliders and Music Player",
+      "number": 19,
+      "name": "Responsive Dashboard with Sliders and Music Player",
+      "category": "Dashboards",
+      "path": "./19.Responsive Dashboard with Sliders and Music Player/index.html"
+    },
+    {
+      "id": "20.Glassmorphism CSS Generator",
+      "number": 20,
+      "name": "Glassmorphism CSS Generator",
+      "category": "Generators",
+      "path": "./20.Glassmorphism CSS Generator/index.html"
+    },
+    {
+      "id": "21. Multi layer box shadow generator",
+      "number": 21,
+      "name": "Multi layer box shadow generator",
+      "category": "Generators",
+      "path": "./21. Multi layer box shadow generator/index.html"
+    },
+    {
+      "id": "22.Before and after",
+      "number": 22,
+      "name": "Before and after",
+      "category": "Miscellaneous",
+      "path": "./22.Before and after/index.html"
+    },
+    {
+      "id": "23.faq and gallary",
+      "number": 23,
+      "name": "faq and gallary",
+      "category": "UI Components",
+      "path": "./23.faq and gallary/index.html"
+    },
+    {
+      "id": "25.CSS Gradient Generator",
+      "number": 25,
+      "name": "CSS Gradient Generator",
+      "category": "Generators",
+      "path": "./25.CSS Gradient Generator/index.html"
+    },
+    {
+      "id": "26.Glassmorphism Profile Info Card",
+      "number": 26,
+      "name": "Glassmorphism Profile Info Card",
+      "category": "Visual Effects",
+      "path": "./26.Glassmorphism Profile Info Card/index.html"
+    },
+    {
+      "id": "27.Morphing Profile Card Interaction",
+      "number": 27,
+      "name": "Morphing Profile Card Interaction",
+      "category": "Cards",
+      "path": "./27.Morphing Profile Card Interaction/index.html"
+    },
+    {
+      "id": "28.AdminHub Admin Dashboard v2.1",
+      "number": 28,
+      "name": "AdminHub Admin Dashboard v2.1",
+      "category": "Dashboards",
+      "path": "./28.AdminHub Admin Dashboard v2.1/index.html"
+    },
+    {
+      "id": "29.weatherApp",
+      "number": 29,
+      "name": "weatherApp",
+      "category": "Utilities",
+      "path": "./29.weatherApp/index.html"
+    }
+  ],
+  "stats": {
+    "total": 28,
+    "categories": 8
+  }
+}
