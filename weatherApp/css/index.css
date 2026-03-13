@@ -46,10 +46,17 @@ body {
   text-align: right;
 }
 
+.liveClock {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  letter-spacing: -1px;
+}
+
 .currentDate {
-  font-size: 1.2rem;
-  font-weight: 600;
-  letter-spacing: -0.5px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-top: -5px;
 }
 
 .lastUpdated {
