@@ -33,6 +33,11 @@ The hub's data is maintained by `scripts/update-hub.js`.
 node scripts/update-hub.js
 ```
 
+**To auto-update the hub while working:**
+```bash
+node scripts/watch-hub.js
+```
+
 ### Aesthetic Blueprint
 - **Colors**: Neo-Matrix Green on Black.
 - **Borders**: 2px solid accents.
