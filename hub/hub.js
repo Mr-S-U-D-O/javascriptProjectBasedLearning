@@ -300,17 +300,44 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (refreshPreviewBtn) refreshPreviewBtn.addEventListener('click', updateIframe);
             
             if (submitProjectBtn) {
-                submitProjectBtn.addEventListener('click', async () => {
-                    const title = prompt("Enter a title for your new project contribution:", "MyAwesomeApp");
-                    if (!title) return;
-                    
+                const submitModal   = document.getElementById('submit-modal');
+                const titleInput    = document.getElementById('project-title-input');
+                const modalConfirm  = document.getElementById('modal-confirm');
+                const modalCancel   = document.getElementById('modal-cancel');
+
+                // Show the custom modal
+                submitProjectBtn.addEventListener('click', () => {
+                    if (!submitModal) return;
+                    titleInput.value = '';
+                    submitModal.style.display = 'flex';
+                    setTimeout(() => titleInput.focus(), 50);
+                });
+
+                // Cancel — close modal
+                modalCancel.addEventListener('click', () => {
+                    submitModal.style.display = 'none';
+                });
+                submitModal.addEventListener('click', (e) => {
+                    if (e.target === submitModal) submitModal.style.display = 'none';
+                });
+                // Enter key submits
+                titleInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') modalConfirm.click();
+                });
+
+                // Confirm — bundle and redirect
+                modalConfirm.addEventListener('click', async () => {
+                    const title = titleInput.value.trim();
+                    if (!title) { titleInput.focus(); return; }
+                    submitModal.style.display = 'none';
+
                     ideFiles[currentIdeFile] = ideEditor.value;
                     const zip = new JSZip();
                     const folderName = title.replace(/[^a-zA-Z0-9_-]/g, '');
                     const folder = zip.folder(folderName);
                     folder.file("index.html", ideFiles.html);
-                    folder.file("style.css", ideFiles.css);
-                    folder.file("script.js", ideFiles.js);
+                    folder.file("style.css",  ideFiles.css);
+                    folder.file("script.js",  ideFiles.js);
                     folder.file("preview.png", "");
                     folder.file("README.md", `# ${title}\nBuilt and submitted via S.U.D.O Hub IDE.`);
 
@@ -323,12 +350,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                     a.click();
                     document.body.removeChild(a);
                     URL.revokeObjectURL(url);
-                    
-                    playSound('type');
+
+                    playSound('switch');
                     setTimeout(() => {
-                        alert("Great! Your project files have been packaged into a .zip file!\n\nYou will now be redirected to the repository's 'Upload files' page.\n\nSTEPS to officially submit:\n1. Drag & Drop your new .zip file there.\n2. Wait for it to upload.\n3. Click 'Commit changes' to open your Pull Request!");
                         window.open("https://github.com/Mr-S-U-D-O/javascriptProjectBasedLearning/upload/main", "_blank");
-                    }, 500);
+                    }, 600);
                 });
             }
         }
