@@ -20,7 +20,10 @@
 
         <div class="search-container">
             <span class="prompt">S.U.D.O&gt;</span>
-            <input type="text" id="search-input" placeholder="[ Search projects or type 'help' for commands... ]" autocomplete="off" spellcheck="false">
+            <div class="search-wrap">
+                <span id="ghost-text" class="ghost-text"></span>
+                <input type="text" id="search-input" placeholder="[ Search projects or type 'help' for commands... ]" autocomplete="off" spellcheck="false">
+            </div>
             <span class="cursor"></span>
         </div>
 
@@ -225,6 +228,7 @@ LOADING...
                 <button class="theme-btn active" data-theme="modern">MODERN</button>
                 <button class="theme-btn" data-theme="matrix">MATRIX</button>
                 <button class="theme-btn" data-theme="paper">PAPER</button>
+                <button id="toggle-soundscape" class="theme-btn" title="Toggle Ambient Hum">SOUND: OFF</button>
             </div>
             <div class="version">BUILD_V1.1</div>
         </footer>
@@ -327,6 +331,9 @@ LOADING...
             </div>
         </div>
     </div>
+
+    <!-- Achievement Notification Area -->
+    <div id="achievement-container" class="achievement-container"></div>
 
     <script src="hub.js"></script>
 </body>

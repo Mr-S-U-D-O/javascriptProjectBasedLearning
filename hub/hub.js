@@ -20,6 +20,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     const totalCategoriesEl = document.getElementById('total-categories');
     const searchInput = document.getElementById('search-input');
     const themeBtns = document.querySelectorAll('.theme-btn');
+    const ghostText = document.getElementById('ghost-text');
+    const toggleSoundscapeBtn = document.getElementById('toggle-soundscape');
+    const achievementContainer = document.getElementById('achievement-container');
+
+    const COMMANDS = ['stats', 'history', 'guide', 'contribute', 'contributors', 'clear'];
 
 
     // --- Audio System ---
@@ -35,6 +40,63 @@ document.addEventListener('DOMContentLoaded', async () => {
             audioCtx.resume();
         }
     };
+
+    // --- Soundscape (Ambient Hum) ---
+    let soundscapeNode = null;
+    let isSoundscapeOn = false;
+
+    const startSoundscape = () => {
+        if (!audioCtx) initAudio();
+        if (soundscapeNode) return;
+
+        const gainNode = audioCtx.createGain();
+        gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+        gainNode.gain.linearRampToValueAtTime(0.04, audioCtx.currentTime + 2); // Fade in
+
+        // Create a rich drone using multiple oscillators
+        const frequencies = [55, 110, 165, 220]; // A1, A2, E3, A3
+        const oscillators = frequencies.map(f => {
+            const osc = audioCtx.createOscillator();
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(f, audioCtx.currentTime);
+
+            // Add slight detune for richness
+            osc.detune.setValueAtTime(Math.random() * 10 - 5, audioCtx.currentTime);
+
+            // Lowpass filter to keep it "hum-like" and not buzzing
+            const filter = audioCtx.createBiquadFilter();
+            filter.type = 'lowpass';
+            filter.frequency.setValueAtTime(300, audioCtx.currentTime);
+
+            osc.connect(filter);
+            filter.connect(gainNode);
+            return osc;
+        });
+
+        gainNode.connect(audioCtx.destination);
+        oscillators.forEach(o => o.start());
+        soundscapeNode = { gainNode, oscillators };
+    };
+
+    const stopSoundscape = () => {
+        if (!soundscapeNode) return;
+        const { gainNode, oscillators } = soundscapeNode;
+        gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1); // Fade out
+        setTimeout(() => {
+            oscillators.forEach(o => o.stop());
+            soundscapeNode = null;
+        }, 1100);
+    };
+
+    if (toggleSoundscapeBtn) {
+        toggleSoundscapeBtn.addEventListener('click', () => {
+            isSoundscapeOn = !isSoundscapeOn;
+            toggleSoundscapeBtn.textContent = `SOUND: ${isSoundscapeOn ? 'ON' : 'OFF'}`;
+            toggleSoundscapeBtn.classList.toggle('active', isSoundscapeOn);
+            if (isSoundscapeOn) startSoundscape();
+            else stopSoundscape();
+        });
+    }
 
     const playSound = (type, theme = document.body.className.replace('theme-', '') || 'modern') => {
         if (!audioCtx || isMuted) return;
@@ -90,14 +152,46 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         btn.addEventListener('click', () => {
             initAudio(); // ensure audio is ready
-            themeBtns.forEach(b => { if(b.id !== 'close-stats') b.classList.remove('active')});
+            themeBtns.forEach(b => { 
+                if(b.id !== 'close-stats' && b.id !== 'toggle-soundscape') b.classList.remove('active');
+            });
             btn.classList.add('active');
             const theme = btn.getAttribute('data-theme');
-            document.body.className = theme === 'modern' ? '' : `theme-${theme}`;
-            localStorage.setItem('hub-theme', theme);
-            playSound('switch', theme);
+            if (theme) {
+                document.body.className = theme === 'modern' ? '' : `theme-${theme}`;
+                localStorage.setItem('hub-theme', theme);
+                playSound('switch', theme);
+            }
         });
     });
+
+    // --- Achievements ---
+    const UNLOCKED_ACHIEVEMENTS = new Set(JSON.parse(localStorage.getItem('hub-achievements') || '[]'));
+
+    const unlockAchievement = (id, title, icon) => {
+        if (UNLOCKED_ACHIEVEMENTS.has(id)) return;
+        UNLOCKED_ACHIEVEMENTS.add(id);
+        localStorage.setItem('hub-achievements', JSON.stringify([...UNLOCKED_ACHIEVEMENTS]));
+
+        const toast = document.createElement('div');
+        toast.className = 'achievement-toast';
+        toast.innerHTML = `
+            <div class="achievement-badge">${icon}</div>
+            <div class="achievement-info">
+                <span class="achievement-label">ACHIEVEMENT UNLOCKED</span>
+                <span class="achievement-title">${title}</span>
+            </div>
+        `;
+        achievementContainer.appendChild(toast);
+        playSound('switch');
+
+        setTimeout(() => {
+            toast.classList.add('hide');
+            setTimeout(() => toast.remove(), 500);
+        }, 5000);
+    };
+
+    unlockAchievement('FIRST_BOOT', 'System Initialized', '⚡');
 
     // Typewriter Utility
     const typeWriter = async (element, text, speed = 40) => {
@@ -312,6 +406,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             let files = JSON.parse(JSON.stringify(DEFAULT)); // deep copy
             let openTabs = ['index.html', 'style.css', 'script.js'];
             let activeFile = 'index.html';
+
+            const saveIDEState = () => {
+                localStorage.setItem('ide-files', JSON.stringify(files));
+                localStorage.setItem('ide-folders', JSON.stringify([...folders]));
+                localStorage.setItem('ide-tabs', JSON.stringify(openTabs));
+                localStorage.setItem('ide-active', activeFile);
+            };
 
             // DOM refs
             const el = {
@@ -642,6 +743,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
                 files[name] = '';
                 openTabs.push(name);
+                saveIDEState();
                 switchFile(name);
             };
 
@@ -655,6 +757,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 for (let i = 1; i <= parts.length; i++) {
                     folders.add(parts.slice(0, i).join('/'));
                 }
+                unlockAchievement('ARCHITECT', 'Systems Architect', '🏗️');
+                saveIDEState();
                 renderFileTree();
             };
 
@@ -670,6 +774,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
                 openTabs = openTabs.map(t => t === oldName ? newName : t);
                 if (activeFile === oldName) activeFile = newName;
+                saveIDEState();
                 renderFileTree(); renderTabs(); refreshHighlight(); updateStatus();
             };
 
@@ -681,6 +786,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     activeFile = openTabs[0] || Object.keys(files)[0] || '';
                     if (activeFile && el.editor) el.editor.value = files[activeFile] || '';
                 }
+                saveIDEState();
                 renderFileTree(); renderTabs(); refreshHighlight(); updateStatus();
             };
 
@@ -842,6 +948,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (el.editor) {
                 el.editor.addEventListener('input', () => {
                     if (el.editor) files[activeFile] = el.editor.value;
+                    saveIDEState();
                     refreshHighlight();
                     clearTimeout(el.editor._reload);
                     el.editor._reload = setTimeout(updateIframe, 500);
@@ -883,6 +990,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                 checklistModal.querySelectorAll('.checklist-check').forEach(cb => cb.checked = false);
                 const proceedBtn = document.getElementById('checklist-proceed');
                 if (proceedBtn) proceedBtn.disabled = true;
+                // Polyglot achievement check
+                const hasHTML = Object.keys(files).some(f => f.endsWith('.html'));
+                const hasCSS = Object.keys(files).some(f => f.endsWith('.css'));
+                const hasJS = Object.keys(files).some(f => f.endsWith('.js'));
+                if (hasHTML && hasCSS && hasJS) {
+                    unlockAchievement('POLYGLOT', 'Digital Polyglot', '🉐');
+                }
+
                 checklistModal.style.display = 'flex';
             };
 
@@ -958,6 +1073,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 openTabs = Object.keys(files);
                 activeFile = openTabs[0] || Object.keys(files)[0];
                 if (el.editor) el.editor.value = files[activeFile];
+                saveIDEState();
                 renderFileTree();
                 renderTabs();
                 refreshHighlight();
@@ -989,29 +1105,43 @@ document.addEventListener('DOMContentLoaded', async () => {
             // ---- Bootstrap (init) ----
             let firstLaunch = true;
             const init = () => {
-                files = JSON.parse(JSON.stringify(DEFAULT));
-                folders.clear();
-                // Pre-register folders from DEFAULT
-                Object.keys(files).forEach(f => {
-                    const p = f.split('/');
-                    if(p.length > 1) {
-                        for(let i=1; i<p.length; i++) folders.add(p.slice(0,i).join('/'));
-                    }
-                });
+                const persistedFiles = localStorage.getItem('ide-files');
+                const persistedFolders = localStorage.getItem('ide-folders');
+                const persistedTabs = localStorage.getItem('ide-tabs');
+                const persistedActive = localStorage.getItem('ide-active');
+
+                if (persistedFiles) {
+                    files = JSON.parse(persistedFiles);
+                    folders = new Set(JSON.parse(persistedFolders || '[]'));
+                    openTabs = JSON.parse(persistedTabs || '[]');
+                    activeFile = persistedActive || Object.keys(files)[0];
+                } else {
+                    files = JSON.parse(JSON.stringify(DEFAULT));
+                    folders.clear();
+                    // Pre-register folders from DEFAULT
+                    Object.keys(files).forEach(f => {
+                        const p = f.split('/');
+                        if(p.length > 1) {
+                            for(let i=1; i<p.length; i++) folders.add(p.slice(0,i).join('/'));
+                        }
+                    });
+                    openTabs = ['index.html', 'style.css', 'script.js'];
+                    activeFile = 'index.html';
+                }
+
                 collapsedFolders.clear();
-                openTabs = ['index.html', 'style.css', 'script.js'];
-                activeFile = 'index.html';
-                if (el.editor) el.editor.value = files[activeFile];
+                if (el.editor) el.editor.value = files[activeFile] || '';
                 renderFileTree();
                 renderTabs();
                 refreshHighlight();
                 updateStatus();
                 updateIframe();
+                
                 // Show template picker on first launch
-                if (firstLaunch && templatePicker) {
+                if (firstLaunch && templatePicker && !persistedFiles) {
                     templatePicker.style.display = 'flex';
-                    firstLaunch = false;
                 }
+                firstLaunch = false;
             };
 
             return { init, updateIframe, loadTemplate };
@@ -1110,12 +1240,18 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const limited = contributors.slice(0, 30);
                 const detailed = [];
                 for (const c of limited) {
-                    let details = { name: null, bio: null, public_repos: 0, followers: 0 };
+                    let details = { name: null, bio: null, public_repos: 0, followers: 0, created_at: null };
                     try {
                         const userRes = await fetch(`https://api.github.com/users/${c.login}`);
                         if (userRes.ok) {
                             const u = await userRes.json();
-                            details = { name: u.name || u.login, bio: u.bio, public_repos: u.public_repos, followers: u.followers };
+                            details = { 
+                                name: u.name || u.login, 
+                                bio: u.bio, 
+                                public_repos: u.public_repos, 
+                                followers: u.followers,
+                                created_at: u.created_at
+                            };
                         }
                     } catch(e) {}
                     
@@ -1207,11 +1343,20 @@ document.addEventListener('DOMContentLoaded', async () => {
                 else if (rank === 3) rankDisplay = '🥉 3RD';
                 
                 const isTop3 = rank <= 3;
-                const isNew = c.contributions <= 5;
                 
+                // --- AUTOMATED BADGE LOGIC ---
                 let badges = '';
+                // 1. Top Rank Badges
                 if (isTop3) badges += `<span class="contr-badge contr-badge-top">TOP ${rank}</span>`;
-                if (isNew) badges += `<span class="contr-badge contr-badge-new">NEW</span>`;
+                // 2. New Contributor (fewer than 10 contributions)
+                if (c.contributions <= 5) badges += `<span class="contr-badge contr-badge-new">NEW</span>`;
+                // 3. High Velocity (Active Today)
+                if (c.todayCommits > 0) badges += `<span class="contr-badge contr-badge-active">ACTIVE TODAY</span>`;
+                // 4. Veteran (Been on GitHub for > 5 years)
+                const joinYear = c.details.created_at ? new Date(c.details.created_at).getFullYear() : 2024;
+                if (joinYear <= 2019) badges += `<span class="contr-badge contr-badge-vet">VETERAN</span>`;
+                // 5. Popular (High followers)
+                if (c.details.followers >= 100) badges += `<span class="contr-badge contr-badge-star">STAR</span>`;
                 
                 const delay = i * 0.05;
                 
@@ -1255,10 +1400,19 @@ document.addEventListener('DOMContentLoaded', async () => {
             searchInput.focus(); // Auto focus terminal
             searchInput.addEventListener('input', (e) => {
                 playSound('type');
-                const term = e.target.value.toLowerCase().trim();
+                const val = e.target.value.toLowerCase();
+                const term = val.trim();
                 
-                // Dashboard commands
-                const COMMANDS = ['stats', 'guide', 'history', 'contribute', 'contributors', 'help', 'clear'];
+                // Ghost text logic
+                if (ghostText) {
+                    ghostText.textContent = '';
+                    if (val) {
+                        const match = COMMANDS.find(c => c.startsWith(val));
+                        if (match && match !== val) {
+                            ghostText.textContent = match;
+                        }
+                    }
+                }
 
                 // Help dropdown toggle
                 if (helpDropdown && term !== 'help') {
@@ -1327,6 +1481,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                         group.style.display = 'flex';
                     }
                 });
+            });
+
+            // Tab autocomplete
+            searchInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Tab' && ghostText && ghostText.textContent) {
+                    e.preventDefault();
+                    searchInput.value = ghostText.textContent;
+                    ghostText.textContent = '';
+                    searchInput.dispatchEvent(new Event('input'));
+                }
             });
 
             // Help dropdown click handler

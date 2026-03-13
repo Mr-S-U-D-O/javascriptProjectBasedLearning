@@ -334,35 +334,67 @@ footer.hub-footer {
     transition: background 0.15s;
 }
 .help-item:last-child { border-bottom: none; }
-.help-item:hover { background: rgba(255,255,255,0.05); }
-.help-cmd { color: var(--accent); font-weight: 700; min-width: 120px; font-size: 0.9rem; }
-.help-desc { font-size: 0.8rem; opacity: 0.7; }
+.search-container {
+    background: rgba(10, 10, 10, 0.6);
+    border: 1px solid var(--border-color);
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+    position: relative;
+    z-index: 1001; /* Above help dropdown */
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
 
 .search-container:focus-within {
     border-color: var(--accent);
-    box-shadow: 0 0 10px rgba(0, 255, 65, 0.2);
+    box-shadow: 0 0 20px color-mix(in srgb, var(--accent) 15%, transparent);
 }
 
 .search-container .prompt {
     color: var(--accent);
-    margin-right: 1rem;
     font-weight: 700;
+    white-space: nowrap;
+}
+
+.search-wrap {
+    flex: 1;
+    position: relative;
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.ghost-text {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    color: var(--fg);
+    opacity: 0.25;
+    pointer-events: none;
+    font-size: 1.1rem;
+    font-family: var(--font-mono);
+    white-space: pre;
 }
 
 .search-container input {
     background: transparent;
     border: none;
     color: var(--fg);
-    font-family: var(--font-mono);
+    font-family: inherit;
     font-size: 1.1rem;
-    flex: 1;
     outline: none;
+    width: 100%;
+    position: relative;
+    z-index: 1;
 }
 
 .search-container input::placeholder {
-    color: #444;
+    color: var(--fg);
+    opacity: 0.3;
 }
-
 .search-container .cursor {
     display: inline-block;
     width: 10px;
@@ -1278,6 +1310,21 @@ footer.hub-footer {
     color: #ffd700;
     border: 1px solid rgba(255, 215, 0, 0.3);
 }
+.contr-badge-active {
+    background: rgba(0, 255, 100, 0.15);
+    color: #00ff64;
+    border: 1px solid rgba(0, 255, 100, 0.3);
+}
+.contr-badge-vet {
+    background: rgba(0, 150, 255, 0.15);
+    color: #0096ff;
+    border: 1px solid rgba(0, 150, 255, 0.3);
+}
+.contr-badge-star {
+    background: rgba(255, 0, 255, 0.15);
+    color: #ff00ff;
+    border: 1px solid rgba(255, 0, 255, 0.3);
+}
 
 /* Top 3 spotlight glow */
 .contr-row.contr-spotlight {
@@ -1411,4 +1458,81 @@ footer.hub-footer {
     .contr-action { display: none; }
     .contr-metric { margin-left: 0; margin-top: 0.25rem; }
     .contr-header { flex-direction: column; gap: 0.25rem; }
+}
+
+/* =============================================
+   ACHIEVEMENTS
+   ============================================= */
+.achievement-container {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    pointer-events: none;
+}
+
+.achievement-toast {
+    background: rgba(10, 10, 10, 0.9);
+    border: 1px solid var(--accent);
+    padding: 1rem 1.5rem;
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 15px color-mix(in srgb, var(--accent) 30%, transparent);
+    animation: toastSlideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    pointer-events: auto;
+}
+
+@keyframes toastSlideIn {
+    from { opacity: 0; transform: translateX(50px) scale(0.9); }
+    to { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+.achievement-toast.hide {
+    animation: toastSlideOut 0.5s ease both;
+}
+
+@keyframes toastSlideOut {
+    to { opacity: 0; transform: translateX(50px) scale(0.9); }
+}
+
+.achievement-badge {
+    font-size: 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid color-mix(in srgb, var(--accent) 50%, transparent);
+}
+
+.achievement-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.achievement-label {
+    font-size: 0.65rem;
+    color: var(--accent);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.achievement-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+/* Sound Toggle Active state */
+#toggle-soundscape.active {
+    background: var(--accent);
+    color: var(--bg);
+    box-shadow: 0 0 15px color-mix(in srgb, var(--accent) 50%, transparent);
 }
