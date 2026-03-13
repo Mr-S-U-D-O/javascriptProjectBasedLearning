@@ -30,7 +30,7 @@ jobs:
       - name: Upload hub/ as artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./hub
+          path: ./
 
       - name: Deploy to GitHub Pages
         id: deployment
