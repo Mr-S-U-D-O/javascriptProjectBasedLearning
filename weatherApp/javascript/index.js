@@ -1,9 +1,14 @@
 const weatherApiKey = "c9074cdc56348f646c36b7e1fa6e361b";
 const weatherApiUrl =
-  "https://api.openweathermap.org/data/2.5/weather?units=metric&q=matatiele";
+  "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
 
-async function checkWeather() {
-  const response = await fetch(weatherApiUrl + `&appid=${weatherApiKey}`);
+  const searchBox = document.querySelector(".searchBarContainer input");
+  const searchBtn = document.querySelector(".searchBarContainer btn");
+
+ 
+
+async function checkWeather(city) {
+  const response = await fetch(weatherApiUrl + city + `&appid=${weatherApiKey}`);
   var data = await response.json();
 
 
@@ -18,4 +23,6 @@ async function checkWeather() {
   
 }
 
-checkWeather();
+searchBtn.addEventListener("click", () => {
+  checkWeather(searchBox.value);
+});
