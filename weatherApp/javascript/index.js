@@ -33,6 +33,7 @@ async function checkWeather(city) {
     document.querySelector(".sunrise").innerHTML = formatTime(data.sys.sunrise);
     document.querySelector(".sunset").innerHTML = formatTime(data.sys.sunset);
     document.querySelector(".lastUpdated").innerHTML = `Last updated: ${new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })}`;
+    document.querySelector(".currentDate").innerHTML = new Date().toLocaleDateString("en-US", { weekday: "long", day: "numeric", month: "long" });
 
     // Update main icon
     const condition = data.weather[0].main.toLowerCase();
