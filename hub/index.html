@@ -45,6 +45,11 @@
             <div class="help-item" data-cmd="license"><span class="help-cmd">license</span><span class="help-desc">Legal information [v1.2]</span></div>
             <div class="help-item" data-cmd="support"><span class="help-cmd">support</span><span class="help-desc">Project donations [v1.2]</span></div>
             <div class="help-item" data-cmd="changelog"><span class="help-cmd">changelog</span><span class="help-desc">Version updates [v1.2]</span></div>
+            <div class="help-item" data-cmd="enable-ai"><span class="help-cmd">enable-ai</span><span class="help-desc">Activate S.U.D.O AI with your API key</span></div>
+            <div class="help-item" data-cmd="disable-ai"><span class="help-cmd">disable-ai</span><span class="help-desc">Deactivate S.U.D.O AI features</span></div>
+            <div class="help-item ai-only" data-cmd="ask" style="display:none;"><span class="help-cmd">ask</span><span class="help-desc">Chat with S.U.D.O AI assistant</span></div>
+            <div class="help-item ai-only" data-cmd="learn" style="display:none;"><span class="help-cmd">learn</span><span class="help-desc">AI-generated learning path for projects</span></div>
+            <div class="help-item ai-only" data-cmd="idea" style="display:none;"><span class="help-cmd">idea</span><span class="help-desc">AI generates a fresh project concept</span></div>
         </div>
 
         <main id="hub-main">
@@ -55,7 +60,10 @@
         <div id="stats-dashboard" style="display: none;">
             <div class="stats-header">
                 <h2>[ SYSTEM STATS ]</h2>
-                <button id="close-stats" class="theme-btn">EXIT_STATS</button>
+                <div class="stats-header-btns">
+                    <button id="ai-stats-analyze" class="theme-btn btn-primary ai-only" style="display: none;"><i class='bx bxs-magic-wand'></i> AI ANALYSIS</button>
+                    <button id="close-stats" class="theme-btn">EXIT_STATS</button>
+                </div>
             </div>
             
             <div class="stats-grid">
@@ -100,11 +108,54 @@ LOADING...
         <div id="history-dashboard" style="display: none;" class="terminal-dashboard">
             <div class="stats-header">
                 <h2>[ GIT COMMIT HISTORY ]</h2>
-                <button id="close-history" class="theme-btn">EXIT_HISTORY</button>
+                <div class="stats-header-btns">
+                    <button id="ai-history-summarize" class="theme-btn btn-primary ai-only" style="display: none;">✨ AI SUMMARIZE</button>
+                    <button id="close-history" class="theme-btn">EXIT_HISTORY</button>
+                </div>
             </div>
+            <div id="ai-history-summary" class="ai-gen-result" style="display:none;"></div>
             <ul id="history-list" class="history-list">
                 <div class="loading">FETCHING GITHUB API...</div>
             </ul>
+        </div>
+
+        <!-- AI CHAT DASHBOARD -->
+        <div id="ai-chat-dashboard" style="display: none;" class="terminal-dashboard">
+            <div class="stats-header">
+                <h2>[ S.U.D.O AI CHAT ]</h2>
+                <button id="close-ai-chat" class="theme-btn">EXIT_CHAT</button>
+            </div>
+            <div id="ai-chat-messages" class="ai-chat-messages"></div>
+            <div class="ai-chat-input-row">
+                <span class="prompt">AI&gt;</span>
+                <input type="text" id="ai-chat-input" placeholder="Ask me anything about code, projects, or the hub..." autocomplete="off" spellcheck="false">
+                <button id="ai-chat-send" class="theme-btn btn-primary">SEND</button>
+            </div>
+        </div>
+
+        <!-- AI LEARNING PATH DASHBOARD -->
+        <div id="learn-dashboard" style="display: none;" class="terminal-dashboard">
+            <div class="stats-header">
+                <h2>[ AI LEARNING PATH ]</h2>
+                <button id="close-learn" class="theme-btn">EXIT_LEARN</button>
+            </div>
+            <div id="learn-content" class="learn-content">
+                <div class="loading">AI IS ANALYZING PROJECTS...</div>
+            </div>
+        </div>
+
+        <!-- AI IDEA GENERATOR DASHBOARD -->
+        <div id="idea-dashboard" style="display: none;" class="terminal-dashboard">
+            <div class="stats-header">
+                <h2>[ AI PROJECT IDEA ]</h2>
+                <div class="stats-header-btns">
+                    <button id="ai-idea-regenerate" class="theme-btn btn-primary">🔄 NEW IDEA</button>
+                    <button id="close-idea" class="theme-btn">EXIT_IDEA</button>
+                </div>
+            </div>
+            <div id="idea-content" class="idea-content">
+                <div class="loading">AI IS GENERATING A PROJECT CONCEPT...</div>
+            </div>
         </div>
 
         <div id="contributors-dashboard" style="display: none;" class="terminal-dashboard">
@@ -137,6 +188,11 @@ LOADING...
                     <span class="contrib-stat-label">MVP</span>
                     <span class="contrib-stat-value" id="cs-mvp">--</span>
                 </div>
+            </div>
+
+            <div id="ai-commentary-box" class="ai-commentary-box" style="display:none;">
+                <span class="ai-label">S.U.D.O AI ANALYTICS:</span>
+                <span id="ai-insight-text" class="ai-insight-text">Initializing behavioral analysis...</span>
             </div>
 
             <!-- Tab Switcher -->
@@ -215,10 +271,20 @@ LOADING...
                             <textarea id="ide-editor" class="ide-textarea" spellcheck="false" autocomplete="off" autocorrect="off"></textarea>
                         </div>
                     </div>
-                    <div class="ide-statusbar">
-                        <span id="ide-status-file">index.html</span>
-                        <span id="ide-status-lang">HTML</span>
-                        <span id="ide-status-pos">Ln 1, Col 1</span>
+                    <div id="ide-status-bar" class="ide-status-bar">
+                        <div class="ide-status-left">
+                            <span id="ide-status-file">index.html</span>
+                            <span id="ide-status-pos">Ln 1, Col 1</span>
+                            <span id="ide-status-lang">HTML</span>
+                        </div>
+                        <div class="ide-status-right">
+                            <button id="ai-ide-explain" class="theme-btn ai-only" style="display: none;">💡 EXPLAIN</button>
+                            <button id="ai-ide-scan" class="theme-btn ai-only" style="display: none;">🔍 SCAN</button>
+                            <button id="ai-ide-generate" class="theme-btn ai-only" style="display: none;">⚡ GENERATE</button>
+                            <button id="ai-ide-docs" class="theme-btn ai-only" style="display: none;">📄 DOCS</button>
+                            <button id="ai-ide-review" class="theme-btn ai-only" style="display: none;"><i class='bx bxs-magic-wand'></i> REVIEW</button>
+                            <span class="ide-status-item">UTF-8</span>
+                        </div>
                     </div>
                 </div>
                 <div class="ide-resizer" id="ide-resizer-right"></div>
@@ -356,6 +422,73 @@ LOADING...
     <!-- Achievement Notification Area -->
     <div id="achievement-container" class="achievement-container"></div>
 
-    <script src="hub.js"></script>
+    <!-- AI GENERATE PROMPT MODAL -->
+    <div id="ai-generate-modal" class="modal-overlay" style="display:none;">
+        <div class="modal-box">
+            <div class="modal-header">[ ⚡ AI CODE GENERATOR ]</div>
+            <div class="modal-body">
+                <label class="modal-label" for="ai-generate-input">DESCRIBE WHAT YOU WANT</label>
+                <div class="modal-input-row">
+                    <span class="modal-prompt">&gt;</span>
+                    <input type="text" id="ai-generate-input" class="modal-input" placeholder="e.g. add a dark mode toggle button" spellcheck="false" autocomplete="off">
+                </div>
+                <p style="font-size:0.75rem;opacity:0.5;margin-top:1rem;">⚠ Code generated by AI will be marked with an AI_USED badge</p>
+            </div>
+            <div class="modal-footer">
+                <button id="ai-generate-cancel" class="theme-btn">CANCEL</button>
+                <button id="ai-generate-confirm" class="theme-btn modal-confirm-btn">[ GENERATE ]</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI EXPLAIN PANEL -->
+    <div id="ai-explain-panel" class="ai-explain-panel" style="display:none;">
+        <div class="ai-explain-header">
+            <span>💡 AI EXPLANATION</span>
+            <button id="close-ai-explain" class="ide-icon-btn">&times;</button>
+        </div>
+        <div id="ai-explain-content" class="ai-explain-content">Analyzing...</div>
+    </div>
+
+    <!-- AI SCAN RESULTS PANEL -->
+    <div id="ai-scan-panel" class="ai-scan-panel" style="display:none;">
+        <div class="ai-explain-header">
+            <span>🔍 AI BUG SCAN</span>
+            <button id="close-ai-scan" class="ide-icon-btn">&times;</button>
+        </div>
+        <div id="ai-scan-content" class="ai-explain-content">Scanning...</div>
+    </div>
+
+    <!-- AI ERROR POPUP -->
+    <div id="ai-error-popup" class="ai-error-popup" style="display:none;">
+        <span id="ai-error-text"></span>
+        <button onclick="this.parentElement.style.display='none'" class="ide-icon-btn">&times;</button>
+    </div>
+
+    <!-- AI CONFIGURATION MODAL -->
+    <div id="ai-modal-overlay" class="modal-overlay" style="display: none;">
+        <div class="ai-modal">
+            <div class="ai-modal-header">
+                <h2><i class='bx bxs-bot'></i> ENABLE S.U.D.O AI</h2>
+                <button id="close-ai-modal" class="modal-close">&times;</button>
+            </div>
+            <div class="ai-modal-body">
+                <p>Unlock real-time AI insights, code assistance, and dynamic personalities by providing your Google Gemini API key.</p>
+                <div class="ai-input-group">
+                    <label for="gemini-api-key">GEMINI API KEY</label>
+                    <input type="password" id="gemini-api-key" placeholder="Enter your key here..." autocomplete="off">
+                </div>
+                <div class="ai-modal-info">
+                    <i class='bx bx-info-circle'></i> Your key is stored locally in your browser and never sent to our servers. Get one at <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a>.
+                </div>
+                <div id="ai-validation-status" class="ai-validation-status"></div>
+            </div>
+            <div class="ai-modal-footer">
+                <button id="save-ai-key" class="theme-btn btn-primary">SAVE & ENABLE</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="hub.js?v=3"></script>
 </body>
 </html>

@@ -1,3 +1,5 @@
+import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
+
 document.addEventListener('DOMContentLoaded', async () => {
     // --- Theme Setup ---
     const savedTheme = localStorage.getItem('hub-theme') || 'modern';
@@ -10,6 +12,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const contributeDashboard = document.getElementById('contribute-dashboard');
     const contributorsDashboard = document.getElementById('contributors-dashboard');
     const helpDropdown = document.getElementById('help-dropdown');
+    const aiChatDashboard = document.getElementById('ai-chat-dashboard');
+    const learnDashboard = document.getElementById('learn-dashboard');
+    const ideaDashboard = document.getElementById('idea-dashboard');
     
     const closeStatsBtn = document.getElementById('close-stats');
     const closeGuideBtn = document.getElementById('close-guide');
@@ -24,10 +29,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const toggleSoundscapeBtn = document.getElementById('toggle-soundscape');
     const achievementContainer = document.getElementById('achievement-container');
 
-    const COMMANDS = [
-        'stats', 'history', 'guide', 'contribute', 'contributors', 'clear', 'help',
-        'socials', 'blog', 'feedback', 'settings', 'arcade', 'themes', 'resources', 'license', 'support', 'changelog'
-    ];
+    let data = { projects: [], stats: {} }; // Move data to outer scope for global access
+    const COMMANDS = ['help', 'stats', 'guide', 'contribute', 'contributors', 'history', 'clear', 'matrix', 'socials', 'blog', 'feedback', 'settings', 'arcade', 'themes', 'resources', 'license', 'support', 'changelog', 'enable-ai', 'disable-ai', 'enable ai', 'disable ai', 'ask', 'learn', 'idea'];
 
 
     // --- Audio System ---
@@ -267,7 +270,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
         const response = await fetch('projects.json');
-        const data = await response.json();
+        data = await response.json();
 
         // Update top header stats
         totalProjectsEl.textContent = data.stats.total.toString().padStart(2, '0');
@@ -303,9 +306,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <li class="project-item" data-name="${project.name.toLowerCase()}" data-tags="${(project.tags || []).join(' ').toLowerCase()}">
                             <a href="${project.path}" class="project-link">
                                 <span class="project-name">${project.name}</span>
-                                <div class="project-preview">
-                                    <img src="../${project.id}/preview.png" onerror="this.parentElement.style.display='none'" alt="">
-                                </div>
                                 <div class="project-meta">
                                     ${(project.tags || []).map(t => `<span class="tech-tag">${t}</span>`).join('')}
                                     <span class="project-number">#${project.number.toString().padStart(2, '0')}</span>
@@ -340,6 +340,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             contributeDashboard.style.display = 'none';
             if (contributorsDashboard) contributorsDashboard.style.display = 'none';
             if (helpDropdown) helpDropdown.style.display = 'none';
+            if (aiChatDashboard) aiChatDashboard.style.display = 'none';
+            if (learnDashboard) learnDashboard.style.display = 'none';
+            if (ideaDashboard) ideaDashboard.style.display = 'none';
             mainContainer.style.display = 'block';
         };
 
@@ -361,6 +364,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (closeHistoryBtn) closeHistoryBtn.addEventListener('click', resetUI);
         if (closeContributeBtn) closeContributeBtn.addEventListener('click', resetUI);
         if (closeContributorsBtn) closeContributorsBtn.addEventListener('click', resetUI);
+        document.getElementById('close-ai-chat')?.addEventListener('click', resetUI);
+        document.getElementById('close-learn')?.addEventListener('click', resetUI);
+        document.getElementById('close-idea')?.addEventListener('click', resetUI);
 
         // --- Help dropdown interactivity ---
         if (helpDropdown) {
@@ -1301,6 +1307,31 @@ document.addEventListener('DOMContentLoaded', async () => {
             unlockAchievement('HISTORIAN', 'Timeline Watcher', '🕰️');
         };
 
+
+// --- AI Configuration (BYOK) ---
+
+const AI_CONFIG = {
+    apiKey: localStorage.getItem('gemini_api_key'),
+    enabled: localStorage.getItem('ai_enabled') === 'true',
+    model: 'gemini-2.5-flash-lite',
+    genAI: null,
+    instance: null
+};
+
+// --- Storage Utilities ---
+const saveApiKey = (key) => {
+    localStorage.setItem('gemini_api_key', key);
+    localStorage.setItem('ai_enabled', 'true');
+    AI_CONFIG.apiKey = key;
+    AI_CONFIG.enabled = true;
+};
+
+const disableAI = () => {
+    localStorage.setItem('ai_enabled', 'false');
+    AI_CONFIG.enabled = false;
+    showNotification('S.U.D.O AI DISABLED', 'accent');
+};
+
         let contributorsLoaded = false;
         let _contributorData = null;
 
@@ -1337,6 +1368,17 @@ document.addEventListener('DOMContentLoaded', async () => {
                     if (backupRes.ok) {
                         const backup = await backupRes.json();
                         _contributorData = backup.data;
+                        
+                        // Render AI Insight if available
+                        if (backup.ai_insight) {
+                            const aiBox = document.getElementById('ai-commentary-box');
+                            const aiText = document.getElementById('ai-insight-text');
+                            if (aiBox && aiText) {
+                                aiText.textContent = backup.ai_insight;
+                                aiBox.style.display = 'block';
+                            }
+                        }
+
                         localStorage.setItem(CACHE_KEY, JSON.stringify(_contributorData));
                         localStorage.setItem(CACHE_TIME_KEY, backup.timestamp || Date.now());
                         renderContributorsView(_contributorData, 'all-time');
@@ -1387,7 +1429,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             } catch (e) {
                 console.error(e);
-                contentEl.innerHTML = '<div class="loading">ERROR: RATE LIMIT EXCEEDED. ATTEMPTING LOAD FROM BACKUP...</div>';
+                contentEl.innerHTML = '<div class="loading" style="opacity:0.6;">SYSTEM: GITHUB API RATE LIMIT EXCEEDED. <br> LOADING STATIC HALL OF FAME...</div>';
             }
         };
 
@@ -1407,8 +1449,32 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.querySelectorAll('.contrib-tab').forEach(tab => {
                 tab.addEventListener('click', () => {
                     document.querySelectorAll('.contrib-tab').forEach(t => t.classList.remove('active'));
-                    tab.classList.add('active');
-                    renderContributorsView(_contributorData, tab.dataset.view);
+                    if (tab) tab.classList.add('active');
+                    renderContributorsView(_contributorData, view);
+                });
+            });
+
+            // Wire up contributor clicks for AI bios
+            document.querySelectorAll('.contr-row').forEach(row => {
+                row.addEventListener('click', async (e) => {
+                    const login = row.querySelector('.contr-name')?.textContent?.replace('@', '');
+                    if (!login || !AI_CONFIG.enabled || !AI_CONFIG.instance) return;
+
+                    const bioText = document.getElementById('ai-insight-text');
+                    const aiBox = document.getElementById('ai-commentary-box');
+                    if (bioText && aiBox) {
+                        aiBox.style.display = 'block';
+                        bioText.textContent = `SYSTEM: ANALYZING @${login} BEHAVIOR...`;
+                        
+                        try {
+                            const prompt = `Analyze this GitHub contributor: ${login}. Write a 1-sentence "personality profile" describing their coding style (e.g., 'The Relentless Optimizer', 'The Bug Hunter'). Be creative and technical. Respond with ONLY the profile text.`;
+                            const result = await AI_CONFIG.instance.generateContent(prompt);
+                            bioText.textContent = result.response.text();
+                        } catch (err) {
+                            console.error('AI Bio Error:', err);
+                            bioText.textContent = 'ERROR: AI CORE TIMEOUT.';
+                        }
+                    }
                 });
             });
         };
@@ -1451,6 +1517,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const pct = maxMetric > 0 ? Math.round((metricVal / maxMetric) * 100) : 0;
                 
                 const nameDisplay = `@${c.login}`;
+                const aiTitle = c.ai_title ? `<div class="contr-ai-title">${c.ai_title}</div>` : '';
                 const bio = '';
                 
                 let rankDisplay = `#${rank}`;
@@ -1471,24 +1538,19 @@ document.addEventListener('DOMContentLoaded', async () => {
                 return `
                 <a href="${c.html_url}" target="_blank" class="contr-row${isTop3 ? ' contr-spotlight' : ''}" style="animation-delay:${delay}s;">
                     <div class="contr-rank">${rankDisplay}</div>
-                    <img class="contr-avatar" src="${c.avatar_url}" alt="${c.login}">
-                    <div class="contr-main">
-                        <div class="contr-header">
-                            <span class="contr-name">${nameDisplay}</span>
-                            ${badges}
-                            <span class="contr-metric">${metricVal} ${metricLabel}</span>
-                        </div>
-                        ${bio}
-                        <div class="contr-stats">
-                            <span>📦 ${c.details.public_repos||0} Repos</span>
-                            <span>👥 ${c.details.followers||0} Followers</span>
-                            <span>📝 ${c.contributions} All-time</span>
-                        </div>
-                        <div class="contr-progress-wrap">
-                            <div class="contr-progress-bar" data-pct="${pct}"></div>
-                        </div>
+                    <img src="${c.avatar_url}" class="contr-avatar" alt="${c.login}">
+                    <div class="contr-info">
+                        <div class="contr-name">${nameDisplay}</div>
+                        ${aiTitle}
+                        <div class="contr-badges">${badges}</div>
                     </div>
-                    <div class="contr-action">VIEW PROFILE ↗</div>
+                    <div class="contr-stat">
+                        <div class="contr-stat-val">${metricVal.toLocaleString()}</div>
+                        <div class="contr-stat-label">${metricLabel}</div>
+                    </div>
+                    <div class="contr-bar-wrap">
+                        <div class="contr-bar" data-width="${pct}%"></div>
+                    </div>
                 </a>
                 `;
             }).join('');
@@ -1497,11 +1559,204 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             // Animate progress bars
             setTimeout(() => {
-                container.querySelectorAll('.contr-progress-bar').forEach(bar => {
-                    bar.style.width = bar.dataset.pct + '%';
+                container.querySelectorAll('.contr-bar').forEach(bar => {
+                    bar.style.width = bar.getAttribute('data-width');
                 });
             }, 100);
         };
+
+        // --- S.U.D.O AI System ---
+        const openAIModal = () => {
+            const modal = document.getElementById('ai-modal-overlay');
+            if (modal) modal.style.display = 'flex';
+        };
+
+        const closeAIModal = () => {
+            const modal = document.getElementById('ai-modal-overlay');
+            if (modal) modal.style.display = 'none';
+            document.getElementById('ai-validation-status').textContent = '';
+        };
+
+        const validateAndEnableAI = async () => {
+            const keyInput = document.getElementById('gemini-api-key');
+            const status = document.getElementById('ai-validation-status');
+            const key = keyInput.value.trim();
+
+            if (!key) {
+                status.textContent = 'ERROR: No API key provided.';
+                status.className = 'ai-validation-status ai-status-error';
+                return;
+            }
+
+            status.textContent = 'VALIDATING CORE...';
+            status.className = 'ai-validation-status';
+
+            try {
+                const genAI = new GoogleGenerativeAI(key);
+                const model = genAI.getGenerativeModel({ 
+                    model: "gemini-2.5-flash-lite" 
+                });
+                const result = await model.generateContent("Respond with 'OK'");
+                
+                if (result.response.text()) {
+                    saveApiKey(key);
+                    AI_CONFIG.genAI = genAI;
+                    AI_CONFIG.instance = model;
+                    AI_CONFIG.enabled = true;
+                    
+                    status.textContent = 'AI CORE ACTIVATED.';
+                    status.className = 'ai-validation-status ai-status-success';
+                    
+                    // Show all AI features
+                    document.querySelectorAll('.ai-only').forEach(el => el.style.display = 'block');
+                    
+                    setTimeout(() => {
+                        closeAIModal();
+                        showNotification('S.U.D.O AI ENABLED', 'accent');
+                    }, 1000);
+                }
+            } catch (err) {
+                console.error('AI Validation Error:', err);
+                const errMsg = err.message || String(err);
+                if (errMsg.includes('429') || errMsg.toLowerCase().includes('quota')) {
+                    status.textContent = 'ERROR: Rate limit exceeded. Please wait a minute and try again.';
+                } else if (errMsg.includes('404')) {
+                    status.textContent = 'ERROR: Model not found. Please check API version.';
+                } else if (errMsg.includes('400') || errMsg.includes('API_KEY_INVALID')) {
+                    status.textContent = 'ERROR: Invalid API Key. Please check your key.';
+                } else {
+                    status.textContent = 'ERROR: Connection issue. Please try again.';
+                }
+                status.className = 'ai-validation-status ai-status-error';
+            }
+        };
+        
+        // --- S.U.D.O AI HANDLERS ---
+        
+        async function handleTerminalAIFallback(query) {
+            if (!query || query.length < 3) return;
+            const errorEl = document.getElementById('terminal-error');
+            if (errorEl) {
+                errorEl.innerHTML = `<span class="err-icon">✨</span> AI IS ANALYZING: <u>${query}</u>`;
+                errorEl.style.display = 'block';
+            }
+
+            try {
+                const prompt = `You are the S.U.D.O Hub Digital Assistant. The user typed an unknown command: "${query}". 
+                Available commands: ${COMMANDS.join(', ')}.
+                If it looks like a command, suggest the closest one. 
+                If it's a question about the hub, answer it briefly (max 2 sentences).
+                If it's code-related, give a very short tip.
+                Respond in a concise, technical, helpful tone. Keep it under 40 words.`;
+                
+                const result = await AI_CONFIG.instance.generateContent(prompt);
+                const response = result.response.text();
+                
+                if (errorEl) {
+                    errorEl.innerHTML = `<span class="err-icon">🤖</span> AI_INSIGHT: ${response}`;
+                    errorEl.style.display = 'block';
+                }
+            } catch (err) {
+                console.error('Terminal AI Error:', err);
+                showErrorFeedback(query);
+            }
+        }
+
+        async function handleIDEReview(fileName, content) {
+            if (!content) return;
+            showNotification('AI IS REVIEWING CODE...', 'accent');
+            
+            try {
+                const prompt = `Act as a senior software engineer. Review this file: ${fileName}.
+                Content:
+                ${content}
+                
+                Provide a high-level review. Point out 1 strength and 1 potential improvement.
+                Be encouraging but technical. Max 60 words.`;
+                
+                const result = await AI_CONFIG.instance.generateContent(prompt);
+                const response = result.response.text();
+                
+                // Show result in a popup or a dedicated section
+                const reviewDiv = document.createElement('div');
+                reviewDiv.className = 'ai-gen-result';
+                reviewDiv.innerHTML = `
+                    <div class="ai-gen-header"><i class='bx bxs-magic-wand'></i> AI CODE REVIEW: ${fileName}</div>
+                    <div class="ai-gen-body">${response}</div>
+                    <button class="theme-btn btn-sm" style="margin-top:10px" onclick="this.parentElement.remove()">ACKNOWLEDGE</button>
+                `;
+                document.querySelector('.ide-main').appendChild(reviewDiv);
+            } catch (err) {
+                console.error('IDE AI Error:', err);
+                showNotification('AI REVIEW FAILED', 'error');
+            }
+        }
+
+        async function handleStatsAnalysis(statsData) {
+            showNotification('ANALYZING REPOSITORY...', 'accent');
+            const graphsContainer = document.getElementById('stats-graphs');
+            
+            // Avoid duplicate analysis boxes
+            const existing = document.querySelector('.stats-dashboard .ai-gen-result');
+            if (existing) existing.remove();
+
+            try {
+                const prompt = `Analyze these repository stats for "javascriptProjectBasedLearning":
+                Total Projects: ${statsData.stats.total}
+                Latest Project: ${statsData.stats.latestProject}
+                Longest Codebase: ${statsData.stats.longestCodeProject}
+                Categories: ${statsData.stats.categories}
+                
+                Provide a 2-sentence "System Health" summary and 1 "S.U.D.O Recommendation" for the next project.
+                Tone: Futuristic, analytical.`;
+                
+                const result = await AI_CONFIG.instance.generateContent(prompt);
+                const response = result.response.text();
+                
+                const analysisDiv = document.createElement('div');
+                analysisDiv.className = 'ai-gen-result';
+                analysisDiv.innerHTML = `
+                    <div class="ai-gen-header"><i class='bx bxs-magic-wand'></i> REPOSITORY ANALYSIS</div>
+                    <div class="ai-gen-body">${response}</div>
+                `;
+                graphsContainer.after(analysisDiv);
+            } catch (err) {
+                console.error('Stats AI Error:', err);
+                showNotification('ANALYSIS FAILED', 'error');
+            }
+        }
+
+        // Initialize AI on load if key exists
+        if (AI_CONFIG.apiKey && AI_CONFIG.enabled) {
+            try {
+                AI_CONFIG.genAI = new GoogleGenerativeAI(AI_CONFIG.apiKey);
+                AI_CONFIG.instance = AI_CONFIG.genAI.getGenerativeModel({ 
+                    model: AI_CONFIG.model 
+                });
+                console.log('S.U.D.O AI Core Ready');
+                // Show bits
+                setTimeout(() => {
+                    document.querySelectorAll('.ai-only').forEach(el => el.style.display = 'block');
+                }, 500);
+            } catch (e) {
+                console.error('Failed to init AI:', e);
+            }
+        }
+
+        // --- Event Listeners for Modal ---
+        document.getElementById('close-ai-modal')?.addEventListener('click', closeAIModal);
+        document.getElementById('save-ai-key')?.addEventListener('click', validateAndEnableAI);
+        document.getElementById('ai-modal-overlay')?.addEventListener('click', (e) => {
+            if (e.target.id === 'ai-modal-overlay') closeAIModal();
+        });
+
+        // AI Feature Listeners
+        document.getElementById('ai-ide-review')?.addEventListener('click', () => {
+            if (activeFile) handleIDEReview(activeFile, files[activeFile]);
+        });
+        document.getElementById('ai-stats-analyze')?.addEventListener('click', () => {
+            handleStatsAnalysis(data);
+        });
 
         // --- Popup / Error Feedback System ---
         const showErrorFeedback = (cmd) => {
@@ -1640,6 +1895,45 @@ document.addEventListener('DOMContentLoaded', async () => {
                             contributorsDashboard.style.flexDirection = 'column';
                             loadContributors();
                         }
+                    } else if (term === 'enable ai' || term === 'enable-ai') {
+                        openAIModal();
+                        return;
+                    } else if (term === 'disable ai' || term === 'disable-ai') {
+                        disableAI();
+                        return;
+                    } else if (term === 'ask') {
+                        if (!AI_CONFIG.enabled || !AI_CONFIG.instance) {
+                            showAIError('AI is not enabled. Type "enable-ai" first.');
+                            searchInput.value = '';
+                            return;
+                        }
+                        if (aiChatDashboard) {
+                            aiChatDashboard.style.display = 'flex';
+                            aiChatDashboard.style.flexDirection = 'column';
+                            document.getElementById('ai-chat-input')?.focus();
+                        }
+                    } else if (term === 'learn') {
+                        if (!AI_CONFIG.enabled || !AI_CONFIG.instance) {
+                            showAIError('AI is not enabled. Type "enable-ai" first.');
+                            searchInput.value = '';
+                            return;
+                        }
+                        if (learnDashboard) {
+                            learnDashboard.style.display = 'flex';
+                            learnDashboard.style.flexDirection = 'column';
+                            handleLearningPath(data);
+                        }
+                    } else if (term === 'idea') {
+                        if (!AI_CONFIG.enabled || !AI_CONFIG.instance) {
+                            showAIError('AI is not enabled. Type "enable-ai" first.');
+                            searchInput.value = '';
+                            return;
+                        }
+                        if (ideaDashboard) {
+                            ideaDashboard.style.display = 'flex';
+                            ideaDashboard.style.flexDirection = 'column';
+                            handleIdeaGenerator(data);
+                        }
                     }
                     return;
                 } else {
@@ -1650,7 +1944,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                         (p.tags && p.tags.some(t => t.toLowerCase().includes(term)))
                     );
 
-                    if (term.length > 0 && !anyProjectMatches && !COMMANDS.some(c => c.startsWith(term))) {
+                    if (AI_CONFIG.enabled && AI_CONFIG.instance) {
+                        handleTerminalAIFallback(term);
+                    } else if (term.length > 0 && !anyProjectMatches && !COMMANDS.some(c => c.startsWith(term))) {
                         showErrorFeedback(term);
                     } else {
                         hideErrorFeedback();
