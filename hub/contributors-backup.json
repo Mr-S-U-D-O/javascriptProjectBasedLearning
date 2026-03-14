@@ -1,0 +1,41 @@
+{
+  "timestamp": 1773461262452,
+  "ai_insight": "S.U.D.O AI ANALYTICS: This week saw 75 commits. @Mr-S-U-D-O is currently leading the league with high velocity. System status optimal.",
+  "data": {
+    "detailed": [
+      {
+        "login": "Mr-S-U-D-O",
+        "id": 196591293,
+        "node_id": "U_kgDOC7e-vQ",
+        "avatar_url": "https://avatars.githubusercontent.com/u/196591293?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Mr-S-U-D-O",
+        "html_url": "https://github.com/Mr-S-U-D-O",
+        "followers_url": "https://api.github.com/users/Mr-S-U-D-O/followers",
+        "following_url": "https://api.github.com/users/Mr-S-U-D-O/following{/other_user}",
+        "gists_url": "https://api.github.com/users/Mr-S-U-D-O/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/Mr-S-U-D-O/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/Mr-S-U-D-O/subscriptions",
+        "organizations_url": "https://api.github.com/users/Mr-S-U-D-O/orgs",
+        "repos_url": "https://api.github.com/users/Mr-S-U-D-O/repos",
+        "events_url": "https://api.github.com/users/Mr-S-U-D-O/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/Mr-S-U-D-O/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false,
+        "contributions": 75,
+        "details": {
+          "name": "Mr-S-U-D-O",
+          "bio": null,
+          "public_repos": 0,
+          "followers": 0,
+          "created_at": null
+        },
+        "ai_title": "🔥 HYPER-ACTIVE",
+        "todayCommits": 2,
+        "weekCommits": 75
+      }
+    ],
+    "totalCommits": 75
+  }
+}
