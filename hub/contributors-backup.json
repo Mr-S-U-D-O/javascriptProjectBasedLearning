@@ -1,8 +1,40 @@
 {
-  "timestamp": 1773776880058,
-  "ai_insight": "S.U.D.O AI ANALYTICS: This week saw 100 commits. @Mr-S-U-D-O is currently leading the league with high velocity. System status optimal.",
+  "timestamp": 1773779283498,
+  "ai_insight": "S.U.D.O AI ANALYTICS: This week saw 100 commits. @actions-user is currently leading the league with high velocity. System status optimal.",
   "data": {
     "detailed": [
+      {
+        "login": "actions-user",
+        "id": 65916846,
+        "node_id": "MDQ6VXNlcjY1OTE2ODQ2",
+        "avatar_url": "https://avatars.githubusercontent.com/u/65916846?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/actions-user",
+        "html_url": "https://github.com/actions-user",
+        "followers_url": "https://api.github.com/users/actions-user/followers",
+        "following_url": "https://api.github.com/users/actions-user/following{/other_user}",
+        "gists_url": "https://api.github.com/users/actions-user/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/actions-user/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/actions-user/subscriptions",
+        "organizations_url": "https://api.github.com/users/actions-user/orgs",
+        "repos_url": "https://api.github.com/users/actions-user/repos",
+        "events_url": "https://api.github.com/users/actions-user/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/actions-user/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false,
+        "contributions": 75,
+        "details": {
+          "name": "actions-user",
+          "bio": null,
+          "public_repos": 0,
+          "followers": 0,
+          "created_at": null
+        },
+        "ai_title": "🔥 HYPER-ACTIVE",
+        "todayCommits": 16,
+        "weekCommits": 75
+      },
       {
         "login": "Mr-S-U-D-O",
         "id": 196591293,
@@ -33,41 +65,9 @@
         },
         "ai_title": "🔥 HYPER-ACTIVE",
         "todayCommits": 0,
-        "weekCommits": 26
-      },
-      {
-        "login": "actions-user",
-        "id": 65916846,
-        "node_id": "MDQ6VXNlcjY1OTE2ODQ2",
-        "avatar_url": "https://avatars.githubusercontent.com/u/65916846?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/actions-user",
-        "html_url": "https://github.com/actions-user",
-        "followers_url": "https://api.github.com/users/actions-user/followers",
-        "following_url": "https://api.github.com/users/actions-user/following{/other_user}",
-        "gists_url": "https://api.github.com/users/actions-user/gists{/gist_id}",
-        "starred_url": "https://api.github.com/users/actions-user/starred{/owner}{/repo}",
-        "subscriptions_url": "https://api.github.com/users/actions-user/subscriptions",
-        "organizations_url": "https://api.github.com/users/actions-user/orgs",
-        "repos_url": "https://api.github.com/users/actions-user/repos",
-        "events_url": "https://api.github.com/users/actions-user/events{/privacy}",
-        "received_events_url": "https://api.github.com/users/actions-user/received_events",
-        "type": "User",
-        "user_view_type": "public",
-        "site_admin": false,
-        "contributions": 74,
-        "details": {
-          "name": "actions-user",
-          "bio": null,
-          "public_repos": 0,
-          "followers": 0,
-          "created_at": null
-        },
-        "ai_title": "🔥 HYPER-ACTIVE",
-        "todayCommits": 15,
-        "weekCommits": 74
+        "weekCommits": 25
       }
     ],
-    "totalCommits": 149
+    "totalCommits": 150
   }
 }
